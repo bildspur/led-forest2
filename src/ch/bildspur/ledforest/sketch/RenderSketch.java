@@ -71,7 +71,7 @@ public class RenderSketch extends PApplet {
         osc.setupOSC();
 
         // load logo
-        logo = loadImage("images/logotext.png");
+        logo = loadImage(sketchPath("images/logotext.png"));
         logo.resize(width / 6, 0);
 
         // settings
