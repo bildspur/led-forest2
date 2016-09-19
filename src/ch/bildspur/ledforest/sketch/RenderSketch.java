@@ -7,6 +7,7 @@ import ch.bildspur.ledforest.ui.visualisation.LED;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
 import ch.bildspur.ledforest.ui.visualisation.TubeVisualizer;
+import com.leapmotion.leap.Controller;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -218,6 +219,11 @@ public class RenderSketch extends PApplet {
                 address = 0;
             }
         }
+    }
+
+    public void onFrame(final Controller controller)
+    {
+        leapMotion.onFrame(controller);
     }
 
     public void keyPressed() {
