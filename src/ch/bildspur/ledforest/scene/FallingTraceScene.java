@@ -55,7 +55,9 @@ public class FallingTraceScene extends Scene
         for (int j = 0; j < sketch.getTubes().size(); j++)
         {
             Tube t =  sketch.getTubes().get(j);
-            t.getLeds().get(layer).getColor().fadeB(sketch.g.brightness(c), fadeValue);
+
+            if(t.getLeds().size() > layer)
+                t.getLeds().get(layer).getColor().fadeB(sketch.g.brightness(c), fadeValue);
         }
     }
 }

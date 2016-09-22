@@ -40,6 +40,8 @@ public class Rod
         this.position = position;
         inverted = false;
 
+        name = "Rod " + tube.getLeds().size();
+
         initShapes();
     }
 
@@ -54,8 +56,6 @@ public class Rod
             sh.disableStyle();
             shapes.add(sh);
         }
-
-        name = "Rod " + tube.getLeds().size();
     }
 
     public void render()

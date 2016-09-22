@@ -60,12 +60,16 @@ public class TubeVisualizer
             Rod rod = rods.get(i);
             Tube t = rod.tube;
 
+            // calculate height
+            if(t.leds.size() != 0)
+                height2d = (p.height - (2f * hoffset) - (t.leds.size() * hspace2d)) / t.leds.size();
+
             p.noStroke();
             p.fill(255);
             p.textSize(12);
             p.text(rod.getName(),
-                    i * (wspace2d + width2d) + woffset,
-                    (hspace2d + height2d) + hoffset - (1.5f * height2d));
+                    i * (wspace2d + width2d) + woffset - (p.textWidth(rod.getName()) / 2f),
+                    hoffset - (30));
 
             // draw leds
             for (int j = 0; j < t.leds.size(); j++)
