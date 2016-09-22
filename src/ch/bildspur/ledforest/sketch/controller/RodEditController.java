@@ -255,4 +255,34 @@ public class RodEditController extends BaseController {
 
         return new Tuple<>(parsed, value);
     }
+
+    boolean isOverMap(PVector v)
+    {
+        return v.x >= rodMapPosition.x && v.x < rodMap.getWidth()
+                && v.y >= rodMapPosition.y && v.y < rodMap.getHeight();
+    }
+
+    public RodMap getRodMap() {
+        return rodMap;
+    }
+
+    public void mousePressed() {
+        PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
+        if(isOverMap(mouse))
+            rodMap.mousePressed(PVector.sub(mouse, rodMapPosition));
+
+    }
+
+    public void mouseDragged()
+    {
+        PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
+        if(isOverMap(mouse))
+            rodMap.mouseDragged(PVector.sub(mouse, rodMapPosition));
+    }
+
+    public void mouseReleased() {
+        PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
+        if(isOverMap(mouse))
+            rodMap.mouseReleased(PVector.sub(mouse, rodMapPosition));
+    }
 }

@@ -337,6 +337,22 @@ public class RenderSketch extends PApplet {
         }
     }
 
+    public void mousePressed() {
+        if(drawMode == 1)
+            rodEditView.mousePressed();
+    }
+
+    public void mouseDragged()
+    {
+        if(drawMode == 1)
+            rodEditView.mouseDragged();
+    }
+
+    public void mouseReleased() {
+        if(drawMode == 1)
+            rodEditView.mouseReleased();
+    }
+
     public void controlEvent(ControlEvent e) {
         rodEditView.controlEvent(e);
     }

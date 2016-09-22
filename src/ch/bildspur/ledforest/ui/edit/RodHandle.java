@@ -41,7 +41,7 @@ public class RodHandle {
         this.rod = rod;
         this.g = g;
 
-        position = new PVector(x, 0, y);
+        position = new PVector(x, y);
         target = new PVector();
         grabbed = false;
         fixed = false;
@@ -70,10 +70,10 @@ public class RodHandle {
         g.stroke(grabbed ? GRAB_COLOR : NORMAL_COLOR);
         g.fill(fixed ? FIXED_COLOR : INNER_COLOR);
 
-        g.ellipse(position.x, position.z, SIZE, SIZE);
+        g.ellipse(position.x, position.y, SIZE, SIZE);
 
         g.fill(TEXT_COLOR);
-        g.text(rod.getName(), position.x, position.z - 8);
+        g.text(rod.getName(), position.x, position.y - 8);
     }
 
     public boolean isInside(PVector p)

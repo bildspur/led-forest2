@@ -119,6 +119,19 @@ public class Rod
         return position;
     }
 
+    public void setPosition(PVector position) {
+        this.position = position;
+    }
+
+    public PVector getPosition2d() {
+
+        return new PVector(position.x, position.z);
+    }
+
+    public void setPosition2d(PVector position) {
+        this.position = new PVector(position.x, this.position.y, position.y);
+    }
+
     public Tube getTube() {
         return tube;
     }
