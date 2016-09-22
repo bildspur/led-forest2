@@ -124,6 +124,6 @@ public class LeapMotionScene extends Scene
     {
         Rod r = sketch.getVisualizer().getRods().get(rodIndex);
         float ledLength = r.getLedLength();
-        return new PVector(r.p.x, r.p.y + ((r.getShapes().size() - ledIndex) * ledLength), r.p.z);
+        return new PVector(r.getPosition().x, r.getPosition().y + ((r.getShapes().size() - ledIndex) * ledLength), r.getPosition().z);
     }
 }

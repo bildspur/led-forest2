@@ -38,6 +38,7 @@ public class TubeVisualizer
     {
         this.sketch = sketch;
         output2d = sketch.createGraphics(640, 480, PConstants.P2D);
+        rods = new ArrayList<>();
     }
 
     public void render3d()
@@ -79,7 +80,7 @@ public class TubeVisualizer
 
     public void initRods(ArrayList<Tube> tubes)
     {
-        rods = new ArrayList<Rod>();
+        rods = new ArrayList<>();
 
         float deltaX = (rodSpaceWidthDistance * rodRowCount) / 2f - (rodSpaceWidthDistance / 2);
         float deltaZ = (rodSpaceDepthDistance * rodColumnCount) / 2f - (rodSpaceDepthDistance / 2);

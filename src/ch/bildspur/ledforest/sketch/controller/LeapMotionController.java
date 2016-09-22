@@ -33,8 +33,6 @@ public class LeapMotionController extends BaseController {
 
     int lastHandsCount = -1;
 
-    //PVector handTarget = new PVector();
-//PVector handCurrent = new PVector();
     float handEasing = 0.1f;
 
     public Frame getFrame()
@@ -42,6 +40,10 @@ public class LeapMotionController extends BaseController {
         synchronized (lock) {
             return frame;
         }
+    }
+
+    public PVector getInteractionBox() {
+        return interactionBox;
     }
 
     public void setupLeapMotion()

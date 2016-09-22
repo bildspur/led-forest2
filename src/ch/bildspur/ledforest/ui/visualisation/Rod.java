@@ -16,26 +16,34 @@ import static processing.core.PConstants.TWO_PI;
  */
 public class Rod
 {
+    String name;
+
     float rodWidth = 1;
-    float rodLength = 50;
+    float rodLength;
+    float ledLength = 2;
     int rodDetail = 5;
-    float ledLength;
 
     PGraphics g;
 
-    public PVector p;
+    PVector position;
     protected ArrayList<PShape> shapes;
 
-    public Tube tube;
+    Tube tube;
 
     public Rod(PGraphics g, Tube tube, PVector position)
     {
         this.g = g;
-        shapes = new ArrayList<>();
 
         this.tube = tube;
-        this.p = position;
-        this.ledLength = rodLength / tube.leds.size();
+        this.position = position;
+
+        initShapes();
+    }
+
+    public void initShapes()
+    {
+        shapes = new ArrayList<>();
+        rodLength = ledLength * tube.leds.size();
 
         for (int i = 0; i < tube.leds.size(); i++)
         {
@@ -43,6 +51,8 @@ public class Rod
             sh.disableStyle();
             shapes.add(sh);
         }
+
+        name = "Rod " + tube.getLeds().size();
     }
 
     public void render()
@@ -52,7 +62,7 @@ public class Rod
             PShape sh = shapes.get(i);
 
             g.pushMatrix();
-            g.translate(p.x, p.y + (i * ledLength), p.z);
+            g.translate(position.x, position.y + (i * ledLength), position.z);
             g.noStroke();
             g.fill(tube.leds.get(i).getColor().getColor());
 
@@ -79,6 +89,12 @@ public class Rod
         return sh;
     }
 
+    @Override
+    public String toString()
+    {
+        return name + " (" + tube.getLeds().size() + " LED)";
+    }
+
     public float getRodWidth() {
         return rodWidth;
     }
@@ -97,5 +113,21 @@ public class Rod
 
     public ArrayList<PShape> getShapes() {
         return shapes;
+    }
+
+    public PVector getPosition() {
+        return position;
+    }
+
+    public Tube getTube() {
+        return tube;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

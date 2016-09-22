@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Class-Path: LeapJava.jar LeapMotion.jar gluegen-rt-natives-macosx-univ
+ ersal.jar gluegen-rt.jar core.jar jogl-all-natives-macosx-universal.j
+ ar jogl-all.jar peasycam.jar jsyphon.jar Syphon.jar gstreamer-java.ja
+ r jna.jar video.jar oscP5.jar
+Main-Class: ch.bildspur.ledforest.Main
+
