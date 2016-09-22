@@ -99,7 +99,10 @@ public class RodEditController extends BaseController {
         // select handler in map
         for(RodHandle h : rodMap.getHandles())
         {
-            h.setGrabbed(h.getRod().equals(selectedRod));
+            if(h.getRod().equals(selectedRod)) {
+                rodMap.setCurrentHandle(h);
+                h.setGrabbed(true);
+            }
         }
     }
 
@@ -258,8 +261,8 @@ public class RodEditController extends BaseController {
 
     boolean isOverMap(PVector v)
     {
-        return v.x >= rodMapPosition.x && v.x < rodMap.getWidth()
-                && v.y >= rodMapPosition.y && v.y < rodMap.getHeight();
+        return v.x >= rodMapPosition.x && v.x < rodMapPosition.x + rodMap.getWidth()
+                && v.y >= rodMapPosition.y && v.y < rodMapPosition.y + rodMap.getHeight();
     }
 
     public RodMap getRodMap() {
@@ -268,16 +271,26 @@ public class RodEditController extends BaseController {
 
     public void mousePressed() {
         PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
-        if(isOverMap(mouse))
+        if(isOverMap(mouse)) {
             rodMap.mousePressed(PVector.sub(mouse, rodMapPosition));
+
+            if (rodMap.getCurrentHandle() != null) {
+                selectedRod = rodMap.getCurrentHandle().getRod();
+                updateSelectedRod();
+            }
+        }
 
     }
 
     public void mouseDragged()
     {
         PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
-        if(isOverMap(mouse))
+        if(isOverMap(mouse)) {
             rodMap.mouseDragged(PVector.sub(mouse, rodMapPosition));
+
+            if(selectedRod.equals(rodMap.getCurrentHandle().getRod()))
+                updateSelectedRod();
+        }
     }
 
     public void mouseReleased() {

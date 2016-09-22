@@ -136,7 +136,7 @@ public class RodMap {
         if (mouseDown)
         {
             mouseDown = false;
-            currentHandle.grabbed = false;
+            //currentHandle.grabbed = false;
             currentHandle = null;
         }
     }
@@ -144,5 +144,13 @@ public class RodMap {
     void moveHandleToPosition(RodHandle h, PVector p)
     {
         h.getRod().setPosition2d(outTransform2d(p));
+    }
+
+    public RodHandle getCurrentHandle() {
+        return currentHandle;
+    }
+
+    public void setCurrentHandle(RodHandle currentHandle) {
+        this.currentHandle = currentHandle;
     }
 }
