@@ -1,12 +1,41 @@
-{"rods": [{
-  "tube": {
-    "universe": 0,
-    "ledCount": 24
+{"rods": [
+  {
+    "tube": {
+      "universe": 0,
+      "ledCount": 24
+    },
+    "name": "Rod 24",
+    "position": {
+      "x": -58.66666793823242,
+      "y": 0,
+      "z": 30.857139587402344
+    },
+    "inverted": true
   },
-  "name": "Rod 24",
-  "position": {
-    "x": -34.33333206176758,
-    "y": 0,
-    "z": -35.999996185302734
+  {
+    "tube": {
+      "universe": 0,
+      "ledCount": 24
+    },
+    "name": "Rod 24",
+    "position": {
+      "x": 48.66667175292969,
+      "y": 0,
+      "z": 31.885711669921875
+    },
+    "inverted": false
+  },
+  {
+    "tube": {
+      "universe": 0,
+      "ledCount": 24
+    },
+    "name": "Rod 24",
+    "position": {
+      "x": -14.000007629394531,
+      "y": 0,
+      "z": -50.91428756713867
+    },
+    "inverted": false
   }
-}]}
+]}

@@ -30,12 +30,15 @@ public class Rod
 
     Tube tube;
 
+    boolean inverted;
+
     public Rod(PGraphics g, Tube tube, PVector position)
     {
         this.g = g;
 
         this.tube = tube;
         this.position = position;
+        inverted = false;
 
         initShapes();
     }
@@ -62,7 +65,7 @@ public class Rod
             PShape sh = shapes.get(i);
 
             g.pushMatrix();
-            g.translate(position.x, position.y + (i * ledLength), position.z);
+            g.translate(position.x, position.y + (inverted ? 1 : -1) * (i * ledLength), position.z);
             g.noStroke();
             g.fill(tube.leds.get(i).getColor().getColor());
 
@@ -142,5 +145,13 @@ public class Rod
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isInverted() {
+        return inverted;
+    }
+
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
     }
 }

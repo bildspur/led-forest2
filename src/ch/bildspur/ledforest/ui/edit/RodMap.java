@@ -37,10 +37,23 @@ public class RodMap {
 
     public void refreshHandles()
     {
+        refreshHandles(false);
+    }
+
+    public void refreshHandles(boolean animate)
+    {
         handles = new ArrayList<>();
 
         for(Rod r : sketch.getVisualizer().getRods()) {
-            RodHandle h = new RodHandle(width / 2f, height / 2f, r, p);
+            PVector pos;
+
+            // intro animation
+            if(animate)
+                pos = new PVector(width/2f, height/2f);
+            else
+                pos = inTransform2d(r.getPosition2d());
+
+            RodHandle h = new RodHandle(pos.x, pos.y, r, p);
             handles.add(h);
         }
     }
@@ -102,7 +115,6 @@ public class RodMap {
     }
 
     public void mousePressed(PVector mouse) {
-        PApplet.println("mouse pressed: " + mouse.toString());
         if (!mouseDown)
         {
             PVector m = new PVector(mouse.x, mouse.y);

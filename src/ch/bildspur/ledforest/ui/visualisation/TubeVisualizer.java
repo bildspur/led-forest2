@@ -57,13 +57,17 @@ public class TubeVisualizer
         p.background(0);
         for (int i = 0; i < rods.size(); i++)
         {
-            Tube t = rods.get(i).tube;
+            Rod rod = rods.get(i);
+            Tube t = rod.tube;
 
             p.noStroke();
             p.fill(255);
             p.textSize(12);
-            p.text(i, i * (wspace2d + width2d) + woffset, (hspace2d + height2d) + hoffset - (1.5f * height2d));
+            p.text(rod.getName(),
+                    i * (wspace2d + width2d) + woffset,
+                    (hspace2d + height2d) + hoffset - (1.5f * height2d));
 
+            // draw leds
             for (int j = 0; j < t.leds.size(); j++)
             {
                 LED l = t.leds.get(t.leds.size() - 1 - j);

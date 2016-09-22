@@ -69,10 +69,11 @@ public class ConfigurationController extends BaseController {
                     new PVector(
                             pos.getFloat("x"),
                             pos.getFloat("y"),
-                            pos.getFloat("y")
+                            pos.getFloat("z")
                     ));
 
         r.setName(json.getString("name"));
+        r.setInverted(json.getBoolean("inverted"));
 
         return r;
     }
@@ -94,6 +95,7 @@ public class ConfigurationController extends BaseController {
         json.setJSONObject("position", pos);
 
         json.setString("name", rod.getName());
+        json.setBoolean("inverted", rod.isInverted());
 
         return json;
     }

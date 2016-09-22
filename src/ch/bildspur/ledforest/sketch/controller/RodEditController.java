@@ -29,6 +29,8 @@ public class RodEditController extends BaseController {
     Textfield zAxisField;
     Textfield ledCountField;
 
+    Toggle invertedToggle;
+
     RodMap rodMap;
     PVector rodMapPosition;
 
@@ -44,6 +46,7 @@ public class RodEditController extends BaseController {
 
         initUI();
         updateRodList();
+        rodMap.refreshHandles(true);
     }
 
     public void render()
@@ -95,6 +98,7 @@ public class RodEditController extends BaseController {
         yAxisField.setText(Float.toString(selectedRod.getPosition().y));
         zAxisField.setText(Float.toString(selectedRod.getPosition().z));
         ledCountField.setText(Integer.toString(selectedRod.getTube().getLeds().size()));
+        invertedToggle.setValue(selectedRod.isInverted());
 
         // select handler in map
         for(RodHandle h : rodMap.getHandles())
@@ -102,6 +106,10 @@ public class RodEditController extends BaseController {
             if(h.getRod().equals(selectedRod)) {
                 rodMap.setCurrentHandle(h);
                 h.setGrabbed(true);
+            }
+            else
+            {
+                h.setGrabbed(false);
             }
         }
     }
@@ -113,6 +121,7 @@ public class RodEditController extends BaseController {
         yAxisField.setText("0.0");
         zAxisField.setText("0.0");
         ledCountField.setText("0");
+        invertedToggle.setValue(false);
     }
 
     void initUI() {
@@ -132,7 +141,7 @@ public class RodEditController extends BaseController {
                 .setPosition(topControlWidth, 10)
                 .setSize(50, 10)
                 .onClick((e) -> {
-                    sketch.addRod(new Rod(sketch.g, new Tube(0, 0, sketch.g), new PVector(0, 0, 0)));
+                    sketch.addRod(new Rod(sketch.g, new Tube(0, 1, sketch.g), new PVector(0, 0, 0)));
                     selectedRod = null;
                     clearTextfileds();
                     updateRodList();
@@ -143,14 +152,19 @@ public class RodEditController extends BaseController {
                 .setPosition(topControlWidth + 60, 10)
                 .setSize(50, 10)
                 .onClick((e) -> {
-                    if (selectedRod != null)
+                    if (selectedRod != null) {
                         sketch.removeRod(selectedRod);
+
+                        selectedRod = null;
+                        clearTextfileds();
+                    }
                     updateRodList();
                 });
 
         rodList = cp5.addDropdownList("rodList")
                 .setPosition(topControlWidth + 120, 10)
                 .setSize(200, 150)
+                .setOpen(false)
                 .onChange((e) -> {
                     selectedRod = rods.get((int)e.getController().getValue());
                     updateSelectedRod();
@@ -158,20 +172,17 @@ public class RodEditController extends BaseController {
 
         cp5.addButton("Exit")
                 .setValue(0)
-                .setPosition(sketch.width - 60, 10)
-                .setSize(50, 10)
+                .setPosition(sketch.width - 40, 10)
+                .setSize(30, 10)
                 .onClick((e) -> {
-                    selectedRod = null;
-                    clearTextfileds();
-
                     sketch.getPeasy().getCam().setActive(true);
                     sketch.setDrawMode(3);
                 });
 
         cp5.addButton("Save")
                 .setValue(0)
-                .setPosition(sketch.width - 120, 10)
-                .setSize(50, 10)
+                .setPosition(sketch.width - 80, 10)
+                .setSize(30, 10)
                 .onClick((e) -> {
                     sketch.getConfig().save(RenderSketch.CONFIG_NAME);
                     PApplet.println("config saved!");
@@ -191,7 +202,7 @@ public class RodEditController extends BaseController {
 
         xAxisField = cp5.addTextfield("X-Axis")
                 .setPosition(editControlWidth + 110, editControlHeight)
-                .setSize(100, 15)
+                .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if(selectedRod != null) {
@@ -204,8 +215,8 @@ public class RodEditController extends BaseController {
                 });
 
         yAxisField = cp5.addTextfield("Y-Axis")
-                .setPosition(editControlWidth + 220, editControlHeight)
-                .setSize(100, 15)
+                .setPosition(editControlWidth + 180, editControlHeight)
+                .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if(selectedRod != null) {
@@ -218,8 +229,8 @@ public class RodEditController extends BaseController {
                 });
 
         zAxisField = cp5.addTextfield("Z-Axis")
-                .setPosition(editControlWidth + 330, editControlHeight)
-                .setSize(100, 15)
+                .setPosition(editControlWidth + 250, editControlHeight)
+                .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if(selectedRod != null) {
@@ -232,8 +243,8 @@ public class RodEditController extends BaseController {
                 });
 
         ledCountField = cp5.addTextfield("LED Count")
-                .setPosition(editControlWidth + 440, editControlHeight)
-                .setSize(100, 15)
+                .setPosition(editControlWidth + 320, editControlHeight)
+                .setSize(60, 15)
                 .setAutoClear(false)
                 .setInputFilter(ControlP5.INTEGER)
                 .onChange((e) -> {
@@ -243,6 +254,15 @@ public class RodEditController extends BaseController {
                         selectedRod.getTube().initLED(count, sketch.g);
                         selectedRod.initShapes();
                     }
+                });
+
+        invertedToggle = cp5.addToggle("Inverted")
+                .setPosition(editControlWidth + 390, editControlHeight)
+                .setSize(60, 15)
+                .setMode(ControlP5.DEFAULT)
+                .onChange((e) -> {
+                    if(selectedRod != null)
+                        selectedRod.setInverted(invertedToggle.getBooleanValue());
                 });
 
         rodMap = new RodMap(sketch, 540, 350);
@@ -297,7 +317,9 @@ public class RodEditController extends BaseController {
         if(isOverMap(mouse)) {
             rodMap.mouseDragged(PVector.sub(mouse, rodMapPosition));
 
-            if(selectedRod.equals(rodMap.getCurrentHandle().getRod()))
+            if(selectedRod != null
+                    && rodMap.getCurrentHandle() != null
+                    && selectedRod.equals(rodMap.getCurrentHandle().getRod()))
                 updateSelectedRod();
         }
     }
