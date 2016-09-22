@@ -23,10 +23,12 @@ import java.util.ArrayList;
  */
 public class RenderSketch extends PApplet {
 
-    final static int OUTPUT_WIDTH = 640;
-    final static int OUTPUT_HEIGHT = 480;
+    public final static String CONFIG_NAME = "config.json";
 
-    final static int FRAME_RATE = 40;
+    public final static int OUTPUT_WIDTH = 640;
+    public final static int OUTPUT_HEIGHT = 480;
+
+    public final static int FRAME_RATE = 40;
 
     ArrayList<Tube> tubes = new ArrayList<>();
     TubeVisualizer visualizer;
@@ -53,6 +55,7 @@ public class RenderSketch extends PApplet {
     LeapMotionController leapMotion = new LeapMotionController();
     ColorController colors = new ColorController();
     RodEditController rodEditView = new RodEditController();
+    ConfigurationController config = new ConfigurationController();
 
     public void settings()
     {
@@ -70,6 +73,7 @@ public class RenderSketch extends PApplet {
         osc.init(this);
         leapMotion.init(this);
         colors.init(this);
+        config.init(this);
 
         syphon.setupSyphon();
         leapMotion.setupLeapMotion();
@@ -111,8 +115,10 @@ public class RenderSketch extends PApplet {
 
         sceneManager.init();
 
+        config.loadAsync(CONFIG_NAME);
+
         // rod test
-        addRod(new Rod(g, new Tube(0, 24, g), new PVector(0, 0)));
+        //addRod(new Rod(g, new Tube(0, 24, g), new PVector(0, 0)));
     }
 
     public void draw()
@@ -457,6 +463,10 @@ public class RenderSketch extends PApplet {
 
     public TubeVisualizer getVisualizer() {
         return visualizer;
+    }
+
+    public ConfigurationController getConfig() {
+        return config;
     }
 }
 

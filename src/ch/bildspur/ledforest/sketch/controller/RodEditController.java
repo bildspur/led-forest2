@@ -168,6 +168,15 @@ public class RodEditController extends BaseController {
                     sketch.setDrawMode(3);
                 });
 
+        cp5.addButton("Save")
+                .setValue(0)
+                .setPosition(sketch.width - 120, 10)
+                .setSize(50, 10)
+                .onClick((e) -> {
+                    sketch.getConfig().save(RenderSketch.CONFIG_NAME);
+                    PApplet.println("config saved!");
+                });
+
         // edit controls
         nameField = cp5.addTextfield("Name")
                 .setPosition(editControlWidth, editControlHeight)
