@@ -124,7 +124,6 @@ public class RenderSketch extends PApplet {
     public void draw()
     {
         background(0);
-
         updateLEDs();
 
         // calculate syphon ouput
