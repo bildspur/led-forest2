@@ -37,6 +37,7 @@ public class RodEditController extends BaseController {
     PVector rodMapPosition;
 
     DropdownList gridList;
+    Toggle gridOffsetToggle;
 
     @Override
     public void init(RenderSketch sketch)
@@ -107,6 +108,11 @@ public class RodEditController extends BaseController {
     {
         rodMap.setGridSize(size);
         gridList.setCaptionLabel((int)size + " px");
+    }
+
+    public void setGridOffset(boolean value)
+    {
+        gridOffsetToggle.setState(value);
     }
 
     void updateSelectedRod()
@@ -302,6 +308,15 @@ public class RodEditController extends BaseController {
                     Map<String, Object> entry = gridList.getItem((int)e.getController().getValue());
                     setGridSize((float)entry.get("value"));
                 });
+
+        gridOffsetToggle = cp5.addToggle("Offset")
+                .setPosition(rodMapPosition.x + 90, rodMapPosition.y  + rodMap.getHeight() + 10)
+                .setSize(30, 10)
+                .setMode(ControlP5.DEFAULT)
+                .onChange((e) -> {
+                    rodMap.setGridOffset(gridOffsetToggle.getState());
+                });
+
 
         rodList.bringToFront();
     }

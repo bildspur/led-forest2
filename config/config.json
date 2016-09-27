@@ -1,6 +1,8 @@
 {
-  "editor": {"gridSize": 20,
-  "gridOffset": false},
+  "editor": {
+    "gridSize": 20,
+    "gridOffset": true
+  },
   "rods": [
     {
       "tube": {

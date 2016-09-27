@@ -37,6 +37,7 @@ public class ConfigurationController extends BaseController {
         // editor
         JSONObject editor = root.getJSONObject("editor");
         sketch.getRodEditView().setGridSize(editor.getFloat("gridSize"));
+        sketch.getRodEditView().setGridOffset(editor.getBoolean("gridOffset"));
 
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -61,6 +62,7 @@ public class ConfigurationController extends BaseController {
 
         JSONObject editor = new JSONObject();
         editor.setFloat("gridSize", sketch.getRodEditView().getRodMap().getGridSize());
+        editor.setBoolean("gridOffset", sketch.getRodEditView().getRodMap().isGridOffset());
 
         root.setJSONObject("editor", editor);
 

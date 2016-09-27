@@ -100,32 +100,35 @@ public class RodMap {
         p.stroke(150, 206, 180, 100);
         p.strokeWeight(1f);
 
-        PVector offset = getGridOffsetValues();
+        PVector offset = getGridOffsetValues(false);
 
         for(int i = 0; i < lineCount; i++)
         {
             // horizontal
-            float xshift = (float)i * snapDistance.y + offset.x;
+            float xshift = (float)i * snapDistance.y;
 
             // horizontal up
-            p.line(0, height / 2f - xshift, width, height / 2f - xshift);
+            p.line(0, height / 2f - xshift + offset.y, width, height / 2f - xshift + offset.y);
 
             // horizontal down
-            p.line(0, height / 2f + xshift, width, height / 2f + xshift);
+            p.line(0, height / 2f + xshift + offset.y, width, height / 2f + xshift + offset.y);
 
             // vertical
-            float yshift = (float)i * snapDistance.x + offset.y;
+            float yshift = (float)i * snapDistance.x;
 
             // vertical left
-            p.line(width / 2f - yshift, 0, width / 2f - yshift, height);
+            p.line(width / 2f - yshift + offset.x, 0, width / 2f - yshift + offset.x, height);
 
             // vertical right
-            p.line(width / 2f + yshift, 0, width / 2f + yshift, height);
+            p.line(width / 2f + yshift + offset.x, 0, width / 2f + yshift + offset.x, height);
         }
     }
 
-    PVector getGridOffsetValues()
+    PVector getGridOffsetValues(boolean externalCoordinate)
     {
+        if(gridOffset && externalCoordinate)
+            return new PVector(gridSize / 2f, gridSize / 2f);
+
         float offsetX = gridOffset ? snapDistance.x / 2f : 0f;
         float offsetY = gridOffset ? snapDistance.y / 2f : 0f;
 
@@ -191,14 +194,20 @@ public class RodMap {
             if(gridSize == 0)
                 return;
 
-            Tuple<PVector, PVector> snapInfos = getSnapInformation(m);
+            PVector offset = getGridOffsetValues(true);
+
+            Tuple<PVector, PVector> snapInfos = getSnapInformation(PVector.add(m, getGridOffsetValues(false)));
             PVector snapDistance = snapInfos.getFirst();
             PVector snapIndex = snapInfos.getSecond();
 
             if(snapDistance.x < SNAP_DISTANCE && snapDistance.y < SNAP_DISTANCE)
             {
+                float indexOffset = gridOffset ? 1 : 0;
+
                 moveHandleToPosition(currentHandle,
-                        inTransform2d(new PVector(gridSize * snapIndex.x, gridSize * snapIndex.y)));
+                        inTransform2d(new PVector(
+                                gridSize * (snapIndex.x - indexOffset) + offset.x,
+                                gridSize * (snapIndex.y - indexOffset) + offset.y)));
             }
         }
     }
