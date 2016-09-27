@@ -24,6 +24,8 @@ public class ConfigurationController extends BaseController {
     public void load(String fileName)
     {
         JSONObject root = sketch.loadJSONObject(CONFIG_DIR + fileName);
+
+        // rods
         JSONArray rods = root.getJSONArray("rods");
 
         for(int i = 0; i < rods.size(); i++)
@@ -31,6 +33,10 @@ public class ConfigurationController extends BaseController {
             JSONObject rodJSON = rods.getJSONObject(i);
             sketch.addRod(loadRod(rodJSON));
         }
+
+        // editor
+        JSONObject editor = root.getJSONObject("editor");
+        sketch.getRodEditView().setGridSize(editor.getFloat("gridSize"));
 
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -52,6 +58,11 @@ public class ConfigurationController extends BaseController {
         for(Rod r : sketch.getVisualizer().getRods())
             clips.append(getRodJSON(r));
         root.setJSONArray("rods", clips);
+
+        JSONObject editor = new JSONObject();
+        editor.setFloat("gridSize", sketch.getRodEditView().getRodMap().getGridSize());
+
+        root.setJSONObject("editor", editor);
 
         // write file
         sketch.saveJSONObject(root, CONFIG_DIR + fileName);

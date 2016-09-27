@@ -2,7 +2,6 @@ package ch.bildspur.ledforest.sketch;
 
 import ch.bildspur.ledforest.scene.*;
 import ch.bildspur.ledforest.sketch.controller.*;
-import ch.bildspur.ledforest.ui.FadeColor;
 import ch.bildspur.ledforest.ui.visualisation.LED;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
@@ -12,7 +11,6 @@ import controlP5.ControlEvent;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PVector;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
 
@@ -29,6 +27,8 @@ public class RenderSketch extends PApplet {
     public final static int OUTPUT_HEIGHT = 480;
 
     public final static int FRAME_RATE = 40;
+
+    public final static boolean OSC_ENABLED = false;
 
     ArrayList<Tube> tubes = new ArrayList<>();
     TubeVisualizer visualizer;
@@ -78,7 +78,9 @@ public class RenderSketch extends PApplet {
         syphon.setupSyphon();
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
-        osc.setupOSC();
+
+        if(OSC_ENABLED)
+            osc.setupOSC();
 
         // load logo
         logo = loadImage(sketchPath("images/logotext.png"));
@@ -158,7 +160,7 @@ public class RenderSketch extends PApplet {
         sceneManager.update();
 
         // update osc app
-        if (frameCount % secondsToFrames(1) == 0)
+        if (OSC_ENABLED && frameCount % secondsToFrames(1) == 0)
             osc.updateOSCApp();
 
         // hud
@@ -466,6 +468,10 @@ public class RenderSketch extends PApplet {
 
     public ConfigurationController getConfig() {
         return config;
+    }
+
+    public RodEditController getRodEditView() {
+        return rodEditView;
     }
 }
 

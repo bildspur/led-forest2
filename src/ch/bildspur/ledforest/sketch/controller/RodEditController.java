@@ -11,6 +11,8 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by cansik on 22.09.16.
@@ -34,6 +36,8 @@ public class RodEditController extends BaseController {
     RodMap rodMap;
     PVector rodMapPosition;
 
+    DropdownList gridList;
+
     @Override
     public void init(RenderSketch sketch)
     {
@@ -45,6 +49,7 @@ public class RodEditController extends BaseController {
         cp5.setAutoDraw(false);
 
         initUI();
+        updateGridList();
         updateRodList();
         rodMap.refreshHandles(true);
     }
@@ -63,6 +68,16 @@ public class RodEditController extends BaseController {
     }
 
     public void controlEvent(ControlEvent e) {
+    }
+
+    public void updateGridList()
+    {
+        // add grid values
+        gridList.addItem("None", 0f);
+        gridList.addItem("10 px", 10f);
+        gridList.addItem("20 px", 20f);
+        gridList.addItem("30 px", 30f);
+        gridList.addItem("50 px", 50f);
     }
 
     public void updateRodList()
@@ -88,11 +103,18 @@ public class RodEditController extends BaseController {
         rodMap.refreshHandles();
     }
 
+    public void setGridSize(float size)
+    {
+        rodMap.setGridSize(size);
+        gridList.setCaptionLabel((int)size + " px");
+    }
+
     void updateSelectedRod()
     {
         if(selectedRod == null)
             return;
 
+        rodList.setCaptionLabel(selectedRod.getName());
         nameField.setText(selectedRod.getName());
         xAxisField.setText(Float.toString(selectedRod.getPosition().x));
         yAxisField.setText(Float.toString(selectedRod.getPosition().y));
@@ -170,7 +192,7 @@ public class RodEditController extends BaseController {
                     updateSelectedRod();
                 });
 
-        cp5.addButton("Exit")
+        cp5.addButton("Close")
                 .setValue(0)
                 .setPosition(sketch.width - 40, 10)
                 .setSize(30, 10)
@@ -267,6 +289,19 @@ public class RodEditController extends BaseController {
 
         rodMap = new RodMap(sketch, 540, 350);
         rodMapPosition = new PVector(50, 75);
+
+        // sub rod map
+        cp5.addLabel("Grid: ")
+                .setPosition(rodMapPosition.x, rodMapPosition.y  + rodMap.getHeight() + 10);
+
+        gridList = cp5.addDropdownList("None")
+                .setPosition(rodMapPosition.x + 30, rodMapPosition.y  + rodMap.getHeight() + 10)
+                .setSize(50, 45)
+                .setOpen(false)
+                .onChange((e) -> {
+                    Map<String, Object> entry = gridList.getItem((int)e.getController().getValue());
+                    setGridSize((float)entry.get("value"));
+                });
 
         rodList.bringToFront();
     }

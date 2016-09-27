@@ -1,6 +1,8 @@
 # LED Forest 2
 Version 2 of the LED light installation which looks like a forest.
 
+![LED Forest](readme/logo.png)
+
 ## User Interface
 ![3D View](readme/3d.png)
 *3D View*
@@ -14,7 +16,7 @@ Version 2 of the LED light installation which looks like a forest.
 ## Example
 
 ![Kleinlaut Festival](readme/example.jpg)
-*LED Forest at the Kleinlaut Festival**
+*LED Forest at the [Kleinlaut Festival](http://www.kleinlautfestival.ch/)*
 
 
 ## About
