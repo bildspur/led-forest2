@@ -1,6 +1,6 @@
 {
   "editor": {
-    "gridSize": 20,
+    "gridSize": 50,
     "gridOffset": true
   },
   "rods": [
@@ -11,9 +11,9 @@
       },
       "name": "Rod 24",
       "position": {
-        "x": -0.32451629638671875,
+        "x": 25,
         "y": 0,
-        "z": -31.37140655517578
+        "z": -25
       },
       "inverted": false
     },
@@ -24,9 +24,9 @@
       },
       "name": "Rod 24",
       "position": {
-        "x": 15.333343505859375,
+        "x": 25,
         "y": 0,
-        "z": -31.371429443359375
+        "z": 25
       },
       "inverted": false
     },
@@ -37,22 +37,22 @@
       },
       "name": "Lundi",
       "position": {
-        "x": 0.6666717529296875,
-        "y": 40,
-        "z": 0.5142669677734375
+        "x": -25,
+        "y": 0,
+        "z": 25
       },
-      "inverted": false
+      "inverted": true
     },
     {
       "tube": {
         "universe": 0,
         "ledCount": 24
       },
-      "name": "Rod 1",
+      "name": "Michel",
       "position": {
-        "x": -18.666641235351562,
+        "x": -25,
         "y": 0,
-        "z": -31.885692596435547
+        "z": -25
       },
       "inverted": false
     }

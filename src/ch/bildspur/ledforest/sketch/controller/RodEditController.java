@@ -126,7 +126,7 @@ public class RodEditController extends BaseController {
         yAxisField.setText(Float.toString(selectedRod.getPosition().y));
         zAxisField.setText(Float.toString(selectedRod.getPosition().z));
         ledCountField.setText(Integer.toString(selectedRod.getTube().getLeds().size()));
-        invertedToggle.setValue(selectedRod.isInverted());
+        invertedToggle.setState(selectedRod.isInverted());
 
         // select handler in map
         for(RodHandle h : rodMap.getHandles())
@@ -290,7 +290,7 @@ public class RodEditController extends BaseController {
                 .setMode(ControlP5.DEFAULT)
                 .onChange((e) -> {
                     if(selectedRod != null)
-                        selectedRod.setInverted(invertedToggle.getBooleanValue());
+                        selectedRod.setInverted(invertedToggle.getState());
                 });
 
         rodMap = new RodMap(sketch, 540, 350);
