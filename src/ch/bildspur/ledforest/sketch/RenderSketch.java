@@ -57,15 +57,13 @@ public class RenderSketch extends PApplet {
     RodEditController rodEditView = new RodEditController();
     ConfigurationController config = new ConfigurationController();
 
-    public void settings()
-    {
+    public void settings() {
         size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
         //fullScreen(P3D, 1);
         PJOGL.profile = 1;
     }
 
-    public void setup()
-    {
+    public void setup() {
         surface.setTitle("LED Forest 2");
 
         syphon.init(this);
@@ -79,7 +77,7 @@ public class RenderSketch extends PApplet {
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
 
-        if(OSC_ENABLED)
+        if (OSC_ENABLED)
             osc.setupOSC();
 
         // load logo
@@ -123,8 +121,7 @@ public class RenderSketch extends PApplet {
         //addRod(new Rod(g, new Tube(0, 24, g), new PVector(0, 0)));
     }
 
-    public void draw()
-    {
+    public void draw() {
         background(0);
         updateLEDs();
 
@@ -132,8 +129,7 @@ public class RenderSketch extends PApplet {
         PGraphics output2d = visualizer.render2d();
         syphon.sendImageToSyphon(output2d);
 
-        switch (drawMode)
-        {
+        switch (drawMode) {
             case 1:
                 peasy.getCam().beginHUD();
                 rodEditView.render();
@@ -150,8 +146,7 @@ public class RenderSketch extends PApplet {
                 break;
         }
 
-        if (showLogo)
-        {
+        if (showLogo) {
             peasy.getCam().beginHUD();
             image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
             peasy.getCam().endHUD();
@@ -164,16 +159,13 @@ public class RenderSketch extends PApplet {
             osc.updateOSCApp();
 
         // hud
-        if (showInfo)
-        {
-            if (drawMode == 3)
-            {
+        if (showInfo) {
+            if (drawMode == 3) {
                 // draw stub info
                 fill(255);
                 textSize(12);
 
-                for (int i = 0; i < visualizer.getRods().size(); i++)
-                {
+                for (int i = 0; i < visualizer.getRods().size(); i++) {
                     pushMatrix();
                     Rod r = visualizer.getRods().get(i);
                     translate(r.getPosition().x, 0, r.getPosition().z);
@@ -193,44 +185,36 @@ public class RenderSketch extends PApplet {
         }
     }
 
-    void updateLEDs()
-    {
-        for (Tube t : tubes)
-        {
-            for (LED l : t.getLeds())
-            {
+    void updateLEDs() {
+        for (Tube t : tubes) {
+            for (LED l : t.getLeds()) {
                 l.getColor().update();
             }
         }
     }
 
-    public void addRod(Rod r)
-    {
+    public void addRod(Rod r) {
         tubes.add(r.getTube());
         visualizer.getRods().add(r);
     }
 
-    public void removeRod(Rod r)
-    {
+    public void removeRod(Rod r) {
         visualizer.getRods().remove(r);
         tubes.remove(r.getTube());
     }
 
-    void createTubes(int tubeCount, int ledCount)
-    {
+    void createTubes(int tubeCount, int ledCount) {
         tubes = new ArrayList<>();
         int address = 0;
         int universe = 0;
 
-        for (int i = 0; i < tubeCount; i++)
-        {
+        for (int i = 0; i < tubeCount; i++) {
             Tube t = new Tube(universe);
             tubes.add(t);
 
             int colorShift = 0;
 
-            for (int j = 0; j < ledCount; j++)
-            {
+            for (int j = 0; j < ledCount; j++) {
                 colorShift += 5;
                 LED led = new LED(g, address, color(200 + colorShift, 100, 100));
                 t.getLeds().add(led);
@@ -239,27 +223,25 @@ public class RenderSketch extends PApplet {
             }
 
             // break alle 300 led's (showjockey standard)
-            if (300 - ((ledCount * 3) + address)  <= 0)
-            {
+            if (300 - ((ledCount * 3) + address) <= 0) {
                 universe++;
                 address = 0;
             }
         }
     }
 
-    public void onFrame(final Controller controller)
-    {
+    public void onFrame(final Controller controller) {
         leapMotion.onFrame(controller);
     }
 
     public void keyPressed() {
         // Don't listen to keys in edit mode.
-        if(drawMode == 1)
+        if (drawMode == 1)
             return;
 
-        switch(key)
-        {
+        switch (key) {
             case '1':
+                sceneManager.setRunning(false);
                 getPeasy().getCam().setActive(false);
                 drawMode = 1;
                 rodEditView.updateRodList();
@@ -275,8 +257,7 @@ public class RenderSketch extends PApplet {
 
             case ' ':
                 int c = color(random(0, 360), random(0, 100), random(0, 100));
-                for (int i = 0; i < tubes.get(0).getLeds().size(); i++)
-                {
+                for (int i = 0; i < tubes.get(0).getLeds().size(); i++) {
                     tubes.get(0).getLeds().get(i).getColor().fade(c, secondsToEasing(0.3f));
                 }
                 break;
@@ -300,8 +281,7 @@ public class RenderSketch extends PApplet {
                 break;
 
             case 'b':
-                for (int j = 0; j < tubes.size(); j++)
-                {
+                for (int j = 0; j < tubes.size(); j++) {
                     markTube(j, color(0, 0, 0));
                 }
                 break;
@@ -325,8 +305,7 @@ public class RenderSketch extends PApplet {
 
             case 'z':
                 // set color for led 0
-                for (int j = 0; j < tubes.size(); j++)
-                {
+                for (int j = 0; j < tubes.size(); j++) {
                     tubes.get(j).getLeds().get(0).getColor().fade(color(255), secondsToEasing(0.5f));
                 }
                 break;
@@ -336,27 +315,24 @@ public class RenderSketch extends PApplet {
         }
     }
 
-    public void markTube(int tubeId, int c)
-    {
-        for (int i = 0; i < tubes.get(0).getLeds().size(); i++)
-        {
+    public void markTube(int tubeId, int c) {
+        for (int i = 0; i < tubes.get(0).getLeds().size(); i++) {
             tubes.get(tubeId).getLeds().get(i).getColor().fade(c, secondsToEasing(0.3f));
         }
     }
 
     public void mousePressed() {
-        if(drawMode == 1)
+        if (drawMode == 1)
             rodEditView.mousePressed();
     }
 
-    public void mouseDragged()
-    {
-        if(drawMode == 1)
+    public void mouseDragged() {
+        if (drawMode == 1)
             rodEditView.mouseDragged();
     }
 
     public void mouseReleased() {
-        if(drawMode == 1)
+        if (drawMode == 1)
             rodEditView.mouseReleased();
     }
 
@@ -364,14 +340,12 @@ public class RenderSketch extends PApplet {
         rodEditView.controlEvent(e);
     }
 
-    public float secondsToEasing(float seconds)
-    {
+    public float secondsToEasing(float seconds) {
         return 1.0f / (seconds * defaultFrameRate);
     }
 
-    public int secondsToFrames(float seconds)
-    {
-        return (int)(seconds * defaultFrameRate);
+    public int secondsToFrames(float seconds) {
+        return (int) (seconds * defaultFrameRate);
     }
 
     public void movieEvent(Movie m) {

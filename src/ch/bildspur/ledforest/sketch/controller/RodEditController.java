@@ -12,7 +12,6 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by cansik on 22.09.16.
@@ -39,9 +38,10 @@ public class RodEditController extends BaseController {
     DropdownList gridList;
     Toggle gridOffsetToggle;
 
+    Toggle markRodToggle;
+
     @Override
-    public void init(RenderSketch sketch)
-    {
+    public void init(RenderSketch sketch) {
         super.init(sketch);
 
         rods = sketch.getVisualizer().getRods();
@@ -55,8 +55,7 @@ public class RodEditController extends BaseController {
         rodMap.refreshHandles(true);
     }
 
-    public void render()
-    {
+    public void render() {
         // draw rod map
         sketch.image(rodMap.render(), rodMapPosition.x, rodMapPosition.y);
 
@@ -71,8 +70,7 @@ public class RodEditController extends BaseController {
     public void controlEvent(ControlEvent e) {
     }
 
-    public void updateGridList()
-    {
+    public void updateGridList() {
         // add grid values
         gridList.addItem("None", 0f);
         gridList.addItem("10 px", 10f);
@@ -81,22 +79,19 @@ public class RodEditController extends BaseController {
         gridList.addItem("50 px", 50f);
     }
 
-    public void updateRodList()
-    {
+    public void updateRodList() {
         updateRodList(false);
     }
 
-    public void updateRodList(boolean reselectItem)
-    {
-        int selectedItem = (int)rodList.getValue();
+    public void updateRodList(boolean reselectItem) {
+        int selectedItem = (int) rodList.getValue();
 
         rodList.setItems(new ArrayList<>());
-        for(Rod r : rods)
-        {
+        for (Rod r : rods) {
             rodList.addItem(r.toString(), r);
         }
 
-        if(reselectItem) {
+        if (reselectItem) {
             rodList.setValue(selectedItem);
             rodList.setCaptionLabel(selectedRod.toString());
         }
@@ -104,20 +99,17 @@ public class RodEditController extends BaseController {
         rodMap.refreshHandles();
     }
 
-    public void setGridSize(float size)
-    {
+    public void setGridSize(float size) {
         rodMap.setGridSize(size);
-        gridList.setCaptionLabel((int)size + " px");
+        gridList.setCaptionLabel((int) size + " px");
     }
 
-    public void setGridOffset(boolean value)
-    {
+    public void setGridOffset(boolean value) {
         gridOffsetToggle.setState(value);
     }
 
-    void updateSelectedRod()
-    {
-        if(selectedRod == null)
+    void updateSelectedRod() {
+        if (selectedRod == null)
             return;
 
         rodList.setCaptionLabel(selectedRod.getName());
@@ -129,21 +121,29 @@ public class RodEditController extends BaseController {
         invertedToggle.setState(selectedRod.isInverted());
 
         // select handler in map
-        for(RodHandle h : rodMap.getHandles())
-        {
-            if(h.getRod().equals(selectedRod)) {
+        for (RodHandle h : rodMap.getHandles()) {
+            if (h.getRod().equals(selectedRod)) {
                 rodMap.setCurrentHandle(h);
                 h.setGrabbed(true);
-            }
-            else
-            {
+            } else {
                 h.setGrabbed(false);
             }
         }
+
+        // mark rod
+        if (markRodToggle.getState()) {
+            selectedRod.getTube().getLeds().forEach((e) -> e.getColor().fade(sketch.g.color(0, 100, 100), sketch.secondsToEasing(0.25f)));
+        }
     }
 
-    void clearTextfileds()
-    {
+    void deselectRod() {
+        if (selectedRod != null)
+            selectedRod.getTube().getLeds().forEach((e) -> e.getColor().fade(sketch.g.color(0, 0, 50), sketch.secondsToEasing(0.25f)));
+
+        selectedRod = null;
+    }
+
+    void clearTextfileds() {
         nameField.setText("");
         xAxisField.setText("0.0");
         yAxisField.setText("0.0");
@@ -164,45 +164,60 @@ public class RodEditController extends BaseController {
 
         // list controls
 
-        cp5.addButton("Add")
+        cp5.addButton("Copy")
                 .setValue(0)
                 .setPosition(topControlWidth, 10)
                 .setSize(50, 10)
                 .onClick((e) -> {
+                    if (selectedRod != null) {
+                        sketch.addRod(new Rod(sketch.g, new Tube(0, selectedRod.getTube().getLeds().size(), sketch.g),
+                                PVector.add(selectedRod.getPosition(), new PVector(5, 0, 5))));
+                        clearTextfileds();
+                        updateRodList();
+                    }
+                });
+
+        cp5.addButton("Add")
+                .setValue(0)
+                .setPosition(topControlWidth + 60, 10)
+                .setSize(50, 10)
+                .onClick((e) -> {
                     sketch.addRod(new Rod(sketch.g, new Tube(0, 1, sketch.g), new PVector(0, 0, 0)));
-                    selectedRod = null;
+                    deselectRod();
                     clearTextfileds();
                     updateRodList();
                 });
 
         cp5.addButton("Remove")
                 .setValue(0)
-                .setPosition(topControlWidth + 60, 10)
+                .setPosition(topControlWidth + 120, 10)
                 .setSize(50, 10)
                 .onClick((e) -> {
                     if (selectedRod != null) {
                         sketch.removeRod(selectedRod);
 
-                        selectedRod = null;
+                        deselectRod();
                         clearTextfileds();
                     }
                     updateRodList();
                 });
 
         rodList = cp5.addDropdownList("rodList")
-                .setPosition(topControlWidth + 120, 10)
-                .setSize(200, 150)
+                .setPosition(topControlWidth + 180, 10)
+                .setSize(160, 150)
                 .setOpen(false)
                 .onChange((e) -> {
-                    selectedRod = rods.get((int)e.getController().getValue());
+                    deselectRod();
+                    selectedRod = rods.get((int) e.getController().getValue());
                     updateSelectedRod();
                 });
 
-        cp5.addButton("Close")
+        cp5.addButton("Back")
                 .setValue(0)
                 .setPosition(sketch.width - 40, 10)
                 .setSize(30, 10)
                 .onClick((e) -> {
+                    sketch.getSceneManager().setRunning(true);
                     sketch.getPeasy().getCam().setActive(true);
                     sketch.setDrawMode(3);
                 });
@@ -222,7 +237,7 @@ public class RodEditController extends BaseController {
                 .setSize(100, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
-                    if(selectedRod != null) {
+                    if (selectedRod != null) {
                         selectedRod.setName(nameField.getText());
                         updateRodList(true);
                     }
@@ -233,11 +248,11 @@ public class RodEditController extends BaseController {
                 .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
-                    if(selectedRod != null) {
+                    if (selectedRod != null) {
                         Tuple<Boolean, Float> result = tryParseFloat(xAxisField.getText());
                         PVector pos = selectedRod.getPosition();
 
-                        if(result.getFirst())
+                        if (result.getFirst())
                             selectedRod.getPosition().set(result.getSecond(), pos.y, pos.z);
                     }
                 });
@@ -247,11 +262,11 @@ public class RodEditController extends BaseController {
                 .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
-                    if(selectedRod != null) {
+                    if (selectedRod != null) {
                         Tuple<Boolean, Float> result = tryParseFloat(yAxisField.getText());
                         PVector pos = selectedRod.getPosition();
 
-                        if(result.getFirst())
+                        if (result.getFirst())
                             selectedRod.getPosition().set(pos.x, result.getSecond(), pos.z);
                     }
                 });
@@ -261,11 +276,11 @@ public class RodEditController extends BaseController {
                 .setSize(60, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
-                    if(selectedRod != null) {
+                    if (selectedRod != null) {
                         Tuple<Boolean, Float> result = tryParseFloat(zAxisField.getText());
                         PVector pos = selectedRod.getPosition();
 
-                        if(result.getFirst())
+                        if (result.getFirst())
                             selectedRod.getPosition().set(pos.x, pos.y, result.getSecond());
                     }
                 });
@@ -276,7 +291,7 @@ public class RodEditController extends BaseController {
                 .setAutoClear(false)
                 .setInputFilter(ControlP5.INTEGER)
                 .onChange((e) -> {
-                    if(selectedRod != null) {
+                    if (selectedRod != null) {
                         int count = Integer.parseInt(ledCountField.getText());
 
                         selectedRod.getTube().initLED(count, sketch.g);
@@ -289,7 +304,7 @@ public class RodEditController extends BaseController {
                 .setSize(60, 15)
                 .setMode(ControlP5.DEFAULT)
                 .onChange((e) -> {
-                    if(selectedRod != null)
+                    if (selectedRod != null)
                         selectedRod.setInverted(invertedToggle.getState());
                 });
 
@@ -298,48 +313,54 @@ public class RodEditController extends BaseController {
 
         // sub rod map
         cp5.addLabel("Grid: ")
-                .setPosition(rodMapPosition.x, rodMapPosition.y  + rodMap.getHeight() + 10);
+                .setPosition(rodMapPosition.x, rodMapPosition.y + rodMap.getHeight() + 10);
 
         gridList = cp5.addDropdownList("None")
-                .setPosition(rodMapPosition.x + 30, rodMapPosition.y  + rodMap.getHeight() + 10)
+                .setPosition(rodMapPosition.x + 30, rodMapPosition.y + rodMap.getHeight() + 10)
                 .setSize(50, 45)
                 .setOpen(false)
                 .onChange((e) -> {
-                    Map<String, Object> entry = gridList.getItem((int)e.getController().getValue());
-                    setGridSize((float)entry.get("value"));
+                    Map<String, Object> entry = gridList.getItem((int) e.getController().getValue());
+                    setGridSize((float) entry.get("value"));
                 });
 
         gridOffsetToggle = cp5.addToggle("Offset")
-                .setPosition(rodMapPosition.x + 90, rodMapPosition.y  + rodMap.getHeight() + 10)
+                .setPosition(rodMapPosition.x + 90, rodMapPosition.y + rodMap.getHeight() + 10)
                 .setSize(30, 10)
                 .setMode(ControlP5.DEFAULT)
                 .onChange((e) -> {
                     rodMap.setGridOffset(gridOffsetToggle.getState());
                 });
 
+        // mark
+        markRodToggle = cp5.addToggle("Mark Rod")
+                .setPosition(sketch.width - 100, rodMapPosition.y + rodMap.getHeight() + 10)
+                .setSize(30, 10)
+                .setMode(ControlP5.DEFAULT)
+                .onChange((e) -> {
+                    if (markRodToggle.getState()) {
+                        updateSelectedRod();
+                    }
+                });
+
 
         rodList.bringToFront();
     }
 
-    Tuple<Boolean, Float> tryParseFloat(String text)
-    {
+    Tuple<Boolean, Float> tryParseFloat(String text) {
         boolean parsed = false;
         float value = 0.0f;
 
-        try
-        {
+        try {
             value = Float.parseFloat(text);
             parsed = true;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
         }
 
         return new Tuple<>(parsed, value);
     }
 
-    boolean isOverMap(PVector v)
-    {
+    boolean isOverMap(PVector v) {
         return v.x >= rodMapPosition.x && v.x < rodMapPosition.x + rodMap.getWidth()
                 && v.y >= rodMapPosition.y && v.y < rodMapPosition.y + rodMap.getHeight();
     }
@@ -350,10 +371,11 @@ public class RodEditController extends BaseController {
 
     public void mousePressed() {
         PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
-        if(isOverMap(mouse)) {
+        if (isOverMap(mouse)) {
             rodMap.mousePressed(PVector.sub(mouse, rodMapPosition));
 
             if (rodMap.getCurrentHandle() != null) {
+                deselectRod();
                 selectedRod = rodMap.getCurrentHandle().getRod();
                 updateSelectedRod();
             }
@@ -361,13 +383,12 @@ public class RodEditController extends BaseController {
 
     }
 
-    public void mouseDragged()
-    {
+    public void mouseDragged() {
         PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
-        if(isOverMap(mouse)) {
+        if (isOverMap(mouse)) {
             rodMap.mouseDragged(PVector.sub(mouse, rodMapPosition));
 
-            if(selectedRod != null
+            if (selectedRod != null
                     && rodMap.getCurrentHandle() != null
                     && selectedRod.equals(rodMap.getCurrentHandle().getRod()))
                 updateSelectedRod();
@@ -376,7 +397,7 @@ public class RodEditController extends BaseController {
 
     public void mouseReleased() {
         PVector mouse = new PVector(sketch.mouseX, sketch.mouseY);
-        if(isOverMap(mouse))
+        if (isOverMap(mouse))
             rodMap.mouseReleased(PVector.sub(mouse, rodMapPosition));
     }
 }

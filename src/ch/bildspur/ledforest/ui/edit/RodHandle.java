@@ -31,13 +31,11 @@ public class RodHandle {
 
     Rod rod;
 
-    public RodHandle(Rod rod, PGraphics g)
-    {
+    public RodHandle(Rod rod, PGraphics g) {
         this(0, 0, rod, g);
     }
 
-    public RodHandle(float x, float y, Rod rod, PGraphics g)
-    {
+    public RodHandle(float x, float y, Rod rod, PGraphics g) {
         this.rod = rod;
         this.g = g;
 
@@ -53,19 +51,16 @@ public class RodHandle {
         TEXT_COLOR = g.parent.color(0, 0, 100);
     }
 
-    public void update()
-    {
+    public void update() {
         PVector delta = target.copy().sub(position);
         position.add(delta.mult(EASING));
     }
 
-    public void moveTo(PVector v)
-    {
+    public void moveTo(PVector v) {
         target = v;
     }
 
-    public void render()
-    {
+    public void render() {
         g.strokeWeight(STROKE_WEIGHT);
         g.stroke(grabbed ? GRAB_COLOR : NORMAL_COLOR);
         g.fill(fixed ? FIXED_COLOR : INNER_COLOR);
@@ -73,11 +68,10 @@ public class RodHandle {
         g.ellipse(position.x, position.y, SIZE, SIZE);
 
         g.fill(TEXT_COLOR);
-        g.text(rod.getName(), position.x, position.y - 8);
+        g.text(rod.getName(), position.x, position.y - 10);
     }
 
-    public boolean isInside(PVector p)
-    {
+    public boolean isInside(PVector p) {
         return (Math.abs(p.dist(position)) < SIZE);
     }
 
