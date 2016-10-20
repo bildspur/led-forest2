@@ -1,7 +1,10 @@
 package ch.bildspur.ledforest.sketch.controller;
 
 import ch.bildspur.ledforest.sketch.RenderSketch;
-import com.leapmotion.leap.*;
+import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Frame;
+import com.leapmotion.leap.Hand;
+import com.leapmotion.leap.Vector;
 import com.leapmotion.leap.processing.LeapMotion;
 import processing.core.PGraphics;
 import processing.core.PVector;
@@ -13,8 +16,7 @@ import java.util.ArrayList;
  * Created by cansik on 18/09/16.
  */
 public class LeapMotionController extends BaseController {
-    public void init(RenderSketch sketch)
-    {
+    public void init(RenderSketch sketch) {
         super.init(sketch);
         g = sketch.g;
     }
@@ -35,8 +37,7 @@ public class LeapMotionController extends BaseController {
 
     float handEasing = 0.1f;
 
-    public Frame getFrame()
-    {
+    public Frame getFrame() {
         synchronized (lock) {
             return frame;
         }
@@ -46,32 +47,27 @@ public class LeapMotionController extends BaseController {
         return interactionBox;
     }
 
-    public void setupLeapMotion()
-    {
+    public void setupLeapMotion() {
         leapMotion = new LeapMotion(sketch);
 
-        for(int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
             handTargets.add(new PVector());
             handCurrents.add(new PVector());
         }
     }
 
-    public void onFrame(final Controller controller)
-    {
+    public void onFrame(final Controller controller) {
         synchronized (lock) {
             frame = controller.frame();
         }
     }
 
-    public PVector normPVector(Vector v)
-    {
+    public PVector normPVector(Vector v) {
         Vector np = frame.interactionBox().normalizePoint(v, true);
         return new PVector(np.getX(), np.getY(), np.getZ());
     }
 
-    public PVector intBoxVector(Vector v)
-    {
+    public PVector intBoxVector(Vector v) {
         PVector nv = normPVector(v);
         PVector ibv = new PVector(interactionBox.x * nv.x,
                 interactionBox.y * nv.y,
@@ -81,8 +77,7 @@ public class LeapMotionController extends BaseController {
         return new PVector(ibv.x - hbox.x, -1 * (ibv.y - hbox.y), ibv.z - hbox.z);
     }
 
-    public void visualizeLeapMotion()
-    {
+    public void visualizeLeapMotion() {
         // Interaction box visualisation
         g.pushMatrix();
         g.stroke(255);
@@ -92,21 +87,11 @@ public class LeapMotionController extends BaseController {
         g.popMatrix();
 
         // Create Targets
-  /*
-  if(lastHandsCount != frame.hands().count())
-  {
-      lastHandsCount = frame.hands().count();
-
-  }
-  */
 
         // Hand Visualisation
-        if (isLeapMotionHandAvailable())
-        {
+        if (isLeapMotionHandAvailable()) {
             int hIndex = 0;
-            for (Hand h : frame.hands())
-            {
-                //Hand h = frame.hands().get(0);
+            for (Hand h : frame.hands()) {
                 Vector v = h.palmPosition();
                 PVector ibv = intBoxVector(v);
 
@@ -129,8 +114,7 @@ public class LeapMotionController extends BaseController {
         }
     }
 
-    public boolean isLeapMotionHandAvailable()
-    {
+    public boolean isLeapMotionHandAvailable() {
         return (frame != null && frame.hands().count() > 0);
     }
 }
