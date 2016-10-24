@@ -19,6 +19,8 @@ public class RodHandle {
     final int INNER_COLOR;
     final int FIXED_COLOR;
 
+    final int[] INNER_COLORS;
+
     final int TEXT_COLOR;
 
     final float EASING = 0.2f;
@@ -49,6 +51,19 @@ public class RodHandle {
         INNER_COLOR = g.parent.color(202, 50.2f, 99.2f);
         FIXED_COLOR = g.parent.color(203, 83.2f, 77.3f);
         TEXT_COLOR = g.parent.color(0, 0, 100);
+
+        INNER_COLORS = new int[]{
+                g.parent.color(208, 100, 85),
+                g.parent.color(127, 77, 80),
+                g.parent.color(52, 100, 100),
+                g.parent.color(28, 89, 100),
+                g.parent.color(3, 79, 100),
+                g.parent.color(314, 93, 94),
+                g.parent.color(197, 50, 100),
+                g.parent.color(146, 100, 100),
+                g.parent.color(292, 94, 79),
+                g.parent.color(0, 0, 87)
+        };
     }
 
     public void update() {
@@ -63,7 +78,11 @@ public class RodHandle {
     public void render() {
         g.strokeWeight(STROKE_WEIGHT);
         g.stroke(grabbed ? GRAB_COLOR : NORMAL_COLOR);
-        g.fill(fixed ? FIXED_COLOR : INNER_COLOR);
+
+
+        int innerColor = rod.getTube().getUniverse() < INNER_COLORS.length ?
+                INNER_COLORS[rod.getTube().getUniverse()] : INNER_COLOR;
+        g.fill(fixed ? FIXED_COLOR : innerColor);
 
         g.ellipse(position.x, position.y, SIZE, SIZE);
 

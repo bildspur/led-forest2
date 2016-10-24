@@ -186,6 +186,7 @@ public class RenderSketch extends PApplet {
     }
 
     void updateLEDs() {
+        // todo: fix concurrency bug because of loading
         for (Tube t : tubes) {
             for (LED l : t.getLeds()) {
                 l.getColor().update();
