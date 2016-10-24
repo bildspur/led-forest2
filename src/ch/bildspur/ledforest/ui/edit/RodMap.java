@@ -32,8 +32,7 @@ public class RodMap {
     PVector snapDistance;
     boolean gridOffset = false;
 
-    public RodMap(RenderSketch sketch, int width, int height)
-    {
+    public RodMap(RenderSketch sketch, int width, int height) {
         this.sketch = sketch;
         this.width = width;
         this.height = height;
@@ -41,21 +40,19 @@ public class RodMap {
         p = sketch.createGraphics(width, height, PConstants.P2D);
     }
 
-    public void refreshHandles()
-    {
+    public void refreshHandles() {
         refreshHandles(false);
     }
 
-    public void refreshHandles(boolean animate)
-    {
+    public void refreshHandles(boolean animate) {
         handles = new ArrayList<>();
 
-        for(Rod r : sketch.getVisualizer().getRods()) {
+        for (Rod r : sketch.getVisualizer().getRods()) {
             PVector pos;
 
             // intro animation
-            if(animate)
-                pos = new PVector(width/2f, height/2f);
+            if (animate)
+                pos = new PVector(width / 2f, height / 2f);
             else
                 pos = inTransform2d(r.getPosition2d());
 
@@ -65,15 +62,14 @@ public class RodMap {
     }
 
 
-    public PGraphics render()
-    {
+    public PGraphics render() {
         p.beginDraw();
         p.background(0);
 
         drawHelpLines();
 
         // update handles and draw
-        for(RodHandle h : handles) {
+        for (RodHandle h : handles) {
             h.moveTo(inTransform2d(h.getRod().getPosition2d()));
             h.update();
             h.render();
@@ -83,29 +79,27 @@ public class RodMap {
         return p;
     }
 
-    void drawHelpLines()
-    {
+    void drawHelpLines() {
         // draw initial grid
         p.stroke(100);
         p.strokeWeight(1f);
         p.line(width / 2f, 0, width / 2f, height);
         p.line(0, height / 2f, width, height / 2f);
 
-        if(gridSize == 0)
+        if (gridSize == 0)
             return;
 
         // draw snap grid
-        int lineCount = (int)Math.ceil(PApplet.max((width / 2f / snapDistance.x), (int)(height / 2f / snapDistance.y)));
+        int lineCount = (int) Math.ceil(PApplet.max((width / 2f / snapDistance.x), (int) (height / 2f / snapDistance.y)));
 
         p.stroke(150, 206, 180, 100);
         p.strokeWeight(1f);
 
         PVector offset = getGridOffsetValues(false);
 
-        for(int i = 0; i < lineCount; i++)
-        {
+        for (int i = 0; i < lineCount; i++) {
             // horizontal
-            float xshift = (float)i * snapDistance.y;
+            float xshift = (float) i * snapDistance.y;
 
             // horizontal up
             p.line(0, height / 2f - xshift + offset.y, width, height / 2f - xshift + offset.y);
@@ -114,7 +108,7 @@ public class RodMap {
             p.line(0, height / 2f + xshift + offset.y, width, height / 2f + xshift + offset.y);
 
             // vertical
-            float yshift = (float)i * snapDistance.x;
+            float yshift = (float) i * snapDistance.x;
 
             // vertical left
             p.line(width / 2f - yshift + offset.x, 0, width / 2f - yshift + offset.x, height);
@@ -124,9 +118,8 @@ public class RodMap {
         }
     }
 
-    PVector getGridOffsetValues(boolean externalCoordinate)
-    {
-        if(gridOffset && externalCoordinate)
+    PVector getGridOffsetValues(boolean externalCoordinate) {
+        if (gridOffset && externalCoordinate)
             return new PVector(gridSize / 2f, gridSize / 2f);
 
         float offsetX = gridOffset ? snapDistance.x / 2f : 0f;
@@ -143,16 +136,14 @@ public class RodMap {
         return height;
     }
 
-    public PVector inTransform2d(PVector v)
-    {
+    public PVector inTransform2d(PVector v) {
         PVector intBox = sketch.getLeapMotion().getInteractionBox();
         return new PVector(
                 PApplet.map(v.x, 0f - (intBox.x / 2f), intBox.x / 2f, 0, width),
                 PApplet.map(v.y, 0f - (intBox.z / 2f), intBox.z / 2f, 0, height));
     }
 
-    public PVector outTransform2d(PVector v)
-    {
+    public PVector outTransform2d(PVector v) {
         PVector intBox = sketch.getLeapMotion().getInteractionBox();
         return new PVector(
                 PApplet.map(v.x, 0, width, 0f - (intBox.x / 2f), intBox.x / 2f),
@@ -164,13 +155,10 @@ public class RodMap {
     }
 
     public void mousePressed(PVector mouse) {
-        if (!mouseDown)
-        {
+        if (!mouseDown) {
             PVector m = new PVector(mouse.x, mouse.y);
-            for (RodHandle h : handles)
-            {
-                if (h.isInside(m))
-                {
+            for (RodHandle h : handles) {
+                if (h.isInside(m)) {
                     currentHandle = h;
                     h.grabbed = true;
                     mouseDelta = PVector.sub(h.position, m);
@@ -181,17 +169,15 @@ public class RodMap {
         }
     }
 
-    public void mouseDragged(PVector mouse)
-    {
-        if (mouseDown)
-        {
+    public void mouseDragged(PVector mouse) {
+        if (mouseDown) {
             if (currentHandle.fixed)
                 return;
 
             PVector m = new PVector(mouse.x, mouse.y);
             moveHandleToPosition(currentHandle, PVector.add(mouseDelta, m));
 
-            if(gridSize == 0)
+            if (gridSize == 0)
                 return;
 
             PVector offset = getGridOffsetValues(true);
@@ -200,8 +186,7 @@ public class RodMap {
             PVector snapDistance = snapInfos.getFirst();
             PVector snapIndex = snapInfos.getSecond();
 
-            if(snapDistance.x < SNAP_DISTANCE && snapDistance.y < SNAP_DISTANCE)
-            {
+            if (snapDistance.x < SNAP_DISTANCE && snapDistance.y < SNAP_DISTANCE) {
                 float indexOffset = gridOffset ? 1 : 0;
 
                 moveHandleToPosition(currentHandle,
@@ -213,27 +198,25 @@ public class RodMap {
     }
 
     public void mouseReleased(PVector mouse) {
-        if (mouseDown)
-        {
+        if (mouseDown) {
             mouseDown = false;
             currentHandle = null;
         }
     }
 
-    public Tuple<PVector, PVector> getSnapInformation(PVector pos)
-    {
+    public Tuple<PVector, PVector> getSnapInformation(PVector pos) {
         // check if pos is near snap position
         PVector posOut = outTransform2d(pos);
 
         // x
         double xrel = Math.abs(posOut.x / gridSize);
-        float xdist = (float)((xrel) - Math.floor(xrel));
-        xdist = (float)Math.min(Math.ceil(xdist) - xdist, xdist);
+        float xdist = (float) ((xrel) - Math.floor(xrel));
+        xdist = (float) Math.min(Math.ceil(xdist) - xdist, xdist);
 
         // y
         double yrel = Math.abs(posOut.y / gridSize);
-        float ydist = (float)((yrel) - Math.floor(yrel));
-        ydist = (float)Math.min(Math.ceil(ydist) - ydist, ydist);
+        float ydist = (float) ((yrel) - Math.floor(yrel));
+        ydist = (float) Math.min(Math.ceil(ydist) - ydist, ydist);
 
         // snap index
         int xindex = Math.round(posOut.x / gridSize);
@@ -242,8 +225,7 @@ public class RodMap {
         return new Tuple<>(new PVector(xdist, ydist), new PVector(xindex, yindex));
     }
 
-    void moveHandleToPosition(RodHandle h, PVector p)
-    {
+    void moveHandleToPosition(RodHandle h, PVector p) {
         h.getRod().setPosition2d(outTransform2d(p));
     }
 
