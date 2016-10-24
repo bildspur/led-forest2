@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * Created by cansik on 18/09/16.
  */
 public class Tube {
+    public final int LED_ADDRESS_SIZE = 3;
+
     int universe;
     ArrayList<LED> leds;
 
@@ -24,7 +26,7 @@ public class Tube {
         leds = new ArrayList<>();
 
         for (int i = 0; i < ledCount; i++)
-            leds.add(new LED(g, addressStart + i, g.color(0, 100, 100)));
+            leds.add(new LED(g, addressStart + (i * LED_ADDRESS_SIZE), g.color(0, 100, 100)));
     }
 
     public ArrayList<LED> getLeds() {
@@ -41,5 +43,9 @@ public class Tube {
 
     public int getStartAddress() {
         return leds.size() > 0 ? leds.get(0).getAddress() : 0;
+    }
+
+    public int getEndAddress() {
+        return leds.size() > 0 ? leds.get(leds.size() - 1).getAddress() : 0;
     }
 }

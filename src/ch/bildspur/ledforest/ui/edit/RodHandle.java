@@ -1,6 +1,8 @@
 package ch.bildspur.ledforest.ui.edit;
 
 import ch.bildspur.ledforest.ui.visualisation.Rod;
+import ch.bildspur.ledforest.ui.visualisation.Tube;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -86,8 +88,15 @@ public class RodHandle {
 
         g.ellipse(position.x, position.y, SIZE, SIZE);
 
+        Tube tube = rod.getTube();
+        String text = rod.getName() +
+                " (" + tube.getUniverse() +
+                "." + tube.getStartAddress() +
+                "-" + (tube.getEndAddress() + tube.LED_ADDRESS_SIZE) + ")";
+
         g.fill(TEXT_COLOR);
-        g.text(rod.getName(), position.x, position.y - 10);
+        g.textAlign(PConstants.CENTER, PConstants.CENTER);
+        g.text(text, position.x, position.y - 15);
     }
 
     public boolean isInside(PVector p) {
