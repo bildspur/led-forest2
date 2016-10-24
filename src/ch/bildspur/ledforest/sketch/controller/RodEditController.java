@@ -29,6 +29,8 @@ public class RodEditController extends BaseController {
     Textfield yAxisField;
     Textfield zAxisField;
     Textfield ledCountField;
+    Textfield universeField;
+    Textfield startAddressField;
 
     Toggle invertedToggle;
 
@@ -119,6 +121,8 @@ public class RodEditController extends BaseController {
         zAxisField.setText(Float.toString(selectedRod.getPosition().z));
         ledCountField.setText(Integer.toString(selectedRod.getTube().getLeds().size()));
         invertedToggle.setState(selectedRod.isInverted());
+        universeField.setText(Integer.toString(selectedRod.getTube().getUniverse()));
+        startAddressField.setText(Integer.toString(selectedRod.getTube().getStartAddress()));
 
         // select handler in map
         for (RodHandle h : rodMap.getHandles()) {
@@ -150,6 +154,8 @@ public class RodEditController extends BaseController {
         zAxisField.setText("0.0");
         ledCountField.setText("0");
         invertedToggle.setValue(false);
+        universeField.setText("0");
+        startAddressField.setText("0");
     }
 
     void initUI() {
@@ -170,7 +176,10 @@ public class RodEditController extends BaseController {
                 .setSize(50, 10)
                 .onClick((e) -> {
                     if (selectedRod != null) {
-                        sketch.addRod(new Rod(sketch.g, new Tube(0, selectedRod.getTube().getLeds().size(), sketch.g),
+                        sketch.addRod(new Rod(sketch.g, new Tube(0,
+                                selectedRod.getTube().getLeds().size(),
+                                selectedRod.getTube().getStartAddress(),
+                                sketch.g),
                                 PVector.add(selectedRod.getPosition(), new PVector(5, 0, 5))));
                         clearTextfileds();
                         updateRodList();
@@ -182,7 +191,7 @@ public class RodEditController extends BaseController {
                 .setPosition(topControlWidth + 60, 10)
                 .setSize(50, 10)
                 .onClick((e) -> {
-                    sketch.addRod(new Rod(sketch.g, new Tube(0, 1, sketch.g), new PVector(0, 0, 0)));
+                    sketch.addRod(new Rod(sketch.g, new Tube(0, 1, 0, sketch.g), new PVector(0, 0, 0)));
                     deselectRod();
                     clearTextfileds();
                     updateRodList();
@@ -234,7 +243,7 @@ public class RodEditController extends BaseController {
         // edit controls
         nameField = cp5.addTextfield("Name")
                 .setPosition(editControlWidth, editControlHeight)
-                .setSize(100, 15)
+                .setSize(80, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if (selectedRod != null) {
@@ -244,8 +253,8 @@ public class RodEditController extends BaseController {
                 });
 
         xAxisField = cp5.addTextfield("X-Axis")
-                .setPosition(editControlWidth + 110, editControlHeight)
-                .setSize(60, 15)
+                .setPosition(editControlWidth + 90, editControlHeight)
+                .setSize(50, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if (selectedRod != null) {
@@ -258,8 +267,8 @@ public class RodEditController extends BaseController {
                 });
 
         yAxisField = cp5.addTextfield("Y-Axis")
-                .setPosition(editControlWidth + 180, editControlHeight)
-                .setSize(60, 15)
+                .setPosition(editControlWidth + 150, editControlHeight)
+                .setSize(50, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if (selectedRod != null) {
@@ -272,8 +281,8 @@ public class RodEditController extends BaseController {
                 });
 
         zAxisField = cp5.addTextfield("Z-Axis")
-                .setPosition(editControlWidth + 250, editControlHeight)
-                .setSize(60, 15)
+                .setPosition(editControlWidth + 210, editControlHeight)
+                .setSize(50, 15)
                 .setAutoClear(false)
                 .onChange((e) -> {
                     if (selectedRod != null) {
@@ -286,26 +295,52 @@ public class RodEditController extends BaseController {
                 });
 
         ledCountField = cp5.addTextfield("LED Count")
-                .setPosition(editControlWidth + 320, editControlHeight)
-                .setSize(60, 15)
+                .setPosition(editControlWidth + 270, editControlHeight)
+                .setSize(50, 15)
                 .setAutoClear(false)
                 .setInputFilter(ControlP5.INTEGER)
                 .onChange((e) -> {
                     if (selectedRod != null) {
                         int count = Integer.parseInt(ledCountField.getText());
 
-                        selectedRod.getTube().initLED(count, sketch.g);
+                        selectedRod.getTube().initLED(count, selectedRod.getTube().getStartAddress(), sketch.g);
                         selectedRod.initShapes();
                     }
                 });
 
         invertedToggle = cp5.addToggle("Inverted")
-                .setPosition(editControlWidth + 390, editControlHeight)
-                .setSize(60, 15)
+                .setPosition(editControlWidth + 330, editControlHeight)
+                .setSize(50, 15)
                 .setMode(ControlP5.DEFAULT)
                 .onChange((e) -> {
                     if (selectedRod != null)
                         selectedRod.setInverted(invertedToggle.getState());
+                });
+
+        universeField = cp5.addTextfield("Universe")
+                .setPosition(editControlWidth + 390, editControlHeight)
+                .setSize(50, 15)
+                .setAutoClear(false)
+                .setInputFilter(ControlP5.INTEGER)
+                .onChange((e) -> {
+                    if (selectedRod != null) {
+                        int universe = Integer.parseInt(universeField.getText());
+                        selectedRod.getTube().setUniverse(universe);
+                    }
+                });
+
+        startAddressField = cp5.addTextfield("Start Address")
+                .setPosition(editControlWidth + 450, editControlHeight)
+                .setSize(50, 15)
+                .setAutoClear(false)
+                .setInputFilter(ControlP5.INTEGER)
+                .onChange((e) -> {
+                    if (selectedRod != null) {
+                        int startAddress = Integer.parseInt(startAddressField.getText());
+
+                        selectedRod.getTube().initLED(selectedRod.getTube().getLeds().size(), startAddress, sketch.g);
+                        selectedRod.initShapes();
+                    }
                 });
 
         rodMap = new RodMap(sketch, 540, 350);

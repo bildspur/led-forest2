@@ -6,6 +6,7 @@
   "rods": [
     {
       "tube": {
+        "address": 0,
         "universe": 0,
         "ledCount": 24
       },
@@ -19,6 +20,7 @@
     },
     {
       "tube": {
+        "address": 73,
         "universe": 0,
         "ledCount": 24
       },
@@ -32,7 +34,8 @@
     },
     {
       "tube": {
-        "universe": 0,
+        "address": 0,
+        "universe": 1,
         "ledCount": 24
       },
       "name": "3",
@@ -45,7 +48,8 @@
     },
     {
       "tube": {
-        "universe": 0,
+        "address": 73,
+        "universe": 1,
         "ledCount": 24
       },
       "name": "4",
@@ -58,7 +62,8 @@
     },
     {
       "tube": {
-        "universe": 0,
+        "address": 0,
+        "universe": 3,
         "ledCount": 24
       },
       "name": "5",

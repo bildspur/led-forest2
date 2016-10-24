@@ -6,13 +6,11 @@ import processing.core.PGraphics;
 /**
  * Created by cansik on 18/09/16.
  */
-public class LED
-{
+public class LED {
     int address;
     FadeColor color;
 
-    public LED(PGraphics g, int address, int color)
-    {
+    public LED(PGraphics g, int address, int color) {
         this.address = address;
         this.color = new FadeColor(g, color);
     }
@@ -23,5 +21,13 @@ public class LED
 
     public void setColor(FadeColor color) {
         this.color = color;
+    }
+
+    public int getAddress() {
+        return address;
+    }
+
+    public void setAddress(int address) {
+        this.address = address;
     }
 }
