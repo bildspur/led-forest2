@@ -94,9 +94,13 @@ public class RodHandle {
                 "." + tube.getStartAddress() +
                 "-" + (tube.getEndAddress() + tube.LED_ADDRESS_SIZE) + ")";
 
+        float oldSize = g.textSize;
+
         g.fill(TEXT_COLOR);
+        g.textSize(9f);
         g.textAlign(PConstants.CENTER, PConstants.CENTER);
         g.text(text, position.x, position.y - 15);
+        g.textSize(oldSize);
     }
 
     public boolean isInside(PVector p) {

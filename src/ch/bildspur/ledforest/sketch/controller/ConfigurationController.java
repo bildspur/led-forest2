@@ -1,16 +1,22 @@
 package ch.bildspur.ledforest.sketch.controller;
 
 import ch.bildspur.ledforest.sketch.RenderSketch;
+import ch.bildspur.ledforest.sketch.event.ConfigurationListener;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
 import processing.core.PVector;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by cansik on 22.09.16.
  */
 public class ConfigurationController extends BaseController {
+
+    List<ConfigurationListener> listener = new ArrayList<>();
 
     String CONFIG_DIR;
 
@@ -19,6 +25,10 @@ public class ConfigurationController extends BaseController {
         super.init(sketch);
 
         CONFIG_DIR = sketch.sketchPath("config/");
+    }
+
+    public void addListener(ConfigurationListener l) {
+        listener.add(l);
     }
 
     public void load(String fileName) {
@@ -37,6 +47,7 @@ public class ConfigurationController extends BaseController {
         sketch.getRodEditView().setGridSize(editor.getFloat("gridSize"));
         sketch.getRodEditView().setGridOffset(editor.getBoolean("gridOffset"));
 
+        notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
 
@@ -107,5 +118,11 @@ public class ConfigurationController extends BaseController {
         json.setBoolean("inverted", rod.isInverted());
 
         return json;
+    }
+
+    private void notifyConfigListener() {
+        for (ConfigurationListener l : listener) {
+            l.configurationLoaded(this);
+        }
     }
 }

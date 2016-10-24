@@ -43,6 +43,8 @@ public class RenderSketch extends PApplet {
     boolean showInfo = false;
     boolean mappingMode = false;
 
+    volatile boolean configLoaded = false;
+
     int markedLEDTube = -1;
 
     PImage logo;
@@ -115,15 +117,15 @@ public class RenderSketch extends PApplet {
 
         sceneManager.init();
 
+        config.addListener((e) -> configLoaded = true);
         config.loadAsync(CONFIG_NAME);
-
-        // rod test
-        //addRod(new Rod(g, new Tube(0, 24, g), new PVector(0, 0)));
     }
 
     public void draw() {
         background(0);
-        updateLEDs();
+
+        if (configLoaded)
+            updateLEDs();
 
         // calculate syphon ouput
         PGraphics output2d = visualizer.render2d();
@@ -186,7 +188,6 @@ public class RenderSketch extends PApplet {
     }
 
     void updateLEDs() {
-        // todo: fix concurrency bug because of loading
         for (Tube t : tubes) {
             for (LED l : t.getLeds()) {
                 l.getColor().update();

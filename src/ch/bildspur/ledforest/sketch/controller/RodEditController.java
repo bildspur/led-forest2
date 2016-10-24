@@ -294,8 +294,17 @@ public class RodEditController extends BaseController {
                     }
                 });
 
-        ledCountField = cp5.addTextfield("LED Count")
+        invertedToggle = cp5.addToggle("Inverted")
                 .setPosition(editControlWidth + 270, editControlHeight)
+                .setSize(50, 15)
+                .setMode(ControlP5.DEFAULT)
+                .onChange((e) -> {
+                    if (selectedRod != null)
+                        selectedRod.setInverted(invertedToggle.getState());
+                });
+
+        ledCountField = cp5.addTextfield("LED Count")
+                .setPosition(editControlWidth + 330, editControlHeight)
                 .setSize(50, 15)
                 .setAutoClear(false)
                 .setInputFilter(ControlP5.INTEGER)
@@ -306,15 +315,6 @@ public class RodEditController extends BaseController {
                         selectedRod.getTube().initLED(count, selectedRod.getTube().getStartAddress(), sketch.g);
                         selectedRod.initShapes();
                     }
-                });
-
-        invertedToggle = cp5.addToggle("Inverted")
-                .setPosition(editControlWidth + 330, editControlHeight)
-                .setSize(50, 15)
-                .setMode(ControlP5.DEFAULT)
-                .onChange((e) -> {
-                    if (selectedRod != null)
-                        selectedRod.setInverted(invertedToggle.getState());
                 });
 
         universeField = cp5.addTextfield("Universe")
