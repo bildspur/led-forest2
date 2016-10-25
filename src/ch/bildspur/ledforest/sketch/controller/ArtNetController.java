@@ -45,7 +45,8 @@ public class ArtNetController extends BaseController {
         for (Universe universe : universes) {
             universe.stageDmx(luminosity, trace);
 
-            // todo: send out dmx data
+            ArtNetNode node = nodes.get(universe.getId());
+            artnet.send(node, universe.getId(), universe.getDmxData());
         }
     }
 

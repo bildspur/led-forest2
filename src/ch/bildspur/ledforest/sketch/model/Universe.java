@@ -45,4 +45,16 @@ public class Universe {
     private byte calculateValue(float value, int last, float luminosity, float trace) {
         return (byte) ((value * luminosity) % 256);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Tube> getTubes() {
+        return tubes;
+    }
+
+    public byte[] getDmxData() {
+        return dmxData;
+    }
 }
