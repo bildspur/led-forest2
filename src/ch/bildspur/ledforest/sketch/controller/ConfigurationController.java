@@ -1,15 +1,18 @@
 package ch.bildspur.ledforest.sketch.controller;
 
+import artnet4j.ArtNetNode;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.sketch.event.ConfigurationListener;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
+import ch.bildspur.ledforest.util.MapUtils;
 import processing.core.PVector;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cansik on 22.09.16.
@@ -47,6 +50,9 @@ public class ConfigurationController extends BaseController {
         sketch.getRodEditView().setGridSize(editor.getFloat("gridSize"));
         sketch.getRodEditView().setGridOffset(editor.getBoolean("gridOffset"));
 
+        // dmx
+        loadDmx(root.getJSONObject("dmx"));
+
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -72,9 +78,49 @@ public class ConfigurationController extends BaseController {
         editor.setBoolean("gridOffset", sketch.getRodEditView().getRodMap().isGridOffset());
 
         root.setJSONObject("editor", editor);
+        root.setJSONObject("dmx", getDmx());
 
         // write file
         sketch.saveJSONObject(root, CONFIG_DIR + fileName);
+    }
+
+    private void loadDmx(JSONObject dmx) {
+        ArtNetController artNetController = sketch.getArtNet();
+
+        JSONArray nodeList = dmx.getJSONArray("nodes");
+        for (int i = 0; i < nodeList.size(); i++) {
+            JSONObject nodeObject = nodeList.getJSONObject(i);
+            JSONArray universes = nodeObject.getJSONArray("universes");
+            ArtNetNode node = artNetController.getArtnet().createNode(nodeObject.getString("address"));
+
+            for (int j = 0; j < universes.size(); j++) {
+                int universeId = universes.getInt(j);
+                artNetController.getNodes().put(universeId, node);
+            }
+        }
+    }
+
+    private JSONObject getDmx() {
+        JSONObject dmxObject = new JSONObject();
+        JSONArray nodeList = new JSONArray();
+
+        Map<ArtNetNode, List<Integer>> nodes = MapUtils.flipMap(sketch.getArtNet().getNodes());
+
+        // add nodes
+        for (ArtNetNode n : nodes.keySet()) {
+            JSONObject node = new JSONObject();
+            node.setString("address", n.getIPAddress().getHostAddress());
+
+            // add universe
+            JSONArray universes = new JSONArray();
+            nodes.get(n).forEach(universes::append);
+
+            node.setJSONArray("universes", universes);
+            nodeList.append(node);
+        }
+
+        dmxObject.setJSONArray("nodes", nodeList);
+        return dmxObject;
     }
 
     private Rod loadRod(JSONObject json) {
