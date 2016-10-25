@@ -176,7 +176,7 @@ public class RodEditController extends BaseController {
                 .setSize(50, 10)
                 .onClick((e) -> {
                     if (selectedRod != null) {
-                        sketch.addRod(new Rod(sketch.g, new Tube(0,
+                        sketch.addRod(new Rod(sketch.g, new Tube(selectedRod.getTube().getUniverse(),
                                 selectedRod.getTube().getLeds().size(),
                                 selectedRod.getTube().getStartAddress(),
                                 sketch.g),
@@ -226,6 +226,7 @@ public class RodEditController extends BaseController {
                 .setPosition(sketch.width - 40, 10)
                 .setSize(30, 10)
                 .onClick((e) -> {
+                    sketch.getArtNet().initUniverses();
                     sketch.getSceneManager().setRunning(true);
                     sketch.getPeasy().getCam().setActive(true);
                     sketch.setDrawMode(3);

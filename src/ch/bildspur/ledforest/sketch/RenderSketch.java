@@ -15,6 +15,9 @@ import processing.opengl.PJOGL;
 import processing.video.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by cansik on 16/08/16.
@@ -58,6 +61,7 @@ public class RenderSketch extends PApplet {
     ColorController colors = new ColorController();
     RodEditController rodEditView = new RodEditController();
     ConfigurationController config = new ConfigurationController();
+    ArtNetController artnet = new ArtNetController();
 
     public void settings() {
         size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
@@ -74,6 +78,7 @@ public class RenderSketch extends PApplet {
         leapMotion.init(this);
         colors.init(this);
         config.init(this);
+        artnet.init(this);
 
         syphon.setupSyphon();
         leapMotion.setupLeapMotion();
@@ -117,7 +122,10 @@ public class RenderSketch extends PApplet {
 
         sceneManager.init();
 
-        config.addListener((e) -> configLoaded = true);
+        config.addListener((e) -> {
+            artnet.initUniverses();
+            configLoaded = true;
+        });
         config.loadAsync(CONFIG_NAME);
     }
 
@@ -130,6 +138,9 @@ public class RenderSketch extends PApplet {
         // calculate syphon ouput
         PGraphics output2d = visualizer.render2d();
         syphon.sendImageToSyphon(output2d);
+
+        // output dmx
+        artnet.sendDmx();
 
         switch (drawMode) {
             case 1:
@@ -338,6 +349,10 @@ public class RenderSketch extends PApplet {
             rodEditView.mouseReleased();
     }
 
+    public Map<Integer, List<Tube>> getTubesByUniverse() {
+        return tubes.stream().collect(Collectors.groupingBy(Tube::getUniverse));
+    }
+
     public void controlEvent(ControlEvent e) {
         rodEditView.controlEvent(e);
     }
@@ -448,6 +463,10 @@ public class RenderSketch extends PApplet {
 
     public RodEditController getRodEditView() {
         return rodEditView;
+    }
+
+    public ArtNetController getArtNet() {
+        return artnet;
     }
 }
 
