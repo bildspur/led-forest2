@@ -6,6 +6,7 @@ import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.Vector;
+import processing.core.PApplet;
 import processing.core.PVector;
 
 import static processing.core.PConstants.PI;
@@ -13,8 +14,7 @@ import static processing.core.PConstants.PI;
 /**
  * Created by cansik on 18/09/16.
  */
-public class LeapMotionScene extends Scene
-{
+public class LeapMotionScene extends Scene {
     float fadeSpeed = sketch.secondsToEasing(0.5f);
 
 
@@ -32,43 +32,30 @@ public class LeapMotionScene extends Scene
         super(sketch);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return "LeapMotion Scene";
     }
 
-    public void init()
-    {
+    public void init() {
         sketch.getColors().setColorB(0, fadeSpeed);
         sketch.getColors().setColorS(0, fadeSpeed);
         sketch.getColors().setColorH(0, fadeSpeedH);
     }
 
-    public void update()
-    {
+    public void update() {
         PVector[] palms = new PVector[sketch.getLeapMotion().getFrame().hands().count()];
 
         // update palms
-        for (int i = 0; i < palms.length; i++)
-        {
+        for (int i = 0; i < palms.length; i++) {
             Hand h = sketch.getLeapMotion().getFrame().hands().get(i);
             Vector v = h.palmPosition();
             PVector palmPosition = sketch.getLeapMotion().intBoxVector(v);
             palms[i] = palmPosition;
         }
 
-        // interactionRadius = map(palmPosition.y * -1, 0, interactionBox.y / 2, 50, 300);
-
-        // strength affects saturation
-        //setColorS(h.grabStrength() * 100, secondsToEasing(0.5));
-
-        //setColorH(hue, secondsToEasing(0.5));
-
-        for (int j = 0; j < sketch.getTubes().size(); j++)
-        {
-            Tube t =  sketch.getTubes().get(j);
-            for (int i = 0; i < t.getLeds().size(); i++)
-            {
+        for (int j = 0; j < sketch.getTubes().size(); j++) {
+            Tube t = sketch.getTubes().get(j);
+            for (int i = 0; i < t.getLeds().size(); i++) {
                 LED led = t.getLeds().get(i);
 
                 boolean isOn = false;
@@ -76,13 +63,10 @@ public class LeapMotionScene extends Scene
                 int nearestHandIndex = 0;
 
                 // check if a palm is nearby
-                for (int p = 0; p < palms.length; p++)
-                {
+                for (int p = 0; p < palms.length; p++) {
                     float distance = ledPosition(j, (t.getLeds().size() - 1 - i)).dist(palms[p]);
-                    if (distance < interactionRadius)
-                    {
-                        if (minDistance > distance)
-                        {
+                    if (distance < interactionRadius) {
+                        if (minDistance > distance) {
                             minDistance = distance;
                             nearestHandIndex = p;
                         }
@@ -91,20 +75,13 @@ public class LeapMotionScene extends Scene
                     }
                 }
 
-                if (isOn)
-                {
+                if (isOn) {
                     Hand h = sketch.getLeapMotion().getFrame().hands().get(nearestHandIndex);
 
                     led.getColor().fadeH(getHueByHand(h), fadeSpeedH);
                     led.getColor().fadeS(100 - (h.grabStrength() * 100), fadeSpeedS);
                     led.getColor().fadeB(100, fadeSpeedBIn);
-                } else
-                {
-          /*
-          led.c.fadeH(getHueByHand(h), fadeSpeedH);
-          led.c.fadeS(100 - (h.grabStrength() * 100), fadeSpeedS);
-          */
-                    //led.c.fadeS(0, fadeSpeedS);
+                } else {
                     led.getColor().fadeB(0, fadeSpeedBOut);
                 }
             }
@@ -114,16 +91,18 @@ public class LeapMotionScene extends Scene
             hue = (hue + 1) % 360;
     }
 
-    float getHueByHand(Hand h)
-    {
+    float getHueByHand(Hand h) {
         float roll = Math.abs(h.palmNormal().roll());
-        return sketch.map(roll, 0, PI, 0, 360);
+        return PApplet.map(roll, 0, PI, 0, 360);
     }
 
-    public PVector ledPosition(int rodIndex, int ledIndex)
-    {
+    public PVector ledPosition(int rodIndex, int ledIndex) {
         Rod r = sketch.getVisualizer().getRods().get(rodIndex);
         float ledLength = r.getLedLength();
-        return new PVector(r.getPosition().x, r.getPosition().y + ((r.getShapes().size() - ledIndex) * ledLength), r.getPosition().z);
+
+        if (r.isInverted())
+            return new PVector(r.getPosition().x, r.getPosition().y + ((r.getShapes().size() - ledIndex) * ledLength), r.getPosition().z);
+        else
+            return new PVector(r.getPosition().x, r.getPosition().y - (ledIndex * ledLength), r.getPosition().z);
     }
 }
