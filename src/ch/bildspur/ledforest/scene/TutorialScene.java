@@ -9,8 +9,7 @@ import static ch.bildspur.ledforest.util.ImageUtil.centerImageAdjusted;
 /**
  * Created by cansik on 18/09/16.
  */
-public class TutorialScene extends Scene
-{
+public class TutorialScene extends Scene {
     PImage tutorialImage;
 
     public Animation fade;
@@ -19,26 +18,24 @@ public class TutorialScene extends Scene
         super(sketch);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return "Tutorial Scene";
     }
 
-    public void init()
-    {
+    public void init() {
         tutorialImage = sketch.loadImage("images/tutorial.png");
 
         fade = new Animation(0.5f, 0, 255);
         fade.start();
     }
 
-    public void update()
-    {
+    public void update() {
         fade.update();
 
         sketch.getPeasy().getCam().beginHUD();
         sketch.tint(255, fade.getValue());
         centerImageAdjusted(sketch.g, tutorialImage);
+        sketch.noTint();
         sketch.getPeasy().getCam().endHUD();
     }
 }
