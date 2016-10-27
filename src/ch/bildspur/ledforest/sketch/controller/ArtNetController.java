@@ -15,6 +15,8 @@ import java.util.Map;
  * Created by cansik on 25.10.16.
  */
 public class ArtNetController extends BaseController {
+    boolean enabled = false;
+
     float luminosity = 1f;
     float trace = 1f;
 
@@ -28,8 +30,10 @@ public class ArtNetController extends BaseController {
         super.init(sketch);
 
         nodes = new HashMap<>();
-
         artnet = new ArtNetClient();
+    }
+
+    public void setupArtNet() {
         artnet.open();
     }
 
@@ -76,5 +80,13 @@ public class ArtNetController extends BaseController {
 
     public Map<Integer, ArtNetNode> getNodes() {
         return nodes;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -53,6 +53,10 @@ public class ConfigurationController extends BaseController {
         // dmx
         loadDmx(root.getJSONObject("dmx"));
 
+        // syphon
+        JSONObject syphon = root.getJSONObject("syphon");
+        sketch.getSyphon().setEnabled(syphon.getBoolean("enabled"));
+
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -80,6 +84,10 @@ public class ConfigurationController extends BaseController {
         root.setJSONObject("editor", editor);
         root.setJSONObject("dmx", getDmx());
 
+        JSONObject syphon = new JSONObject();
+        syphon.setBoolean("enabled", sketch.getSyphon().isEnabled());
+        root.setJSONObject("syphon", syphon);
+
         // write file
         sketch.saveJSONObject(root, CONFIG_DIR + fileName);
     }
@@ -87,10 +95,13 @@ public class ConfigurationController extends BaseController {
     private void loadDmx(JSONObject dmx) {
         ArtNetController artNetController = sketch.getArtNet();
 
+        artNetController.setEnabled(dmx.getBoolean("enabled"));
+
         JSONArray nodeList = dmx.getJSONArray("nodes");
         for (int i = 0; i < nodeList.size(); i++) {
             JSONObject nodeObject = nodeList.getJSONObject(i);
             JSONArray universes = nodeObject.getJSONArray("universes");
+
             ArtNetNode node = artNetController.getArtnet().createNode(nodeObject.getString("address"));
 
             for (int j = 0; j < universes.size(); j++) {
@@ -103,6 +114,8 @@ public class ConfigurationController extends BaseController {
     private JSONObject getDmx() {
         JSONObject dmxObject = new JSONObject();
         JSONArray nodeList = new JSONArray();
+
+        dmxObject.setBoolean("enabled", sketch.getArtNet().isEnabled());
 
         Map<ArtNetNode, List<Integer>> nodes = MapUtils.flipMap(sketch.getArtNet().getNodes());
 

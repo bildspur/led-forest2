@@ -3,6 +3,9 @@
     "gridSize": 30,
     "gridOffset": false
   },
+  "syphon": {
+    "enabled": false
+  },
   "rods": [
     {
       "tube": {
@@ -75,24 +78,27 @@
       "inverted": false
     }
   ],
-  "dmx": {"nodes": [
-    {
-      "address": "127.0.0.1",
-      "universes": [
-        4,
-        5,
-        6,
-        7
-      ]
-    },
-    {
-      "address": "127.0.0.1",
-      "universes": [
-        0,
-        1,
-        2,
-        3
-      ]
-    }
-  ]}
+  "dmx": {
+    "nodes": [
+      {
+        "address": "127.0.0.1",
+        "universes": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      {
+        "address": "127.0.0.1",
+        "universes": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "enabled": true
+  }
 }

@@ -80,12 +80,8 @@ public class RenderSketch extends PApplet {
         config.init(this);
         artnet.init(this);
 
-        syphon.setupSyphon();
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
-
-        if (OSC_ENABLED)
-            osc.setupOSC();
 
         // load logo
         logo = loadImage(sketchPath("images/logotext.png"));
@@ -124,6 +120,16 @@ public class RenderSketch extends PApplet {
 
         config.addListener((e) -> {
             artnet.initUniverses();
+
+            if (syphon.isEnabled())
+                syphon.setupSyphon();
+
+            if (artnet.isEnabled())
+                artnet.setupArtNet();
+
+            if (OSC_ENABLED)
+                osc.setupOSC();
+
             configLoaded = true;
         });
         config.loadAsync(CONFIG_NAME);
@@ -132,15 +138,24 @@ public class RenderSketch extends PApplet {
     public void draw() {
         background(0);
 
-        if (configLoaded)
-            updateLEDs();
+        // show loading screen while waiting
+        if (!configLoaded) {
+            showLoadingScreen();
+            return;
+        }
+
+        updateLEDs();
 
         // calculate syphon ouput
-        PGraphics output2d = visualizer.render2d();
-        syphon.sendImageToSyphon(output2d);
+        if (syphon.isEnabled()) {
+            PGraphics output2d = visualizer.render2d();
+            syphon.sendImageToSyphon(output2d);
+        }
 
         // output dmx
-        artnet.sendDmx();
+        if (artnet.isEnabled()) {
+            artnet.sendDmx();
+        }
 
         switch (drawMode) {
             case 1:
@@ -150,7 +165,7 @@ public class RenderSketch extends PApplet {
                 break;
             case 2:
                 peasy.getCam().beginHUD();
-                image(output2d, 0, 0);
+                image(visualizer.render2d(), 0, 0);
                 peasy.getCam().endHUD();
                 break;
             case 3:
@@ -198,6 +213,10 @@ public class RenderSketch extends PApplet {
         }
     }
 
+    void showLoadingScreen() {
+        text("loading...", width / 2, height / 2);
+    }
+
     void updateLEDs() {
         for (Tube t : tubes) {
             for (LED l : t.getLeds()) {
@@ -214,33 +233,6 @@ public class RenderSketch extends PApplet {
     public void removeRod(Rod r) {
         visualizer.getRods().remove(r);
         tubes.remove(r.getTube());
-    }
-
-    void createTubes(int tubeCount, int ledCount) {
-        tubes = new ArrayList<>();
-        int address = 0;
-        int universe = 0;
-
-        for (int i = 0; i < tubeCount; i++) {
-            Tube t = new Tube(universe);
-            tubes.add(t);
-
-            int colorShift = 0;
-
-            for (int j = 0; j < ledCount; j++) {
-                colorShift += 5;
-                LED led = new LED(g, address, color(200 + colorShift, 100, 100));
-                t.getLeds().add(led);
-
-                address += 3;
-            }
-
-            // break alle 300 led's (showjockey standard)
-            if (300 - ((ledCount * 3) + address) <= 0) {
-                universe++;
-                address = 0;
-            }
-        }
     }
 
     public void onFrame(final Controller controller) {

@@ -8,25 +8,32 @@ import processing.core.PGraphics;
  * Created by cansik on 18/09/16.
  */
 public class SyphonController extends BaseController {
-    public void init(RenderSketch sketch)
-    {
+    boolean enabled = false;
+
+    public void init(RenderSketch sketch) {
         super.init(sketch);
     }
+
     SyphonServer syphon;
 
-    public void setupSyphon()
-    {
+    public void setupSyphon() {
         syphon = new SyphonServer(sketch, "LED Forest 2");
     }
 
-    public void sendScreenToSyphon()
-    {
+    public void sendScreenToSyphon() {
         sketch.loadPixels();
         syphon.sendScreen();
     }
 
-    public void sendImageToSyphon(PGraphics p)
-    {
+    public void sendImageToSyphon(PGraphics p) {
         syphon.sendImage(p);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
