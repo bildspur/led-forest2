@@ -66,14 +66,6 @@ public class LeapMotionScene extends Scene {
                 for (int p = 0; p < palms.length; p++) {
                     PVector pos = ledPosition(j, (t.getLeds().size() - 1 - i));
 
-                    // todo: remove because of debug
-                    sketch.noFill();
-                    sketch.stroke(255);
-                    sketch.pushMatrix();
-                    sketch.translate(pos.x, pos.y, pos.z);
-                    sketch.box(10);
-                    sketch.popMatrix();
-
                     float distance = pos.dist(palms[p]);
                     if (distance < interactionRadius) {
                         if (minDistance > distance) {
