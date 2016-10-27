@@ -64,7 +64,17 @@ public class LeapMotionScene extends Scene {
 
                 // check if a palm is nearby
                 for (int p = 0; p < palms.length; p++) {
-                    float distance = ledPosition(j, (t.getLeds().size() - 1 - i)).dist(palms[p]);
+                    PVector pos = ledPosition(j, (t.getLeds().size() - 1 - i));
+
+                    // todo: remove because of debug
+                    sketch.noFill();
+                    sketch.stroke(255);
+                    sketch.pushMatrix();
+                    sketch.translate(pos.x, pos.y, pos.z);
+                    sketch.box(10);
+                    sketch.popMatrix();
+
+                    float distance = pos.dist(palms[p]);
                     if (distance < interactionRadius) {
                         if (minDistance > distance) {
                             minDistance = distance;
@@ -99,10 +109,11 @@ public class LeapMotionScene extends Scene {
     public PVector ledPosition(int rodIndex, int ledIndex) {
         Rod r = sketch.getVisualizer().getRods().get(rodIndex);
         float ledLength = r.getLedLength();
+        float ledYTranslate = ((r.getShapes().size() - ledIndex) * ledLength);
 
         if (r.isInverted())
-            return new PVector(r.getPosition().x, r.getPosition().y + ((r.getShapes().size() - ledIndex) * ledLength), r.getPosition().z);
-        else
-            return new PVector(r.getPosition().x, r.getPosition().y - (ledIndex * ledLength), r.getPosition().z);
+            ledYTranslate *= -1;
+
+        return new PVector(r.getPosition().x, r.getPosition().y - ledYTranslate, r.getPosition().z);
     }
 }
