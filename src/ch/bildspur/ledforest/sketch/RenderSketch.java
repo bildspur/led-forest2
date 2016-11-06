@@ -62,6 +62,7 @@ public class RenderSketch extends PApplet {
     RodEditController rodEditView = new RodEditController();
     ConfigurationController config = new ConfigurationController();
     ArtNetController artnet = new ArtNetController();
+    DebugController debug = new DebugController();
 
     public void settings() {
         size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
@@ -118,6 +119,7 @@ public class RenderSketch extends PApplet {
 
         sceneManager.init();
 
+        // after config loaded
         config.addListener((e) -> {
             artnet.initUniverses();
 
@@ -157,6 +159,7 @@ public class RenderSketch extends PApplet {
             artnet.sendDmx();
         }
 
+        // show ui
         switch (drawMode) {
             case 1:
                 peasy.getCam().beginHUD();
@@ -174,6 +177,7 @@ public class RenderSketch extends PApplet {
                 break;
         }
 
+        // show logo
         if (showLogo) {
             peasy.getCam().beginHUD();
             image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
@@ -187,34 +191,22 @@ public class RenderSketch extends PApplet {
             osc.updateOSCApp();
 
         // hud
-        if (showInfo) {
-            if (drawMode == 3) {
-                // draw stub info
-                fill(255);
-                textSize(12);
-
-                for (int i = 0; i < visualizer.getRods().size(); i++) {
-                    pushMatrix();
-                    Rod r = visualizer.getRods().get(i);
-                    translate(r.getPosition().x, 0, r.getPosition().z);
-                    text(r.getTube().getUniverse() + "|" + i, 0, 0);
-                    popMatrix();
-                }
-            }
-
-            peasy.getCam().beginHUD();
-            fill(255);
-            textSize(12);
-            text("Draw Mode: " + drawMode + "D", 5, 15);
-            text("FPS: " + round(frameRate), 5, 30);
-            text("Color Scene: " + sceneManager.getActiveColorScene().getName(), 150, 15);
-            text("Pattern Scene: " + sceneManager.getActivePatternScene().getName(), 150, 30);
-            peasy.getCam().endHUD();
-        }
+        if (showInfo)
+            debug.showInfo();
     }
 
     void showLoadingScreen() {
-        text("loading...", width / 2, height / 2);
+        peasy.getCam().beginHUD();
+        textAlign(CENTER, CENTER);
+
+        textSize(24);
+        text("LED Forest 2", width / 2, height / 2 - 20);
+
+        textSize(18);
+        text("loading...", width / 2, height / 2 + 20);
+
+        image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
+        peasy.getCam().endHUD();
     }
 
     void updateLEDs() {

@@ -4,7 +4,7 @@
     "gridOffset": false
   },
   "syphon": {
-    "enabled": false
+    "enabled": true
   },
   "rods": [
     {

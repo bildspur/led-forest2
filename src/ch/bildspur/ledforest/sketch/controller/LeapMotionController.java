@@ -6,10 +6,14 @@ import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.Vector;
 import com.leapmotion.leap.processing.LeapMotion;
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
 import java.util.ArrayList;
+
+import static processing.core.PConstants.DISABLE_DEPTH_TEST;
+import static processing.core.PConstants.ENABLE_DEPTH_TEST;
 
 
 /**
@@ -104,9 +108,11 @@ public class LeapMotionController extends BaseController {
 
                 g.pushMatrix();
                 g.translate(handCurrent.x, handCurrent.y, handCurrent.z);
-                g.stroke(255, 100);
-                g.noFill();
-                g.sphere(15);
+                //g.stroke(255, 100);
+                //g.noFill();
+                //g.sphere(15);
+                g.noStroke();
+                drawSphere(g, 3, g.color(255), 15, 3, 20);
                 g.popMatrix();
 
                 hIndex++;
@@ -116,5 +122,18 @@ public class LeapMotionController extends BaseController {
 
     public boolean isLeapMotionHandAvailable() {
         return (frame != null && frame.hands().count() > 0);
+    }
+
+    void drawSphere(PGraphics g, float size, int c, int detail, float blurRadius, float maxOpac) {
+        g.hint(DISABLE_DEPTH_TEST);
+        float partSize = (blurRadius - 1f) / (float) detail;
+
+        for (int i = detail - 1; i >= 0; i--) {
+            float sphereSize = size * (1f + (i * partSize));
+            float alphaValue = PApplet.map(i, 0, detail - 1, maxOpac, 10);
+            g.fill(c, alphaValue);
+            g.sphere(sphereSize);
+        }
+        g.hint(ENABLE_DEPTH_TEST);
     }
 }

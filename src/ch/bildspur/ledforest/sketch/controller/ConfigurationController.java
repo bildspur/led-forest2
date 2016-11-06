@@ -56,7 +56,7 @@ public class ConfigurationController extends BaseController {
         // syphon
         JSONObject syphon = root.getJSONObject("syphon");
         sketch.getSyphon().setEnabled(syphon.getBoolean("enabled"));
-
+        
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
