@@ -20,7 +20,7 @@ public class Universe {
         this.dmxData = new byte[512];
     }
 
-    public void stageDmx(float luminosity, float trace) {
+    public void stageDmx(float luminosity, float response, float trace) {
         byte[] data = new byte[dmxData.length];
 
         for (Tube tube : tubes) {
@@ -29,20 +29,26 @@ public class Universe {
                 Color c = new Color(led.getColor().getRGBColor());
 
                 // red
-                data[led.getAddress()] = calculateValue(c.getRed(), dmxData[led.getAddress()], luminosity, trace);
+                data[led.getAddress()] = calculateValue(c.getRed(),
+                        dmxData[led.getAddress()],
+                        luminosity, response, trace);
 
                 // green
-                data[led.getAddress() + 1] = calculateValue(c.getGreen(), dmxData[led.getAddress() + 1], luminosity, trace);
+                data[led.getAddress() + 1] = calculateValue(c.getGreen(),
+                        dmxData[led.getAddress() + 1],
+                        luminosity, response, trace);
 
                 // blue
-                data[led.getAddress() + 2] = calculateValue(c.getBlue(), dmxData[led.getAddress() + 2], luminosity, trace);
+                data[led.getAddress() + 2] = calculateValue(c.getBlue(),
+                        dmxData[led.getAddress() + 2],
+                        luminosity, response, trace);
             }
         }
 
         dmxData = data;
     }
 
-    private byte calculateValue(float value, int last, float luminosity, float trace) {
+    private byte calculateValue(float value, int last, float luminosity, float response, float trace) {
         return (byte) ((value * luminosity) % 256);
     }
 

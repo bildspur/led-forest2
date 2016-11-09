@@ -19,6 +19,7 @@ public class ArtNetController extends BaseController {
 
     float luminosity = 1f;
     float trace = 1f;
+    float response = 1f;
 
     List<Universe> universes;
 
@@ -47,7 +48,7 @@ public class ArtNetController extends BaseController {
 
     public void sendDmx() {
         for (Universe universe : universes) {
-            universe.stageDmx(luminosity, trace);
+            universe.stageDmx(luminosity, response, trace);
 
             ArtNetNode node = nodes.getOrDefault(universe.getId(), null);
             artnet.send(node, universe.getId(), universe.getDmxData());
@@ -68,6 +69,14 @@ public class ArtNetController extends BaseController {
 
     public void setTrace(float trace) {
         this.trace = trace;
+    }
+
+    public float getResponse() {
+        return response;
+    }
+
+    public void setResponse(float response) {
+        this.response = response;
     }
 
     public List<Universe> getUniverses() {

@@ -56,7 +56,7 @@ public class ConfigurationController extends BaseController {
         // syphon
         JSONObject syphon = root.getJSONObject("syphon");
         sketch.getSyphon().setEnabled(syphon.getBoolean("enabled"));
-        
+
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -97,6 +97,11 @@ public class ConfigurationController extends BaseController {
 
         artNetController.setEnabled(dmx.getBoolean("enabled"));
 
+        JSONObject parameter = dmx.getJSONObject("parameter");
+        artNetController.setLuminosity(parameter.getFloat("luminosity"));
+        artNetController.setResponse(parameter.getFloat("response"));
+        artNetController.setTrace(parameter.getFloat("trace"));
+
         JSONArray nodeList = dmx.getJSONArray("nodes");
         for (int i = 0; i < nodeList.size(); i++) {
             JSONObject nodeObject = nodeList.getJSONObject(i);
@@ -116,6 +121,12 @@ public class ConfigurationController extends BaseController {
         JSONArray nodeList = new JSONArray();
 
         dmxObject.setBoolean("enabled", sketch.getArtNet().isEnabled());
+
+        JSONObject parameter = new JSONObject();
+        parameter.setFloat("luminosity", sketch.getArtNet().getLuminosity());
+        parameter.setFloat("response", sketch.getArtNet().getResponse());
+        parameter.setFloat("trace", sketch.getArtNet().getTrace());
+        dmxObject.setJSONObject("parameter", parameter);
 
         Map<ArtNetNode, List<Integer>> nodes = MapUtils.flipMap(sketch.getArtNet().getNodes());
 

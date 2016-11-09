@@ -3,9 +3,7 @@
     "gridSize": 30,
     "gridOffset": false
   },
-  "syphon": {
-    "enabled": true
-  },
+  "syphon": {"enabled": true},
   "rods": [
     {
       "tube": {
@@ -81,7 +79,7 @@
   "dmx": {
     "nodes": [
       {
-        "address": "127.0.0.1",
+        "address": "192.168.1.201",
         "universes": [
           4,
           5,
@@ -99,6 +97,11 @@
         ]
       }
     ],
+    "parameter": {
+      "trace": 1,
+      "response": 1,
+      "luminosity": 1
+    },
     "enabled": true
   }
 }
