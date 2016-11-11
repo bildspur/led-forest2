@@ -80,6 +80,8 @@ public class LeapMotionScene extends Scene {
                 if (isOn) {
                     Hand h = sketch.getLeapMotion().getFrame().hands().get(nearestHandIndex);
 
+                    sketch.getDebug().addMessage("Leap Motion Roll: " + h.palmNormal().roll());
+
                     led.getColor().fadeH(getHueByHand(h), fadeSpeedH);
                     led.getColor().fadeS(100 - (h.grabStrength() * 100), fadeSpeedS);
                     led.getColor().fadeB(100, fadeSpeedBIn);

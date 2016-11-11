@@ -80,6 +80,7 @@ public class RenderSketch extends PApplet {
         colors.init(this);
         config.init(this);
         artnet.init(this);
+        debug.init(this);
 
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
@@ -451,6 +452,10 @@ public class RenderSketch extends PApplet {
 
     public ArtNetController getArtNet() {
         return artnet;
+    }
+
+    public DebugController getDebug() {
+        return debug;
     }
 }
 
