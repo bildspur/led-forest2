@@ -10,6 +10,9 @@ import java.awt.*;
  */
 public class FadeColor {
     /* Importent: This is for HSB only! */
+
+    final float minimumDistance = 0.001f;
+
     final float hmax = 360;
     final float smax = 100;
     final float bmax = 100;
@@ -71,6 +74,10 @@ public class FadeColor {
     public void fadeB(float b, float easing) {
         easingVector.z = easing;
         target.z = b;
+    }
+
+    public boolean isFading() {
+        return PVector.sub(target, current).mag() > minimumDistance;
     }
 
     public int getColor() {

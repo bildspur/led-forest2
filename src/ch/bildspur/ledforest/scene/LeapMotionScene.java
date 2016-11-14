@@ -1,15 +1,13 @@
 package ch.bildspur.ledforest.scene;
 
+import ch.bildspur.ledforest.scene.interaction.*;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.ui.visualisation.LED;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.Vector;
-import processing.core.PApplet;
 import processing.core.PVector;
-
-import static processing.core.PConstants.PI;
 
 /**
  * Created by cansik on 18/09/16.
@@ -26,7 +24,14 @@ public class LeapMotionScene extends Scene {
 
     float interactionRadius = 50;
 
+    float glowOffset = 0.5f;
     int hue = 0;
+
+    TubeInteraction currentInteraction;
+
+    FlickrInteraction flickrInteraction = new FlickrInteraction();
+    GlowInteraction glowInteraction = new GlowInteraction();
+    PulseInteraction pulseInteraction = new PulseInteraction();
 
     public LeapMotionScene(RenderSketch sketch) {
         super(sketch);
@@ -40,6 +45,12 @@ public class LeapMotionScene extends Scene {
         sketch.getColors().setColorB(0, fadeSpeed);
         sketch.getColors().setColorS(0, fadeSpeed);
         sketch.getColors().setColorH(0, fadeSpeedH);
+
+        flickrInteraction.init(sketch);
+        glowInteraction.init(sketch);
+        pulseInteraction.init(sketch);
+
+        currentInteraction = glowInteraction;
     }
 
     public void update() {
@@ -77,27 +88,40 @@ public class LeapMotionScene extends Scene {
                     }
                 }
 
+                // 3.14 <- 0 -> -3.14;
+                // GLOW - STAND - FLICKR
+
+                Hand h = null;
+                if (sketch.getLeapMotion().getFrame().hands().count() > 0)
+                    h = sketch.getLeapMotion().getFrame().hands().get(nearestHandIndex);
+
+                // set default interaction mode
+                currentInteraction = glowInteraction;
+
+                if (h != null) {
+                    float roll = h.palmNormal().roll();
+
+                    if (roll <= -glowOffset) {
+                        currentInteraction = flickrInteraction;
+                    } else if (roll >= glowOffset) {
+                        currentInteraction = pulseInteraction;
+                    }
+                }
+
+                InteractionData interactionData = new InteractionData(t, led, h, minDistance);
+
                 if (isOn) {
-                    Hand h = sketch.getLeapMotion().getFrame().hands().get(nearestHandIndex);
-
-                    sketch.getDebug().addMessage("Leap Motion Roll: " + h.palmNormal().roll());
-
-                    led.getColor().fadeH(getHueByHand(h), fadeSpeedH);
-                    led.getColor().fadeS(100 - (h.grabStrength() * 100), fadeSpeedS);
-                    led.getColor().fadeB(100, fadeSpeedBIn);
+                    currentInteraction.ledOn(interactionData);
                 } else {
-                    led.getColor().fadeB(0, fadeSpeedBOut);
+                    currentInteraction.ledOff(interactionData);
                 }
             }
         }
 
+        sketch.getDebug().addMessage("Mode: " + currentInteraction.toString());
+
         if (sketch.frameCount % sketch.secondsToFrames(1) == 0)
             hue = (hue + 1) % 360;
-    }
-
-    float getHueByHand(Hand h) {
-        float roll = Math.abs(h.palmNormal().roll());
-        return PApplet.map(roll, 0, PI, 0, 360);
     }
 
     public PVector ledPosition(int rodIndex, int ledIndex) {
