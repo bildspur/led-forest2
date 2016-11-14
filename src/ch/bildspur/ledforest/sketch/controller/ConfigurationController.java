@@ -57,6 +57,10 @@ public class ConfigurationController extends BaseController {
         JSONObject syphon = root.getJSONObject("syphon");
         sketch.getSyphon().setEnabled(syphon.getBoolean("enabled"));
 
+        // osc
+        JSONObject osc = root.getJSONObject("osc");
+        sketch.getOsc().setEnabled(osc.getBoolean("enabled"));
+
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -84,9 +88,15 @@ public class ConfigurationController extends BaseController {
         root.setJSONObject("editor", editor);
         root.setJSONObject("dmx", getDmx());
 
+        // syphon
         JSONObject syphon = new JSONObject();
         syphon.setBoolean("enabled", sketch.getSyphon().isEnabled());
         root.setJSONObject("syphon", syphon);
+
+        // osc
+        JSONObject osc = new JSONObject();
+        osc.setBoolean("enabled", sketch.getOsc().isEnabled());
+        root.setJSONObject("osc", osc);
 
         // write file
         sketch.saveJSONObject(root, CONFIG_DIR + fileName);

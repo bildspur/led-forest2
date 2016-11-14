@@ -6,6 +6,9 @@
   "syphon": {
     "enabled": false
   },
+  "osc": {
+    "enabled": true
+  },
   "rods": [
     {
       "tube": {

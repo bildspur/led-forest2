@@ -31,8 +31,6 @@ public class RenderSketch extends PApplet {
 
     public final static int FRAME_RATE = 50;
 
-    public final static boolean OSC_ENABLED = false;
-
     ArrayList<Tube> tubes = new ArrayList<>();
     TubeVisualizer visualizer;
 
@@ -130,7 +128,7 @@ public class RenderSketch extends PApplet {
             if (artnet.isEnabled())
                 artnet.setupArtNet();
 
-            if (OSC_ENABLED)
+            if (osc.isEnabled())
                 osc.setupOSC();
 
             configLoaded = true;
@@ -188,7 +186,7 @@ public class RenderSketch extends PApplet {
         sceneManager.update();
 
         // update osc app
-        if (OSC_ENABLED && frameCount % secondsToFrames(1) == 0)
+        if (osc.isEnabled() && frameCount % secondsToFrames(1) == 0)
             osc.updateOSCApp();
 
         // hud
