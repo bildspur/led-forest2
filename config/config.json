@@ -3,7 +3,9 @@
     "gridSize": 30,
     "gridOffset": false
   },
-  "syphon": {"enabled": false},
+  "syphon": {
+    "enabled": false
+  },
   "rods": [
     {
       "tube": {
@@ -98,7 +100,7 @@
       }
     ],
     "parameter": {
-      "trace": 1,
+      "trace": 0,
       "response": 0,
       "luminosity": 1
     },

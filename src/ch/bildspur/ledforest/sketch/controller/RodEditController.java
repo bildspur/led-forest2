@@ -387,7 +387,6 @@ public class RodEditController extends BaseController {
                 .setPosition(sketch.width - 40, rodMapPosition.y)
                 .setSize(15, 80)
                 .setRange(0, 1)
-                //.setNumberOfTickMarks(5)
                 .setValue(sketch.getArtNet().getLuminosity())
                 .onChange((e) -> {
                     sketch.getArtNet().setLuminosity(luminanceSlider.getValue());
@@ -396,8 +395,7 @@ public class RodEditController extends BaseController {
         responseSlider = cp5.addSlider("resp")
                 .setPosition(sketch.width - 40, rodMapPosition.y + 110)
                 .setSize(15, 80)
-                .setRange(-1, 1)
-                //.setNumberOfTickMarks(5)
+                .setRange(-0.9f, 0.9f)
                 .setValue(sketch.getArtNet().getResponse())
                 .onChange((e) -> {
                     sketch.getArtNet().setResponse(responseSlider.getValue());
@@ -407,10 +405,9 @@ public class RodEditController extends BaseController {
                 .setPosition(sketch.width - 40, rodMapPosition.y + 220)
                 .setSize(15, 80)
                 .setRange(0, 1)
-                //.setNumberOfTickMarks(5)
                 .setValue(sketch.getArtNet().getTrace())
                 .onChange((e) -> {
-                    sketch.getArtNet().setTrace(responseSlider.getValue());
+                    sketch.getArtNet().setTrace(traceSlider.getValue());
                 });
 
 

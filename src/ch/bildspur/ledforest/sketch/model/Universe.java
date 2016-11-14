@@ -32,17 +32,17 @@ public class Universe {
 
                 // red
                 data[led.getAddress()] = calculateValue(c.getRed(),
-                        dmxData[led.getAddress()],
+                        dmxData[led.getAddress()] & 0xFF,
                         luminosity, response, trace);
 
                 // green
                 data[led.getAddress() + 1] = calculateValue(c.getGreen(),
-                        dmxData[led.getAddress() + 1],
+                        dmxData[led.getAddress() + 1] & 0xFF,
                         luminosity, response, trace);
 
                 // blue
                 data[led.getAddress() + 2] = calculateValue(c.getBlue(),
-                        dmxData[led.getAddress() + 2],
+                        dmxData[led.getAddress() + 2] & 0xFF,
                         luminosity, response, trace);
             }
         }
@@ -62,6 +62,7 @@ public class Universe {
         normValue *= luminosity;
 
         // add trace
+        normValue = Math.min(1, (normLast * trace) + normValue);
 
         return (byte) (normValue * maxLuminance);
     }
