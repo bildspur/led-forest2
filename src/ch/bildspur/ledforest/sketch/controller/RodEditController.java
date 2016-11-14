@@ -34,6 +34,10 @@ public class RodEditController extends BaseController {
 
     Toggle invertedToggle;
 
+    Slider luminanceSlider;
+    Slider responseSlider;
+    Slider traceSlider;
+
     RodMap rodMap;
     PVector rodMapPosition;
 
@@ -377,6 +381,36 @@ public class RodEditController extends BaseController {
                     if (markRodToggle.getState()) {
                         updateSelectedRod();
                     }
+                });
+
+        luminanceSlider = cp5.addSlider("lumi")
+                .setPosition(sketch.width - 40, rodMapPosition.y)
+                .setSize(15, 80)
+                .setRange(0, 1)
+                //.setNumberOfTickMarks(5)
+                .setValue(sketch.getArtNet().getLuminosity())
+                .onChange((e) -> {
+                    sketch.getArtNet().setLuminosity(luminanceSlider.getValue());
+                });
+
+        responseSlider = cp5.addSlider("resp")
+                .setPosition(sketch.width - 40, rodMapPosition.y + 110)
+                .setSize(15, 80)
+                .setRange(-1, 1)
+                //.setNumberOfTickMarks(5)
+                .setValue(sketch.getArtNet().getResponse())
+                .onChange((e) -> {
+                    sketch.getArtNet().setResponse(responseSlider.getValue());
+                });
+
+        traceSlider = cp5.addSlider("trace")
+                .setPosition(sketch.width - 40, rodMapPosition.y + 220)
+                .setSize(15, 80)
+                .setRange(0, 1)
+                //.setNumberOfTickMarks(5)
+                .setValue(sketch.getArtNet().getTrace())
+                .onChange((e) -> {
+                    sketch.getArtNet().setTrace(responseSlider.getValue());
                 });
 
 
