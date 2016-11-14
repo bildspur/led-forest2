@@ -3,9 +3,7 @@
     "gridSize": 30,
     "gridOffset": false
   },
-  "syphon": {
-    "enabled": false
-  },
+  "syphon": {"enabled": false},
   "rods": [
     {
       "tube": {
@@ -23,7 +21,7 @@
     },
     {
       "tube": {
-        "address": 73,
+        "address": 72,
         "universe": 0,
         "ledCount": 24
       },
@@ -81,15 +79,6 @@
   "dmx": {
     "nodes": [
       {
-        "address": "192.168.1.201",
-        "universes": [
-          4,
-          5,
-          6,
-          7
-        ]
-      },
-      {
         "address": "127.0.0.1",
         "universes": [
           0,
@@ -97,11 +86,20 @@
           2,
           3
         ]
+      },
+      {
+        "address": "127.0.0.1",
+        "universes": [
+          4,
+          5,
+          6,
+          7
+        ]
       }
     ],
     "parameter": {
       "trace": 1,
-      "response": 1,
+      "response": 0,
       "luminosity": 1
     },
     "enabled": true

@@ -10,6 +10,8 @@ import java.util.List;
  * Created by cansik on 25.10.16.
  */
 public class Universe {
+    final int maxLuminance = 255;
+
     int id;
     List<Tube> tubes;
     byte[] dmxData;
@@ -49,7 +51,30 @@ public class Universe {
     }
 
     private byte calculateValue(float value, int last, float luminosity, float response, float trace) {
-        return (byte) ((value * luminosity) % 256);
+        // normalize value
+        float normValue = value / (float) maxLuminance;
+        float normLast = last / (float) maxLuminance;
+
+        // add response
+        normValue = normalisedTunableSigmoid(normValue, response);
+
+        // add luminance
+        normValue *= luminosity;
+
+        // add trace
+
+        return (byte) (normValue * maxLuminance);
+    }
+
+    /**
+     * Normalised tunable sigmoid function.
+     *
+     * @param x Normalized x value
+     * @param k Normalized tune value
+     * @return Normalised sigmoid result.
+     */
+    private float normalisedTunableSigmoid(float x, float k) {
+        return (x - x * k) / (k - Math.abs(x) * 2 * k + 1);
     }
 
     public int getId() {

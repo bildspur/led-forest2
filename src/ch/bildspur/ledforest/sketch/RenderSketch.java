@@ -29,7 +29,7 @@ public class RenderSketch extends PApplet {
     public final static int OUTPUT_WIDTH = 640;
     public final static int OUTPUT_HEIGHT = 480;
 
-    public final static int FRAME_RATE = 40;
+    public final static int FRAME_RATE = 50;
 
     public final static boolean OSC_ENABLED = false;
 

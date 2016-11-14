@@ -19,7 +19,7 @@ public class ArtNetController extends BaseController {
 
     float luminosity = 1f;
     float trace = 1f;
-    float response = 1f;
+    float response = 0f;
 
     List<Universe> universes;
 

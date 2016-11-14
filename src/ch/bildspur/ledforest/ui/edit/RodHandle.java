@@ -92,7 +92,7 @@ public class RodHandle {
         String text = rod.getName() +
                 " (" + tube.getUniverse() +
                 "." + tube.getStartAddress() +
-                "-" + (tube.getEndAddress() + tube.LED_ADDRESS_SIZE) + ")";
+                "-" + (tube.getEndAddress() + tube.LED_ADDRESS_SIZE - 1) + ")";
 
         float oldSize = g.textSize;
 
