@@ -45,7 +45,6 @@ public class DeviceInfoController extends BaseController {
         try {
             return humiditySensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
-            e.printStackTrace();
         }
 
         return Double.NaN;
@@ -55,7 +54,6 @@ public class DeviceInfoController extends BaseController {
         try {
             return temperatureSensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
-            e.printStackTrace();
         }
 
         return Double.NaN;
@@ -65,7 +63,6 @@ public class DeviceInfoController extends BaseController {
         try {
             return pressureSensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
-            e.printStackTrace();
         }
 
         return Double.NaN;

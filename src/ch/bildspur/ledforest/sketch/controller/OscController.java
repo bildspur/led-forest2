@@ -34,7 +34,7 @@ public class OscController extends BaseController {
 
     @Override
     public void stop() {
-        if (zeroConfEnabled)
+        if (zeroConfEnabled && jmdns != null)
             jmdns.unregisterAllServices();
     }
 
@@ -172,8 +172,8 @@ public class OscController extends BaseController {
 
         sendMessage("/forest/info/sceneManager", "SCN: " + (sketch.getSceneManager().isRunning() ? "RUN" : "STOP"));
 
-        sendMessage("/forest/info/meteo", sketch.getDeviceInfo().getHumidity() + " %RH "
-                + sketch.getDeviceInfo().getTemperature() + " °C "
+        sendMessage("/forest/info/meteo", sketch.getDeviceInfo().getHumidity() + " %RH | "
+                + sketch.getDeviceInfo().getTemperature() + " °C | "
                 + sketch.getDeviceInfo().getPressure() + " hPa");
     }
 

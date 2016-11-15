@@ -51,6 +51,7 @@ public class RenderSketch extends PApplet {
     PImage logo;
 
     VideoScene videoScene = new VideoScene(this);
+    LoadingScene loadingScene = new LoadingScene(this);
 
     SyphonController syphon = new SyphonController();
     PeasyController peasy = new PeasyController();
@@ -73,6 +74,7 @@ public class RenderSketch extends PApplet {
         surface.setTitle("LED Forest 2");
         prepareExitHandler();
 
+        loadingScene.init();
         syphon.init(this);
         peasy.init(this);
         osc.init(this);
@@ -144,7 +146,7 @@ public class RenderSketch extends PApplet {
 
         // show loading screen while waiting
         if (!configLoaded) {
-            showLoadingScreen();
+            loadingScene.update();
             return;
         }
 
@@ -195,20 +197,6 @@ public class RenderSketch extends PApplet {
         // hud
         if (showInfo)
             debug.showInfo();
-    }
-
-    void showLoadingScreen() {
-        peasy.getCam().beginHUD();
-        textAlign(CENTER, CENTER);
-
-        textSize(24);
-        text("LED Forest 2", width / 2, height / 2 - 20);
-
-        textSize(18);
-        text("loading...", width / 2, height / 2 + 20);
-
-        image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
-        peasy.getCam().endHUD();
     }
 
     void updateLEDs() {
@@ -470,5 +458,7 @@ public class RenderSketch extends PApplet {
     public DeviceInfoController getDeviceInfo() {
         return deviceInfo;
     }
+
+
 }
 
