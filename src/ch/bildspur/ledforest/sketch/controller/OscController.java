@@ -1,5 +1,6 @@
 package ch.bildspur.ledforest.sketch.controller;
 
+import ch.bildspur.ledforest.scene.modes.NormalMode;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import netP5.NetAddress;
 import oscP5.OscMessage;
@@ -32,33 +33,47 @@ public class OscController extends BaseController {
                 sketch.getArtNet().setLuminosity(msg.get(0).floatValue());
                 break;
 
-            case "/forest/flash":
-                msg.setAddrPattern("/forest/luminosity_mm");
-                sketch.getArtNet().setLuminosity(msg.get(0).floatValue());
-                break;
-
             case "/forest/response":
                 sketch.getArtNet().setResponse(msg.get(0).floatValue());
                 break;
 
-            case "/forest/haze":
+            case "/forest/trace":
+                sketch.getArtNet().setTrace(msg.get(0).floatValue());
                 break;
 
-            case "/forest/nextcolor":
+            case "/forest/resetLuminosity":
+                if (msg.get(0).floatValue() > 0) {
+                    sketch.getArtNet().setLuminosity(1);
+                }
+                break;
+
+            case "/forest/resetResponse":
+                if (msg.get(0).floatValue() > 0) {
+                    sketch.getArtNet().setResponse(0);
+                }
+                break;
+
+            case "/forest/resetTrace":
+                if (msg.get(0).floatValue() > 0) {
+                    sketch.getArtNet().setTrace(0);
+                }
+                break;
+
+            case "/forest/nextColor":
                 if (msg.get(0).floatValue() > 0) {
                     PApplet.println("Next Color!");
                     sketch.getSceneManager().nextColorScene();
                 }
                 break;
 
-            case "/forest/nextlight":
+            case "/forest/nextPattern":
                 if (msg.get(0).floatValue() > 0) {
-                    PApplet.println("Next Light!");
+                    PApplet.println("Next Pattern!");
                     sketch.getSceneManager().nextPatternScene();
                 }
                 break;
 
-            case "/forest/nextvideo":
+            case "/forest/nextVideo":
                 if (msg.get(0).floatValue() > 0) {
                     PApplet.println("Next Video!");
                     sketch.getVideoScene().dispose();
@@ -69,6 +84,7 @@ public class OscController extends BaseController {
             case "/forest/light":
                 if (msg.get(0).floatValue() > 0) {
                     PApplet.println("Light up!");
+                    sketch.getSceneManager().setRunning(!sketch.getSceneManager().isRunning());
                     sketch.getColors().setColorToWhite();
                 }
                 break;
@@ -76,7 +92,7 @@ public class OscController extends BaseController {
             case "/forest/black":
                 if (msg.get(0).floatValue() > 0) {
                     PApplet.println("Blackout Light!");
-                    sketch.getSceneManager().setRunning(sketch.getSceneManager().isRunning());
+                    sketch.getSceneManager().setRunning(!sketch.getSceneManager().isRunning());
                     sketch.getColors().setColor(sketch.g.color(100, 100, 0), sketch.secondsToEasing(1));
                 }
                 break;
@@ -99,12 +115,10 @@ public class OscController extends BaseController {
                 }
                 break;
 
-            case "/forest/normalmode":
+            case "/forest/normalMode":
                 if (msg.get(0).floatValue() > 0) {
-                    /*
-                    sketch.getSceneManager().normalMode = true;
-                    sketch.getSceneManager().transitionMode = false;
-                    */
+                    sketch.getSceneManager().setRunning(true);
+                    sketch.getSceneManager().changeMode(new NormalMode(sketch, sketch.getSceneManager()));
                 }
                 break;
 
@@ -119,10 +133,13 @@ public class OscController extends BaseController {
     public void updateOSCApp() {
         sendMessage("/forest/luminosity", sketch.getArtNet().getLuminosity());
         sendMessage("/forest/response", sketch.getArtNet().getResponse());
+        sendMessage("/forest/trace", sketch.getArtNet().getTrace());
 
         sendMessage("/forest/info/color", sketch.getSceneManager().getActiveColorScene().getName());
         sendMessage("/forest/info/pattern", sketch.getSceneManager().getActivePatternScene().getName());
         sendMessage("/forest/info/fps", "FPS: " + Math.round(sketch.frameRate));
+
+        sendMessage("/forest/info/sceneManager", "SCN: " + (sketch.getSceneManager().isRunning() ? "RUN" : "STOP"));
     }
 
     public void sendMessage(String address, float value) {
