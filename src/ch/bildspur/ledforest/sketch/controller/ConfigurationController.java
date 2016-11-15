@@ -60,6 +60,7 @@ public class ConfigurationController extends BaseController {
         // osc
         JSONObject osc = root.getJSONObject("osc");
         sketch.getOsc().setEnabled(osc.getBoolean("enabled"));
+        sketch.getOsc().setZeroConfEnabled(osc.getBoolean("zeroConf"));
 
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
@@ -96,6 +97,7 @@ public class ConfigurationController extends BaseController {
         // osc
         JSONObject osc = new JSONObject();
         osc.setBoolean("enabled", sketch.getOsc().isEnabled());
+        osc.setBoolean("zeroConf", sketch.getOsc().isZeroConfEnabled());
         root.setJSONObject("osc", osc);
 
         // write file

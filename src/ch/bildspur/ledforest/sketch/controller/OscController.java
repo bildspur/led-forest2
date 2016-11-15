@@ -7,12 +7,22 @@ import oscP5.OscMessage;
 import oscP5.OscP5;
 import processing.core.PApplet;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+import java.io.IOException;
+import java.net.InetAddress;
+
 /**
  * Created by cansik on 18/09/16.
  */
 public class OscController extends BaseController {
+    final int OUTGOING_PORT = 9000;
+
     boolean enabled = false;
 
+    boolean zeroConfEnabled = false;
+
+    @Override
     public void init(RenderSketch sketch) {
         super.init(sketch);
     }
@@ -20,11 +30,32 @@ public class OscController extends BaseController {
     // OSC server and client
     OscP5 osc;
     NetAddress apps;
+    JmDNS jmdns;
+
+    @Override
+    public void stop() {
+        if (zeroConfEnabled)
+            jmdns.unregisterAllServices();
+    }
 
     public void setupOSC() {
         //init osc with default ports
-        osc = new OscP5(this, 9000);
+        osc = new OscP5(this, OUTGOING_PORT);
         apps = new NetAddress("255.255.255.255", 8000);
+
+        if (zeroConfEnabled)
+            setupZeroConf();
+    }
+
+    private void setupZeroConf() {
+        try {
+            PApplet.println("setting up zero conf...");
+            InetAddress address = InetAddress.getLocalHost();
+            jmdns = JmDNS.create(address);
+            jmdns.registerService(ServiceInfo.create("_osc._udp.", "LED Forest 2", OUTGOING_PORT, ""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void oscEvent(OscMessage msg) {
@@ -140,6 +171,10 @@ public class OscController extends BaseController {
         sendMessage("/forest/info/fps", "FPS: " + Math.round(sketch.frameRate));
 
         sendMessage("/forest/info/sceneManager", "SCN: " + (sketch.getSceneManager().isRunning() ? "RUN" : "STOP"));
+
+        sendMessage("/forest/info/meteo", sketch.getDeviceInfo().getHumidity() + " %RH "
+                + sketch.getDeviceInfo().getTemperature() + " °C "
+                + sketch.getDeviceInfo().getPressure() + " hPa");
     }
 
     public void sendMessage(String address, float value) {
@@ -160,5 +195,13 @@ public class OscController extends BaseController {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isZeroConfEnabled() {
+        return zeroConfEnabled;
+    }
+
+    public void setZeroConfEnabled(boolean zeroConfEnabled) {
+        this.zeroConfEnabled = zeroConfEnabled;
     }
 }

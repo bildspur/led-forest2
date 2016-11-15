@@ -61,6 +61,7 @@ public class RenderSketch extends PApplet {
     ConfigurationController config = new ConfigurationController();
     ArtNetController artnet = new ArtNetController();
     DebugController debug = new DebugController();
+    DeviceInfoController deviceInfo = new DeviceInfoController();
 
     public void settings() {
         size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
@@ -70,6 +71,7 @@ public class RenderSketch extends PApplet {
 
     public void setup() {
         surface.setTitle("LED Forest 2");
+        prepareExitHandler();
 
         syphon.init(this);
         peasy.init(this);
@@ -79,6 +81,7 @@ public class RenderSketch extends PApplet {
         config.init(this);
         artnet.init(this);
         debug.init(this);
+        deviceInfo.init(this);
 
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
@@ -224,6 +227,14 @@ public class RenderSketch extends PApplet {
     public void removeRod(Rod r) {
         visualizer.getRods().remove(r);
         tubes.remove(r.getTube());
+    }
+
+    private void prepareExitHandler() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("shutting down...");
+            osc.stop();
+        }
+        ));
     }
 
     public void onFrame(final Controller controller) {
@@ -454,6 +465,10 @@ public class RenderSketch extends PApplet {
 
     public DebugController getDebug() {
         return debug;
+    }
+
+    public DeviceInfoController getDeviceInfo() {
+        return deviceInfo;
     }
 }
 

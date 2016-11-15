@@ -7,7 +7,8 @@
     "enabled": false
   },
   "osc": {
-    "enabled": true
+    "enabled": true,
+    "zeroConf": true
   },
   "rods": [
     {

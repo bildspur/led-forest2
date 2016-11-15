@@ -8,8 +8,10 @@ import ch.bildspur.ledforest.sketch.RenderSketch;
 public abstract class BaseController {
     RenderSketch sketch;
 
-    public void init(RenderSketch sketch)
-    {
+    public void init(RenderSketch sketch) {
         this.sketch = sketch;
+    }
+
+    public void stop() {
     }
 }
