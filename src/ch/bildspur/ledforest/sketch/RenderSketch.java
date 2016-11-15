@@ -6,6 +6,7 @@ import ch.bildspur.ledforest.ui.visualisation.LED;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
 import ch.bildspur.ledforest.ui.visualisation.TubeVisualizer;
+import ch.bildspur.ledforest.util.StreamInterceptor;
 import com.leapmotion.leap.Controller;
 import controlP5.ControlEvent;
 import processing.core.PApplet;
@@ -14,6 +15,7 @@ import processing.core.PImage;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,8 @@ public class RenderSketch extends PApplet {
     TubeVisualizer visualizer;
 
     SceneManager sceneManager;
+
+    StreamInterceptor interceptor;
 
     int drawMode = 3;
 
@@ -72,6 +76,7 @@ public class RenderSketch extends PApplet {
 
     public void setup() {
         surface.setTitle("LED Forest 2");
+        setupInterceptor();
         prepareExitHandler();
 
         loadingScene.init();
@@ -146,6 +151,7 @@ public class RenderSketch extends PApplet {
 
         // show loading screen while waiting
         if (!configLoaded) {
+            loadingScene.setDebugInfo(showInfo);
             loadingScene.update();
             return;
         }
@@ -223,6 +229,12 @@ public class RenderSketch extends PApplet {
             osc.stop();
         }
         ));
+    }
+
+    private void setupInterceptor() {
+        PrintStream origOut = System.out;
+        interceptor = new StreamInterceptor(origOut);
+        System.setOut(interceptor);
     }
 
     public void onFrame(final Controller controller) {
@@ -459,6 +471,8 @@ public class RenderSketch extends PApplet {
         return deviceInfo;
     }
 
-
+    public StreamInterceptor getInterceptor() {
+        return interceptor;
+    }
 }
 

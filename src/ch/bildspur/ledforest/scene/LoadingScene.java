@@ -3,13 +3,14 @@ package ch.bildspur.ledforest.scene;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import processing.core.PApplet;
 
-import static processing.core.PConstants.CENTER;
-import static processing.core.PConstants.CORNER;
+import static processing.core.PConstants.*;
 
 /**
  * Created by cansik on 15.11.16.
  */
 public class LoadingScene extends Scene {
+    boolean debugInfo = false;
+
     public LoadingScene(RenderSketch sketch) {
         super(sketch);
     }
@@ -25,6 +26,8 @@ public class LoadingScene extends Scene {
 
     public void update() {
         sketch.getPeasy().getCam().beginHUD();
+
+        sketch.fill(255);
         sketch.textAlign(CENTER, CENTER);
 
         sketch.textSize(24);
@@ -38,6 +41,9 @@ public class LoadingScene extends Scene {
                 sketch.height - sketch.getLogo().height - 10);
 
         showLoadingCircle(sketch.width / 2, sketch.height / 2 - 10);
+
+        if (debugInfo)
+            showDebugInfo();
 
         sketch.getPeasy().getCam().endHUD();
     }
@@ -58,5 +64,27 @@ public class LoadingScene extends Scene {
 
         sketch.ellipseMode(CORNER);
         r++;
+    }
+
+    private void showDebugInfo() {
+        String[] msgs = sketch.getInterceptor().getAll();
+
+        sketch.fill(90, 100, 100);
+        sketch.textAlign(LEFT, BOTTOM);
+        sketch.textSize(10);
+
+        for (int i = 0; i < msgs.length; i++) {
+            String msg = msgs[msgs.length - i - 1];
+            if (msg != null)
+                sketch.text(msg, 20, 20 + (12 * i));
+        }
+    }
+
+    public boolean isDebugInfo() {
+        return debugInfo;
+    }
+
+    public void setDebugInfo(boolean debugInfo) {
+        this.debugInfo = debugInfo;
     }
 }
