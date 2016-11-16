@@ -33,6 +33,10 @@ public class RenderSketch extends PApplet {
 
     public final static int FRAME_RATE = 50;
 
+    // pre run variables
+    boolean fullscreenEnabled = false;
+    int fullscreenDisplay = 0;
+
     ArrayList<Tube> tubes = new ArrayList<>();
     TubeVisualizer visualizer;
 
@@ -69,8 +73,10 @@ public class RenderSketch extends PApplet {
     DeviceInfoController deviceInfo = new DeviceInfoController();
 
     public void settings() {
-        size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
-        //fullScreen(P3D, 1);
+        if (fullscreenEnabled)
+            fullScreen(P3D, fullscreenDisplay);
+        else
+            size(OUTPUT_WIDTH, OUTPUT_HEIGHT, P3D);
         PJOGL.profile = 1;
     }
 
@@ -473,6 +479,22 @@ public class RenderSketch extends PApplet {
 
     public StreamInterceptor getInterceptor() {
         return interceptor;
+    }
+
+    public boolean isFullscreenEnabled() {
+        return fullscreenEnabled;
+    }
+
+    public void setFullscreenEnabled(boolean fullscreenEnabled) {
+        this.fullscreenEnabled = fullscreenEnabled;
+    }
+
+    public int getFullscreenDisplay() {
+        return fullscreenDisplay;
+    }
+
+    public void setFullscreenDisplay(int fullscreenDisplay) {
+        this.fullscreenDisplay = fullscreenDisplay;
     }
 }
 
