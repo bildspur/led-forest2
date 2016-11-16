@@ -18,11 +18,11 @@ The application can be configured by the `config.json` in the `config` directory
 
 ```json
 {
-   "editor":{ .. },
-   "syphon":{ .. },
-   "osc":{ .. },
-   "rods":[ .. ],
-   "dmx":{ .. }
+   "editor":{ },
+   "syphon":{ },
+   "osc":{ },
+   "rods":[ ],
+   "dmx":{ }
 }
 ```
 
