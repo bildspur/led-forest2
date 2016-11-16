@@ -168,9 +168,8 @@ public class RodEditController extends BaseController {
         int editControlHeight = 30;
         int editControlWidth = 50;
 
-        cp5.addLabel("LED Forest 2 - Rod Edit")
-                .setPosition(10, 10)
-                .setFont(sketch.createFont("Arial", 10));
+        cp5.addLabel("LED Forest 2 - " + RenderSketch.VERSION)
+                .setPosition(10, 10);
 
         // list controls
 

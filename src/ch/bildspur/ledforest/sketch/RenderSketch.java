@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-
+    public final static String VERSION = "2.1";
     public final static String CONFIG_NAME = "config.json";
 
     public final static int OUTPUT_WIDTH = 640;
@@ -81,7 +81,9 @@ public class RenderSketch extends PApplet {
     }
 
     public void setup() {
-        surface.setTitle("LED Forest 2");
+        println("LED Forest 2 - " + VERSION);
+        surface.setTitle("LED Forest 2 - " + VERSION);
+        
         setupInterceptor();
         prepareExitHandler();
 

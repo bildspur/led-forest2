@@ -10,8 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by cansik on 18/09/16.
  */
-public class TubeVisualizer
-{
+public class TubeVisualizer {
     public int rodColumnCount = 3;
     public int rodRowCount = 5;
 
@@ -34,34 +33,29 @@ public class TubeVisualizer
 
     PApplet sketch;
 
-    public TubeVisualizer(PApplet sketch)
-    {
+    public TubeVisualizer(PApplet sketch) {
         this.sketch = sketch;
         output2d = sketch.createGraphics(640, 480, PConstants.P2D);
         rods = new ArrayList<>();
     }
 
-    public void render3d()
-    {
-        for (Rod r : rods)
-        {
+    public void render3d() {
+        for (Rod r : rods) {
             r.render();
         }
     }
 
-    public PGraphics render2d()
-    {
+    public PGraphics render2d() {
         PGraphics p = output2d;
 
         p.beginDraw();
         p.background(0);
-        for (int i = 0; i < rods.size(); i++)
-        {
+        for (int i = 0; i < rods.size(); i++) {
             Rod rod = rods.get(i);
             Tube t = rod.tube;
 
             // calculate height
-            if(t.leds.size() != 0)
+            if (t.leds.size() != 0)
                 height2d = (p.height - (2f * hoffset) - (t.leds.size() * hspace2d)) / t.leds.size();
 
             p.noStroke();
@@ -72,8 +66,7 @@ public class TubeVisualizer
                     hoffset - (30));
 
             // draw leds
-            for (int j = 0; j < t.leds.size(); j++)
-            {
+            for (int j = 0; j < t.leds.size(); j++) {
                 LED l = t.leds.get(t.leds.size() - 1 - j);
                 p.fill(l.getColor().getColor());
                 p.rect(i * (wspace2d + width2d) + woffset,
@@ -86,17 +79,14 @@ public class TubeVisualizer
         return p;
     }
 
-    public void initRods(ArrayList<Tube> tubes)
-    {
+    public void initRods(ArrayList<Tube> tubes) {
         rods = new ArrayList<>();
 
         float deltaX = (rodSpaceWidthDistance * rodRowCount) / 2f - (rodSpaceWidthDistance / 2);
         float deltaZ = (rodSpaceDepthDistance * rodColumnCount) / 2f - (rodSpaceDepthDistance / 2);
 
-        for (int z = 0; z < rodColumnCount; z++)
-        {
-            for (int x = 0; x < rodRowCount; x++)
-            {
+        for (int z = 0; z < rodColumnCount; z++) {
+            for (int x = 0; x < rodRowCount; x++) {
                 PVector pos = new PVector(x * rodSpaceWidthDistance - deltaX, rodHeight, z * rodSpaceDepthDistance - deltaZ);
                 rods.add(new Rod(sketch.g, tubes.get((z * rodRowCount) + x), pos));
             }
