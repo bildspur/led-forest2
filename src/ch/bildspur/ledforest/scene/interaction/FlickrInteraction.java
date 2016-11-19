@@ -13,6 +13,7 @@ public class FlickrInteraction implements TubeInteraction {
     double lightUpValue = 0.90;
 
     float fadeTime;
+    float fadeSpeedS;
 
     Random rand;
 
@@ -21,6 +22,7 @@ public class FlickrInteraction implements TubeInteraction {
         this.sketch = sketch;
         this.rand = new Random();
         this.fadeTime = sketch.secondsToEasing(0.5f);
+        fadeSpeedS = sketch.secondsToEasing(0.1f);
     }
 
     @Override
@@ -29,6 +31,9 @@ public class FlickrInteraction implements TubeInteraction {
             return;
 
         //this.fadeTime = PApplet.map(data.hand.palmNormal().roll(), -0.5f, -3.14f, 0.5f, 1f);
+
+        data.led.getColor().fadeS(100 - (data.hand.grabStrength() * 100), fadeSpeedS);
+        data.led.getColor().fadeH(GlowInteraction.getHueByHand(data.hand), fadeSpeedS);
 
         if (rand.nextFloat() >= lightUpValue) {
             data.led.getColor().fadeB(100, sketch.secondsToEasing(fadeTime));

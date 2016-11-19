@@ -44,7 +44,7 @@ public class GlowInteraction implements TubeInteraction {
         data.led.getColor().fadeB(0, fadeSpeedBOut);
     }
 
-    float getHueByHand(Hand h) {
+    public static float getHueByHand(Hand h) {
         float roll = Math.abs(h.palmNormal().roll());
         return PApplet.map(roll, 0, PI, 0, 360);
     }
