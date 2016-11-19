@@ -43,7 +43,8 @@ public class DeviceInfoController extends BaseController {
 
     public double getHumidity() {
         try {
-            return humiditySensor.get_currentValue();
+            if (humiditySensor != null)
+                return humiditySensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
         }
 
@@ -52,7 +53,8 @@ public class DeviceInfoController extends BaseController {
 
     public double getTemperature() {
         try {
-            return temperatureSensor.get_currentValue();
+            if (temperatureSensor != null)
+                return temperatureSensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
         }
 
@@ -61,7 +63,8 @@ public class DeviceInfoController extends BaseController {
 
     public double getPressure() {
         try {
-            return pressureSensor.get_currentValue();
+            if (pressureSensor != null)
+                return pressureSensor.get_currentValue();
         } catch (YAPI_Exception | NullPointerException e) {
         }
 

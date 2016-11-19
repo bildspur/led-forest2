@@ -108,11 +108,11 @@ public class LeapMotionController extends BaseController {
 
                 g.pushMatrix();
                 g.translate(handCurrent.x, handCurrent.y, handCurrent.z);
-                //g.stroke(255, 100);
-                //g.noFill();
-                //g.sphere(15);
-                g.noStroke();
-                drawSphere(g, 3, g.color(255), 15, 3, 20);
+                g.stroke(255, 100);
+                g.noFill();
+                g.sphere(15);
+                //g.noStroke();
+                //drawSphere(g, 3, g.color(255), 15, 3, 20);
                 g.popMatrix();
 
                 hIndex++;
