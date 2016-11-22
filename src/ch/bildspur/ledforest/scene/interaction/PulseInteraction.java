@@ -24,6 +24,9 @@ public class PulseInteraction implements TubeInteraction {
 
     @Override
     public void ledOn(InteractionData data) {
+        if (data.hand == null)
+            return;
+
         data.led.getColor().fadeH(GlowInteraction.getHueByHand(data.hand), fadeSpeedS);
         data.led.getColor().fadeS(100 - (data.hand.grabStrength() * 100), fadeSpeedS);
 

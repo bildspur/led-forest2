@@ -27,6 +27,9 @@ public class FlickrInteraction implements TubeInteraction {
 
     @Override
     public void ledOn(InteractionData data) {
+        if (data.hand == null)
+            return;
+
         if (data.led.getColor().isFading())
             return;
 

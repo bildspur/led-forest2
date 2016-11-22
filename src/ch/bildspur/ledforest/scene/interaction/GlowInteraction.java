@@ -34,6 +34,9 @@ public class GlowInteraction implements TubeInteraction {
 
     @Override
     public void ledOn(InteractionData data) {
+        if (data.hand == null)
+            return;
+
         data.led.getColor().fadeH(getHueByHand(data.hand), fadeSpeedH);
         data.led.getColor().fadeS(100 - (data.hand.grabStrength() * 100), fadeSpeedS);
         data.led.getColor().fadeB(100, fadeSpeedBIn);

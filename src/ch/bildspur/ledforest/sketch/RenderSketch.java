@@ -83,7 +83,7 @@ public class RenderSketch extends PApplet {
     public void setup() {
         println("LED Forest 2 - " + VERSION);
         surface.setTitle("LED Forest 2 - " + VERSION);
-        
+
         setupInterceptor();
         prepareExitHandler();
 
@@ -120,6 +120,7 @@ public class RenderSketch extends PApplet {
         sceneManager = new SceneManager(this);
 
         // color scenes
+        //sceneManager.getColorScenes().add(new SyphonInputScene(this));
         sceneManager.getColorScenes().add(new SpaceColorScene(this));
         sceneManager.getColorScenes().add(new SingleColorScene(this));
         sceneManager.getColorScenes().add(videoScene);
@@ -129,7 +130,7 @@ public class RenderSketch extends PApplet {
         sceneManager.getColorScenes().add(new HSVColorScene(this));
 
         // pattern scenes
-        sceneManager.getPatternScenes().add(new FloatingPatternScene(this));
+        //sceneManager.getPatternScenes().add(new FloatingPatternScene(this));
         sceneManager.getPatternScenes().add(new StarPatternScene(this));
         sceneManager.getPatternScenes().add(new FallingTraceScene(this));
         sceneManager.getPatternScenes().add(new WaveStarsPattern(this));
