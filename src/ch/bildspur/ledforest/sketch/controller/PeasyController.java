@@ -7,18 +7,16 @@ import peasy.PeasyCam;
  * Created by cansik on 18/09/16.
  */
 public class PeasyController extends BaseController {
-    public void init(RenderSketch sketch)
-    {
+    public void init(RenderSketch sketch) {
         super.init(sketch);
     }
+
     PeasyCam cam;
 
-    public void setupPeasy()
-    {
+    public void setupPeasy() {
         sketch.smooth();
-        cam = new PeasyCam(sketch, 100, 0, 0, 200);
+        cam = new PeasyCam(sketch, 0, 0, 0, 200);
         //cam.rotateX(radians(-20));
-        cam.lookAt(0, 0, 0, 200, 5000);
         cam.setMinimumDistance(50);
         cam.setMaximumDistance(500);
     }
