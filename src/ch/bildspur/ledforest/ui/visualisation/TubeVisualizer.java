@@ -30,19 +30,28 @@ public class TubeVisualizer {
     float woffset = 50;
 
     PGraphics output2d;
+    PGraphics output3d;
 
     PApplet sketch;
 
     public TubeVisualizer(PApplet sketch) {
         this.sketch = sketch;
+
         output2d = sketch.createGraphics(640, 480, PConstants.P2D);
+        output3d = sketch.createGraphics(sketch.width, sketch.height, PConstants.P3D);
+
         rods = new ArrayList<>();
     }
 
-    public void render3d() {
+    public PGraphics render3d() {
+        output3d.beginDraw();
+        output3d.background(0);
         for (Rod r : rods) {
-            r.render();
+            r.render(output3d);
         }
+        output3d.endDraw();
+
+        return output3d;
     }
 
     public PGraphics render2d() {

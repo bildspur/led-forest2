@@ -1,21 +1,17 @@
 package ch.bildspur.ledforest.ui.visualisation;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.core.PVector;
 
 import java.util.ArrayList;
 
-import static processing.core.PConstants.NORMAL;
-import static processing.core.PConstants.QUAD_STRIP;
-import static processing.core.PConstants.TWO_PI;
+import static processing.core.PConstants.*;
 
 /**
  * Created by cansik on 18/09/16.
  */
-public class Rod
-{
+public class Rod {
     String name;
 
     float rodWidth = 1;
@@ -32,8 +28,7 @@ public class Rod
 
     boolean inverted;
 
-    public Rod(PGraphics g, Tube tube, PVector position)
-    {
+    public Rod(PGraphics g, Tube tube, PVector position) {
         this.g = g;
 
         this.tube = tube;
@@ -45,33 +40,29 @@ public class Rod
         initShapes();
     }
 
-    public void initShapes()
-    {
+    public void initShapes() {
         shapes = new ArrayList<>();
         rodLength = ledLength * tube.leds.size();
 
-        for (int i = 0; i < tube.leds.size(); i++)
-        {
+        for (int i = 0; i < tube.leds.size(); i++) {
             PShape sh = createRod(rodWidth, ledLength, rodDetail);
             sh.disableStyle();
             shapes.add(sh);
         }
     }
 
-    public void render()
-    {
-        for (int i = 0; i < shapes.size(); i++)
-        {
+    public void render(PGraphics p) {
+        for (int i = 0; i < shapes.size(); i++) {
             PShape sh = shapes.get(i);
 
-            g.pushMatrix();
-            g.translate(position.x, position.y + (inverted ? 1 : -1) * (i * ledLength), position.z);
-            g.noStroke();
-            g.fill(tube.leds.get(i).getColor().getColor());
+            p.pushMatrix();
+            p.translate(position.x, position.y + (inverted ? 1 : -1) * (i * ledLength), position.z);
+            p.noStroke();
+            p.fill(tube.leds.get(i).getColor().getColor());
 
             sh.disableStyle();
-            g.shape(sh);
-            g.popMatrix();
+            p.shape(sh);
+            p.popMatrix();
         }
     }
 
@@ -81,20 +72,19 @@ public class Rod
         sh.beginShape(QUAD_STRIP);
         for (int i = 0; i <= detail; i++) {
             float angle = TWO_PI / detail;
-            float x = (float)Math.sin(i * angle);
-            float z = (float)Math.cos(i * angle);
-            float u = (float)i / detail;
+            float x = (float) Math.sin(i * angle);
+            float z = (float) Math.cos(i * angle);
+            float u = (float) i / detail;
             sh.normal(x, 0, z);
-            sh.vertex(x * r, -h/2, z * r, u, 0);
-            sh.vertex(x * r, +h/2, z * r, u, 1);
+            sh.vertex(x * r, -h / 2, z * r, u, 0);
+            sh.vertex(x * r, +h / 2, z * r, u, 1);
         }
         sh.endShape();
         return sh;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return name + " (" + tube.getLeds().size() + " LED)";
     }
 

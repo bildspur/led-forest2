@@ -2,6 +2,7 @@ package ch.bildspur.ledforest.sketch;
 
 import ch.bildspur.ledforest.scene.*;
 import ch.bildspur.ledforest.sketch.controller.*;
+import ch.bildspur.ledforest.ui.PostFX;
 import ch.bildspur.ledforest.ui.visualisation.LED;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
 import ch.bildspur.ledforest.ui.visualisation.Tube;
@@ -58,6 +59,8 @@ public class RenderSketch extends PApplet {
 
     PImage logo;
 
+    PostFX fx;
+
     VideoScene videoScene = new VideoScene(this);
     LoadingScene loadingScene = new LoadingScene(this);
 
@@ -100,6 +103,8 @@ public class RenderSketch extends PApplet {
 
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
+
+        fx = new PostFX(this);
 
         // load logo
         logo = loadImage(sketchPath("images/logotext.png"));
@@ -191,8 +196,26 @@ public class RenderSketch extends PApplet {
                 peasy.getCam().endHUD();
                 break;
             case 3:
-                visualizer.render3d();
-                leapMotion.visualizeLeapMotion();
+                peasy.getCam().beginHUD();
+                PGraphics canvas3d = visualizer.render3d();
+
+                // apply fx
+                PGraphics result = fx.filter(canvas3d)
+                        .brightPass(0.1f)
+                        .blur(50, 12, false)
+                        .blur(50, 12, true)
+                        .close();
+
+                leapMotion.visualizeLeapMotion(canvas3d);
+
+                getPeasy().getCam().getState().apply(canvas3d);
+
+                blendMode(BLEND);
+                image(canvas3d, 0, 0);
+                blendMode(SCREEN);
+                image(result, 0, 0);
+
+                peasy.getCam().endHUD();
                 break;
         }
 

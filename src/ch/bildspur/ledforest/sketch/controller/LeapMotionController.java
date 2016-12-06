@@ -81,14 +81,15 @@ public class LeapMotionController extends BaseController {
         return new PVector(ibv.x - hbox.x, -1 * (ibv.y - hbox.y), ibv.z - hbox.z);
     }
 
-    public void visualizeLeapMotion() {
+    public void visualizeLeapMotion(PGraphics p) {
         // Interaction box visualisation
-        g.pushMatrix();
-        g.stroke(255);
-        g.noFill();
-        g.strokeWeight(2);
-        g.box(interactionBox.x, interactionBox.y, interactionBox.z);
-        g.popMatrix();
+        p.beginDraw();
+        p.pushMatrix();
+        p.stroke(255);
+        p.noFill();
+        p.strokeWeight(2);
+        p.box(interactionBox.x, interactionBox.y, interactionBox.z);
+        p.popMatrix();
 
         // Create Targets
 
@@ -106,18 +107,19 @@ public class LeapMotionController extends BaseController {
                 handTarget = ibv;
                 handCurrent.add(PVector.sub(handTarget, handCurrent).mult(handEasing));
 
-                g.pushMatrix();
-                g.translate(handCurrent.x, handCurrent.y, handCurrent.z);
-                g.stroke(255, 100);
-                g.noFill();
-                g.sphere(15);
-                //g.noStroke();
-                //drawSphere(g, 3, g.color(255), 15, 3, 20);
-                g.popMatrix();
+                p.pushMatrix();
+                p.translate(handCurrent.x, handCurrent.y, handCurrent.z);
+                p.stroke(255, 100);
+                p.noFill();
+                p.sphere(15);
+                //p.noStroke();
+                //drawSphere(g, 3, p.color(255), 15, 3, 20);
+                p.popMatrix();
 
                 hIndex++;
             }
         }
+        p.endDraw();
     }
 
     public boolean isLeapMotionHandAvailable() {
