@@ -52,6 +52,7 @@ public class RenderSketch extends PApplet {
     boolean showLogo = true;
     boolean showInfo = false;
     boolean mappingMode = false;
+    boolean cursorShown = true;
 
     volatile boolean configLoaded = false;
 
@@ -202,8 +203,8 @@ public class RenderSketch extends PApplet {
                 // apply fx
                 PGraphics result = fx.filter(canvas3d)
                         .brightPass(0.1f)
-                        .blur(50, 12, false)
-                        .blur(50, 12, true)
+                        .blur(50, 22, false)
+                        .blur(50, 22, true)
                         .close();
 
                 leapMotion.visualizeLeapMotion(canvas3d);
@@ -348,6 +349,13 @@ public class RenderSketch extends PApplet {
                     tubes.get(j).getLeds().get(0).getColor().fade(color(255), secondsToEasing(0.5f));
                 }
                 break;
+
+            case 'h':
+                if (cursorShown)
+                    noCursor();
+                else
+                    cursor();
+                cursorShown = !cursorShown;
 
             default:
                 println("Key: " + key);
