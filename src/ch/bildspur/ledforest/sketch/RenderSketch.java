@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-    public final static String VERSION = "2.1";
+    public final static String VERSION = "2.2";
     public final static String CONFIG_NAME = "config.json";
 
     public final static int OUTPUT_WIDTH = 640;
@@ -199,6 +199,7 @@ public class RenderSketch extends PApplet {
             case 3:
                 peasy.getCam().beginHUD();
                 PGraphics canvas3d = visualizer.render3d();
+                leapMotion.drawHands(canvas3d);
 
                 // apply fx
                 PGraphics result = fx.filter(canvas3d)
@@ -207,7 +208,7 @@ public class RenderSketch extends PApplet {
                         .blur(50, 22, true)
                         .close();
 
-                leapMotion.visualizeLeapMotion(canvas3d);
+                leapMotion.drawInteractionBox(canvas3d);
 
                 getPeasy().getCam().getState().apply(canvas3d);
 

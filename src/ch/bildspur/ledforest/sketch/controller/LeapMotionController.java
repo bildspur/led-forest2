@@ -81,7 +81,7 @@ public class LeapMotionController extends BaseController {
         return new PVector(ibv.x - hbox.x, -1 * (ibv.y - hbox.y), ibv.z - hbox.z);
     }
 
-    public void visualizeLeapMotion(PGraphics p) {
+    public void drawInteractionBox(PGraphics p) {
         // Interaction box visualisation
         p.beginDraw();
         p.pushMatrix();
@@ -90,10 +90,12 @@ public class LeapMotionController extends BaseController {
         p.strokeWeight(2);
         p.box(interactionBox.x, interactionBox.y, interactionBox.z);
         p.popMatrix();
+        p.endDraw();
+    }
 
-        // Create Targets
-
+    public void drawHands(PGraphics p) {
         // Hand Visualisation
+        p.beginDraw();
         if (isLeapMotionHandAvailable()) {
             int hIndex = 0;
             for (Hand h : frame.hands()) {
