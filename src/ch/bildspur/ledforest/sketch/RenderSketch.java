@@ -62,7 +62,7 @@ public class RenderSketch extends PApplet {
 
     PostFX fx;
 
-    VideoScene videoScene = new VideoScene(this);
+    LocationVideoScene videoScene = new LocationVideoScene(this);
     LoadingScene loadingScene = new LoadingScene(this);
 
     SyphonController syphon = new SyphonController();
@@ -127,6 +127,7 @@ public class RenderSketch extends PApplet {
 
         // color scenes
         //sceneManager.getColorScenes().add(new SyphonInputScene(this));
+        sceneManager.getColorScenes().add(videoScene);
         sceneManager.getColorScenes().add(new SpaceColorScene(this));
         sceneManager.getColorScenes().add(new SingleColorScene(this));
         sceneManager.getColorScenes().add(videoScene);
@@ -416,10 +417,6 @@ public class RenderSketch extends PApplet {
         return defaultFrameRate;
     }
 
-    public VideoScene getVideoScene() {
-        return videoScene;
-    }
-
     public int getDrawMode() {
         return drawMode;
     }
@@ -530,6 +527,10 @@ public class RenderSketch extends PApplet {
 
     public void setFullscreenDisplay(int fullscreenDisplay) {
         this.fullscreenDisplay = fullscreenDisplay;
+    }
+
+    public LocationVideoScene getVideoScene() {
+        return videoScene;
     }
 }
 
