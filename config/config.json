@@ -1,9 +1,23 @@
 {
   "editor": {
-    "gridSize": 20,
-    "gridOffset": true
+    "gridSize": 10,
+    "gridOffset": false
   },
-  "syphon": {"enabled": false},
+  "syphon": {
+    "enabled": false
+  },
+  "global": {
+    "interactionBox": {
+      "x": 300,
+      "y": 180,
+      "z": 180
+    },
+    "barrelDistortion": {
+      "x": 1.3,
+      "y": 1,
+      "z": 1
+    }
+  },
   "rods": [
     {
       "tube": {
@@ -13,53 +27,39 @@
       },
       "name": "1",
       "position": {
-        "x": 50,
-        "y": 0,
-        "z": 30
+        "x": -30,
+        "y": 50,
+        "z": 60
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
         "address": 48,
         "universe": 0,
-        "ledCount": 16
+        "ledCount": 24
       },
       "name": "2",
       "position": {
-        "x": 30,
-        "y": 0,
-        "z": 30
+        "x": -79.08453369140625,
+        "y": 50,
+        "z": 40.549285888671875
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
-        "address": 96,
+        "address": 120,
         "universe": 0,
-        "ledCount": 16
+        "ledCount": 24
       },
       "name": "3",
       "position": {
-        "x": 10.000007629394531,
-        "y": 0,
-        "z": 30
+        "x": -50,
+        "y": 50,
+        "z": 20
       },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 144,
-        "universe": 0,
-        "ledCount": 16
-      },
-      "name": "4",
-      "position": {
-        "x": -10,
-        "y": 0,
-        "z": 30
-      },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
@@ -67,199 +67,306 @@
         "universe": 0,
         "ledCount": 16
       },
-      "name": "5",
+      "name": "4",
       "position": {
-        "x": -30,
-        "y": 0,
-        "z": 30
+        "x": -80,
+        "y": 50,
+        "z": 0
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
         "address": 240,
         "universe": 0,
-        "ledCount": 16
+        "ledCount": 32
       },
-      "name": "6",
+      "name": "5",
       "position": {
-        "x": -50,
-        "y": 0,
-        "z": 30
+        "x": -100,
+        "y": 50,
+        "z": -30
       },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "name": "1",
-      "position": {
-        "x": 50,
-        "y": 0,
-        "z": -10
-      },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
         "address": 72,
         "universe": 1,
-        "ledCount": 24
+        "ledCount": 16
       },
       "name": "2",
       "position": {
-        "x": 30,
-        "y": 0,
-        "z": -10
+        "x": -30,
+        "y": 50,
+        "z": -20
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
-        "address": 144,
+        "address": 0,
+        "universe": 1,
+        "ledCount": 24
+      },
+      "name": "1",
+      "position": {
+        "x": -20,
+        "y": 50,
+        "z": 10.000007629394531
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 120,
         "universe": 1,
         "ledCount": 24
       },
       "name": "3",
       "position": {
-        "x": 10.000007629394531,
-        "y": 0,
-        "z": -10
+        "x": -40,
+        "y": 50,
+        "z": -39.999996185302734
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
-        "address": 216,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "name": "4",
-      "position": {
-        "x": -10,
-        "y": 0,
-        "z": -10
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 288,
+        "address": 264,
         "universe": 1,
         "ledCount": 24
       },
       "name": "5",
       "position": {
-        "x": -30,
-        "y": 0,
-        "z": -10
+        "x": -63.666664123535156,
+        "y": 50,
+        "z": -56.17142868041992
       },
-      "inverted": true
+      "inverted": false
     },
     {
       "tube": {
-        "address": 360,
+        "address": 192,
         "universe": 1,
         "ledCount": 24
       },
-      "name": "6",
-      "position": {
-        "x": -50,
-        "y": 0,
-        "z": -10
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 2,
-        "ledCount": 32
-      },
-      "name": "1",
-      "position": {
-        "x": 50,
-        "y": 0,
-        "z": -50
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 96,
-        "universe": 2,
-        "ledCount": 32
-      },
-      "name": "2",
-      "position": {
-        "x": 30,
-        "y": 0,
-        "z": -50
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 192,
-        "universe": 2,
-        "ledCount": 32
-      },
-      "name": "3",
-      "position": {
-        "x": 10.000007629394531,
-        "y": 0,
-        "z": -50
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 3,
-        "ledCount": 32
-      },
-      "name": "1",
-      "position": {
-        "x": -10,
-        "y": 0,
-        "z": -50
-      },
-      "inverted": true
-    },
-    {
-      "tube": {
-        "address": 96,
-        "universe": 3,
-        "ledCount": 32
-      },
-      "name": "2",
+      "name": "4",
       "position": {
         "x": -30,
-        "y": 0,
+        "y": 50,
+        "z": -60
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 0,
+        "universe": 2,
+        "ledCount": 32
+      },
+      "name": "1",
+      "position": {
+        "x": 13.074066162109375,
+        "y": 50,
+        "z": 2.5714340209960938
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 96,
+        "universe": 2,
+        "ledCount": 24
+      },
+      "name": "2",
+      "position": {
+        "x": 14.925895690917969,
+        "y": 50,
+        "z": -21.77141571044922
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 168,
+        "universe": 2,
+        "ledCount": 24
+      },
+      "name": "3",
+      "position": {
+        "x": 9.814834594726562,
+        "y": 50,
+        "z": -42.285701751708984
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 240,
+        "universe": 2,
+        "ledCount": 24
+      },
+      "name": "4",
+      "position": {
+        "x": -1.5555267333984375,
+        "y": 50,
+        "z": -59.08571243286133
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 0,
+        "universe": 3,
+        "ledCount": 24
+      },
+      "name": "1",
+      "position": {
+        "x": 60,
+        "y": 50,
+        "z": -10
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 72,
+        "universe": 3,
+        "ledCount": 24
+      },
+      "name": "2",
+      "position": {
+        "x": 50,
+        "y": 50,
+        "z": -39.999996185302734
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 144,
+        "universe": 3,
+        "ledCount": 24
+      },
+      "name": "3",
+      "position": {
+        "x": 80,
+        "y": 50,
         "z": -50
       },
-      "inverted": true
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 216,
+        "universe": 3,
+        "ledCount": 24
+      },
+      "name": "4",
+      "position": {
+        "x": 97.62965393066406,
+        "y": 50,
+        "z": -53.22856521606445
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 288,
+        "universe": 3,
+        "ledCount": 32
+      },
+      "name": "5",
+      "position": {
+        "x": 34.29632568359375,
+        "y": 50,
+        "z": -62.80000305175781
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 0,
+        "universe": 4,
+        "ledCount": 24
+      },
+      "name": "1",
+      "position": {
+        "x": 10,
+        "y": 50,
+        "z": 70
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 72,
+        "universe": 4,
+        "ledCount": 24
+      },
+      "name": "2",
+      "position": {
+        "x": -2.9259262084960938,
+        "y": 50,
+        "z": 48.25714111328125
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 144,
+        "universe": 4,
+        "ledCount": 16
+      },
+      "name": "3",
+      "position": {
+        "x": 40,
+        "y": 50,
+        "z": 30
+      },
+      "inverted": false
     },
     {
       "tube": {
         "address": 192,
-        "universe": 3,
+        "universe": 4,
         "ledCount": 32
       },
-      "name": "3",
+      "name": "4",
       "position": {
-        "x": -50,
-        "y": 0,
-        "z": -50
+        "x": 90,
+        "y": 50,
+        "z": 20
       },
-      "inverted": true
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 288,
+        "universe": 4,
+        "ledCount": 24
+      },
+      "name": "5",
+      "position": {
+        "x": 70.96296691894531,
+        "y": 50,
+        "z": -0.1999969482421875
+      },
+      "inverted": false
     }
   ],
   "dmx": {
     "nodes": [
+      {
+        "address": "127.0.0.1",
+        "universes": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
       {
         "address": "127.0.0.1",
         "universes": [
@@ -268,15 +375,6 @@
           6,
           7
         ]
-      },
-      {
-        "address": "192.168.1.200",
-        "universes": [
-          0,
-          1,
-          2,
-          3
-        ]
       }
     ],
     "parameter": {
@@ -284,10 +382,10 @@
       "response": 0,
       "luminosity": 1
     },
-    "enabled": true
+    "enabled": false
   },
   "osc": {
     "zeroConf": true,
-    "enabled": true
+    "enabled": false
   }
 }

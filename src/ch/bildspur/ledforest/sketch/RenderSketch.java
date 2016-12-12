@@ -127,7 +127,7 @@ public class RenderSketch extends PApplet {
 
         // color scenes
         //sceneManager.getColorScenes().add(new SyphonInputScene(this));
-        sceneManager.getColorScenes().add(videoScene);
+        //sceneManager.getColorScenes().add(videoScene);
         sceneManager.getColorScenes().add(new SpaceColorScene(this));
         sceneManager.getColorScenes().add(new SingleColorScene(this));
         sceneManager.getColorScenes().add(videoScene);
@@ -217,6 +217,7 @@ public class RenderSketch extends PApplet {
                 image(canvas3d, 0, 0);
                 blendMode(SCREEN);
                 image(result, 0, 0);
+                blendMode(BLEND);
 
                 peasy.getCam().endHUD();
                 break;

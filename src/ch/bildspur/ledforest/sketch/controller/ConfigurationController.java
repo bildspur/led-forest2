@@ -37,6 +37,11 @@ public class ConfigurationController extends BaseController {
     public void load(String fileName) {
         JSONObject root = sketch.loadJSONObject(CONFIG_DIR + fileName);
 
+        // global
+        JSONObject global = root.getJSONObject("global");
+        sketch.getLeapMotion().setInteractionBox(vectorFromJSON(global.getJSONObject("interactionBox")));
+        sketch.getVisualizer().setBarrelDistortion(vectorFromJSON(global.getJSONObject("barrelDistortion")));
+
         // rods
         JSONArray rods = root.getJSONArray("rods");
 
@@ -77,6 +82,12 @@ public class ConfigurationController extends BaseController {
     public void save(String fileName) {
         JSONObject root = new JSONObject();
         JSONArray clips = new JSONArray();
+
+        // global
+        JSONObject global = new JSONObject();
+        global.setJSONObject("interactionBox", jsonFromVector(sketch.getLeapMotion().getInteractionBox()));
+        global.setJSONObject("barrelDistortion", jsonFromVector(sketch.getVisualizer().getBarrelDistortion()));
+        root.setJSONObject("global", global);
 
         for (Rod r : sketch.getVisualizer().getRods())
             clips.append(getRodJSON(r));
@@ -168,11 +179,7 @@ public class ConfigurationController extends BaseController {
                         tube.getInt("ledCount"),
                         tube.getInt("address"),
                         sketch.g),
-                new PVector(
-                        pos.getFloat("x"),
-                        pos.getFloat("y"),
-                        pos.getFloat("z")
-                ));
+                vectorFromJSON(pos));
 
         r.setName(json.getString("name"));
         r.setInverted(json.getBoolean("inverted"));
@@ -183,15 +190,12 @@ public class ConfigurationController extends BaseController {
     private JSONObject getRodJSON(Rod rod) {
         JSONObject json = new JSONObject();
         JSONObject tube = new JSONObject();
-        JSONObject pos = new JSONObject();
 
         tube.setInt("universe", rod.getTube().getUniverse());
         tube.setInt("ledCount", rod.getTube().getLeds().size());
         tube.setInt("address", rod.getTube().getStartAddress());
 
-        pos.setFloat("x", rod.getPosition().x);
-        pos.setFloat("y", rod.getPosition().y);
-        pos.setFloat("z", rod.getPosition().z);
+        JSONObject pos = jsonFromVector(rod.getRawPosition());
 
         json.setJSONObject("tube", tube);
         json.setJSONObject("position", pos);
@@ -206,5 +210,21 @@ public class ConfigurationController extends BaseController {
         for (ConfigurationListener l : listener) {
             l.configurationLoaded(this);
         }
+    }
+
+    private PVector vectorFromJSON(JSONObject json) {
+        return new PVector(
+                json.getFloat("x"),
+                json.getFloat("y"),
+                json.getFloat("z")
+        );
+    }
+
+    private JSONObject jsonFromVector(PVector vector) {
+        JSONObject json = new JSONObject();
+        json.setFloat("x", vector.x);
+        json.setFloat("y", vector.y);
+        json.setFloat("z", vector.z);
+        return json;
     }
 }

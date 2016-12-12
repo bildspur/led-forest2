@@ -22,6 +22,8 @@ public class Rod {
     PGraphics g;
 
     PVector position;
+    PVector barrelDistortion = new PVector(1f, 1f, 1f);
+
     protected ArrayList<PShape> shapes;
 
     Tube tube;
@@ -56,7 +58,8 @@ public class Rod {
             PShape sh = shapes.get(i);
 
             p.pushMatrix();
-            p.translate(position.x, position.y + (inverted ? 1 : -1) * (i * ledLength), position.z);
+            PVector pos = getPosition();
+            p.translate(pos.x, pos.y + (inverted ? 1 : -1) * (i * ledLength), pos.z);
             p.noStroke();
             p.fill(tube.leds.get(i).getColor().getColor());
 
@@ -109,6 +112,13 @@ public class Rod {
     }
 
     public PVector getPosition() {
+        return new PVector(
+                position.x * barrelDistortion.x,
+                position.y * barrelDistortion.y,
+                position.z * barrelDistortion.z);
+    }
+
+    public PVector getRawPosition() {
         return position;
     }
 
@@ -117,7 +127,6 @@ public class Rod {
     }
 
     public PVector getPosition2d() {
-
         return new PVector(position.x, position.z);
     }
 
@@ -143,5 +152,13 @@ public class Rod {
 
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
+    }
+
+    public PVector getBarrelDistortion() {
+        return barrelDistortion;
+    }
+
+    public void setBarrelDistortion(PVector barrelDistortion) {
+        this.barrelDistortion = barrelDistortion;
     }
 }

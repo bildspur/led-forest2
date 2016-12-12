@@ -34,6 +34,8 @@ public class TubeVisualizer {
 
     PApplet sketch;
 
+    PVector barrelDistortion = new PVector(1f, 1f, 1f);
+
     public TubeVisualizer(PApplet sketch) {
         this.sketch = sketch;
 
@@ -47,6 +49,7 @@ public class TubeVisualizer {
         output3d.beginDraw();
         output3d.background(0);
         for (Rod r : rods) {
+            r.setBarrelDistortion(barrelDistortion);
             r.render(output3d);
         }
         output3d.endDraw();
@@ -104,5 +107,13 @@ public class TubeVisualizer {
 
     public ArrayList<Rod> getRods() {
         return rods;
+    }
+
+    public PVector getBarrelDistortion() {
+        return barrelDistortion;
+    }
+
+    public void setBarrelDistortion(PVector barrelDistortion) {
+        this.barrelDistortion = barrelDistortion;
     }
 }

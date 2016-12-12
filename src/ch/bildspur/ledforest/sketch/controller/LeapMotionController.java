@@ -28,7 +28,7 @@ public class LeapMotionController extends BaseController {
     volatile Frame frame;
     private final Object lock = new Object();
 
-    PVector interactionBox = new PVector(220, 180, 180);
+    PVector interactionBox = new PVector(180, 180, 180);
 
     ArrayList<PVector> handTargets = new ArrayList<PVector>();
     ArrayList<PVector> handCurrents = new ArrayList<PVector>();
@@ -41,10 +41,6 @@ public class LeapMotionController extends BaseController {
         synchronized (lock) {
             return frame;
         }
-    }
-
-    public PVector getInteractionBox() {
-        return interactionBox;
     }
 
     public void setupLeapMotion() {
@@ -122,5 +118,13 @@ public class LeapMotionController extends BaseController {
 
     public boolean isLeapMotionHandAvailable() {
         return (frame != null && frame.hands().count() > 0);
+    }
+
+    public PVector getInteractionBox() {
+        return interactionBox;
+    }
+
+    public void setInteractionBox(PVector interactionBox) {
+        this.interactionBox = interactionBox;
     }
 }
