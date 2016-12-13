@@ -13,9 +13,9 @@
       "z": 250
     },
     "barrelDistortion": {
-      "x": 2,
+      "x": 1,
       "y": 1,
-      "z": 1.5
+      "z": 1
     }
   },
   "rods": [
@@ -382,7 +382,7 @@
       "response": 0,
       "luminosity": 1
     },
-    "enabled": false
+    "enabled": true
   },
   "osc": {
     "zeroConf": true,

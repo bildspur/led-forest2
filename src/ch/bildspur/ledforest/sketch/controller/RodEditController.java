@@ -382,6 +382,16 @@ public class RodEditController extends BaseController {
                     }
                 });
 
+        cp5.addButton("Spread")
+                .setPosition(sketch.width - 140, rodMapPosition.y + rodMap.getHeight() + 10)
+                .setSize(30, 10)
+                .onChange((e) -> {
+                    for (Rod r : sketch.getVisualizer().getRods()) {
+                        PVector pos = r.getPosition();
+                        r.setPosition(new PVector(pos.x * 2f, pos.y * 1f, pos.z * 1.4f));
+                    }
+                });
+
         luminanceSlider = cp5.addSlider("lumi")
                 .setPosition(sketch.width - 40, rodMapPosition.y)
                 .setSize(15, 80)

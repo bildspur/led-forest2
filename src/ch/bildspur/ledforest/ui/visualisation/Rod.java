@@ -127,6 +127,10 @@ public class Rod {
     }
 
     public PVector getPosition2d() {
+        return new PVector(position.x * barrelDistortion.x, position.z * barrelDistortion.z);
+    }
+
+    public PVector getRawPosition2d() {
         return new PVector(position.x, position.z);
     }
 
