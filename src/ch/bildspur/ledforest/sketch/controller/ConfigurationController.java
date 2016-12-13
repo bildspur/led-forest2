@@ -67,6 +67,10 @@ public class ConfigurationController extends BaseController {
         sketch.getOsc().setEnabled(osc.getBoolean("enabled"));
         sketch.getOsc().setZeroConfEnabled(osc.getBoolean("zeroConf"));
 
+        // audio
+        JSONObject audio = root.getJSONObject("audio");
+        sketch.getAudioFX().setEnabled(osc.getBoolean("enabled"));
+
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
     }
@@ -110,6 +114,11 @@ public class ConfigurationController extends BaseController {
         osc.setBoolean("enabled", sketch.getOsc().isEnabled());
         osc.setBoolean("zeroConf", sketch.getOsc().isZeroConfEnabled());
         root.setJSONObject("osc", osc);
+
+        // audio
+        JSONObject audio = new JSONObject();
+        osc.setBoolean("enabled", sketch.getAudioFX().isEnabled());
+        root.setJSONObject("audio", audio);
 
         // write file
         sketch.saveJSONObject(root, CONFIG_DIR + fileName);

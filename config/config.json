@@ -3,6 +3,9 @@
     "gridSize": 10,
     "gridOffset": false
   },
+  "audio": {
+    "enabled": false
+  },
   "syphon": {
     "enabled": false
   },

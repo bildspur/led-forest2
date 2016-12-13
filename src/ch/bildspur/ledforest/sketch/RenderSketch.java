@@ -75,6 +75,7 @@ public class RenderSketch extends PApplet {
     ArtNetController artnet = new ArtNetController();
     DebugController debug = new DebugController();
     DeviceInfoController deviceInfo = new DeviceInfoController();
+    AudioFXController audioFX = new AudioFXController();
 
     public void settings() {
         if (fullscreenEnabled)
@@ -101,6 +102,7 @@ public class RenderSketch extends PApplet {
         artnet.init(this);
         debug.init(this);
         deviceInfo.init(this);
+        audioFX.init(this);
 
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
@@ -532,6 +534,10 @@ public class RenderSketch extends PApplet {
 
     public LocationVideoScene getVideoScene() {
         return videoScene;
+    }
+
+    public AudioFXController getAudioFX() {
+        return audioFX;
     }
 }
 
