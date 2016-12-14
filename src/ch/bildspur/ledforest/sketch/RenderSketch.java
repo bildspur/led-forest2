@@ -62,7 +62,7 @@ public class RenderSketch extends PApplet {
 
     PostFX fx;
 
-    LocationVideoScene videoScene = new LocationVideoScene(this);
+    ExtendedVideoScene videoScene = new ExtendedVideoScene(this);
     LoadingScene loadingScene = new LoadingScene(this);
 
     SyphonController syphon = new SyphonController();
@@ -532,7 +532,7 @@ public class RenderSketch extends PApplet {
         this.fullscreenDisplay = fullscreenDisplay;
     }
 
-    public LocationVideoScene getVideoScene() {
+    public ExtendedVideoScene getVideoScene() {
         return videoScene;
     }
 

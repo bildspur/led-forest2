@@ -6,6 +6,8 @@ import ch.bildspur.ledforest.sketch.RenderSketch;
  * Created by cansik on 14.12.16.
  */
 public class AudioFXController extends BaseController {
+    private final String dataFolder = "audio/";
+
     boolean enabled = false;
 
     public void init(RenderSketch sketch) {

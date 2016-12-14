@@ -14,8 +14,9 @@ import processing.video.Movie;
 
 import java.util.Arrays;
 
-public class LocationVideoScene extends Scene {
+public class ExtendedVideoScene extends Scene {
     private final boolean createMask = false;
+    private final String dataFolder = "data/video";
 
     String[] videoFiles;
     int activeVideoIndex = -1;
@@ -29,7 +30,7 @@ public class LocationVideoScene extends Scene {
     int pixelWidth = 4;
     int pixelHeight = 4;
 
-    public LocationVideoScene(RenderSketch sketch) {
+    public ExtendedVideoScene(RenderSketch sketch) {
         super(sketch);
     }
 
@@ -38,7 +39,7 @@ public class LocationVideoScene extends Scene {
     }
 
     public String getName() {
-        return "Location Video Scene (" + videoFiles[activeVideoIndex] + ")";
+        return "Extended Video Scene (" + videoFiles[activeVideoIndex] + ")";
     }
 
     public void init() {
@@ -46,7 +47,7 @@ public class LocationVideoScene extends Scene {
 
         if (videoFiles.length > 0) {
             activeVideoIndex = (activeVideoIndex + 1) % videoFiles.length;
-            activeVideo = new Movie(sketch, videoFiles[activeVideoIndex]);
+            activeVideo = new Movie(sketch, sketch.sketchPath(dataFolder + "/" + videoFiles[activeVideoIndex]));
             activeVideo.loop();
 
             isFixtureSpaceSet = false;
@@ -145,8 +146,8 @@ public class LocationVideoScene extends Scene {
     }
 
     String[] readVideoFiles() {
-        java.io.File folder = new java.io.File(sketch.sketchPath("data"));
-        String[] files = folder.list((dir, name) -> name.matches(".*mov"));
+        java.io.File folder = new java.io.File(sketch.sketchPath(dataFolder));
+        String[] files = folder.list((dir, name) -> name.matches(".*(?:mp4|mov)"));
 
         Arrays.sort(files);
         return files;
