@@ -102,7 +102,6 @@ public class RenderSketch extends PApplet {
         artnet.init(this);
         debug.init(this);
         deviceInfo.init(this);
-        audioFX.init(this);
 
         leapMotion.setupLeapMotion();
         peasy.setupPeasy();
@@ -159,6 +158,8 @@ public class RenderSketch extends PApplet {
             if (osc.isEnabled())
                 osc.setupOSC();
 
+            audioFX.init(this);
+
             configLoaded = true;
         });
         config.loadAsync(CONFIG_NAME);
@@ -176,7 +177,7 @@ public class RenderSketch extends PApplet {
 
         updateLEDs();
 
-        // calculate syphon ouput
+        // calculate syphon output
         if (syphon.isEnabled()) {
             PGraphics output2d = visualizer.render2d();
             syphon.sendImageToSyphon(output2d);
@@ -239,7 +240,7 @@ public class RenderSketch extends PApplet {
             osc.updateOSCApp();
 
         // hud
-        if (showInfo)
+        if (showInfo && drawMode != 1)
             debug.showInfo();
     }
 

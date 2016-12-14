@@ -7,7 +7,7 @@ import ddf.minim.Minim;
 /**
  * Created by cansik on 14.12.16.
  */
-class InfinityAudioPlayer implements AudioListener {
+public class InfinityAudioPlayer implements AudioListener {
     private Minim minim;
     private AudioPlayer player;
 
