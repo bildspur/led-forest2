@@ -232,6 +232,10 @@ public class RodEditController extends BaseController {
                     sketch.getArtNet().initUniverses();
                     sketch.getSceneManager().setRunning(true);
                     sketch.getPeasy().getCam().setActive(true);
+
+                    if (!sketch.isCursorShown())
+                        sketch.noCursor();
+
                     sketch.setDrawMode(3);
                 });
 

@@ -52,7 +52,7 @@ public class RenderSketch extends PApplet {
     boolean showLogo = true;
     boolean showInfo = false;
     boolean mappingMode = false;
-    boolean cursorShown = true;
+    boolean cursorShown = false;
 
     volatile boolean configLoaded = false;
 
@@ -129,11 +129,11 @@ public class RenderSketch extends PApplet {
         // color scenes
         //sceneManager.getColorScenes().add(new SyphonInputScene(this));
         //sceneManager.getColorScenes().add(videoScene);
-        sceneManager.getColorScenes().add(new SpaceColorScene(this));
+        //sceneManager.getColorScenes().add(new SpaceColorScene(this));
         sceneManager.getColorScenes().add(new SingleColorScene(this));
         sceneManager.getColorScenes().add(videoScene);
         sceneManager.getColorScenes().add(new WhiteColorScene(this));
-        sceneManager.getColorScenes().add(new ExampleScene(this));
+        //sceneManager.getColorScenes().add(new ExampleScene(this));
         sceneManager.getColorScenes().add(videoScene);
         sceneManager.getColorScenes().add(new HSVColorScene(this));
 
@@ -159,6 +159,10 @@ public class RenderSketch extends PApplet {
                 osc.setupOSC();
 
             audioFX.init(this);
+
+            // hide cursor
+            if (!cursorShown)
+                noCursor();
 
             configLoaded = true;
         });
@@ -289,6 +293,7 @@ public class RenderSketch extends PApplet {
             case '1':
                 sceneManager.setRunning(false);
                 getPeasy().getCam().setActive(false);
+                cursor();
                 drawMode = 1;
                 rodEditView.updateRodList();
                 break;
@@ -539,6 +544,10 @@ public class RenderSketch extends PApplet {
 
     public AudioFXController getAudioFX() {
         return audioFX;
+    }
+
+    public boolean isCursorShown() {
+        return cursorShown;
     }
 }
 

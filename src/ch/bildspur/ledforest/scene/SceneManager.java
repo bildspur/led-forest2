@@ -9,8 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by cansik on 18/09/16.
  */
-public class SceneManager extends Scene
-{
+public class SceneManager extends Scene {
     ArrayList<Scene> colorScenes;
     ArrayList<Scene> patternScenes;
 
@@ -19,10 +18,10 @@ public class SceneManager extends Scene
     int currentColorScene = 0;
     int currentPatternScene = 0;
 
-    int colorCycle = sketch.secondsToFrames(4*60);
-    int patternCycle = sketch.secondsToFrames(2*60);
+    int colorCycle = sketch.secondsToFrames(5 * 60);
+    int patternCycle = sketch.secondsToFrames(3 * 60);
 
-    int leapMotionIdleTime = sketch.secondsToFrames(10);
+    int leapMotionIdleTime = sketch.secondsToFrames(5);
     int leapMotionIdleTimer = leapMotionIdleTime;
     int leapMotionTransitionTime = sketch.secondsToFrames(transitionTime);
 
@@ -38,8 +37,7 @@ public class SceneManager extends Scene
 
     SceneMode currentMode;
 
-    public SceneManager(RenderSketch sketch)
-    {
+    public SceneManager(RenderSketch sketch) {
         super(sketch);
         colorScenes = new ArrayList<>();
         patternScenes = new ArrayList<>();
@@ -47,50 +45,43 @@ public class SceneManager extends Scene
         currentMode = new NormalMode(sketch, this);
     }
 
-    public void init()
-    {
+    public void init() {
         currentMode.init();
     }
 
-    public void changeMode(SceneMode newMode)
-    {
+    public void changeMode(SceneMode newMode) {
         currentMode.close();
         currentMode = newMode;
         currentMode.init();
     }
 
-    public void nextColorScene()
-    {
+    public void nextColorScene() {
         getActiveColorScene().dispose();
         currentColorScene = (currentColorScene + 1) % colorScenes.size();
         getActiveColorScene().init();
     }
 
-    public void nextPatternScene()
-    {
+    public void nextPatternScene() {
         getActivePatternScene().dispose();
         currentPatternScene = (currentPatternScene + 1) % patternScenes.size();
         getActivePatternScene().init();
     }
 
-    public Scene getActiveColorScene()
-    {
+    public Scene getActiveColorScene() {
         if (normalMode)
             return colorScenes.get(currentColorScene);
         else
             return leapMotionScene;
     }
 
-    public Scene getActivePatternScene()
-    {
+    public Scene getActivePatternScene() {
         if (normalMode)
             return patternScenes.get(currentPatternScene);
         else
             return leapMotionScene;
     }
 
-    public void update()
-    {
+    public void update() {
         if (!running)
             return;
 
