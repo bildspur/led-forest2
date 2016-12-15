@@ -239,6 +239,11 @@ public class RenderSketch extends PApplet {
 
         sceneManager.update();
 
+        // update audio
+        if (audioFX.isEnabled()) {
+            audioFX.updateHandSounds();
+        }
+
         // update osc app
         if (osc.isEnabled() && frameCount % secondsToFrames(1) == 0)
             osc.updateOSCApp();

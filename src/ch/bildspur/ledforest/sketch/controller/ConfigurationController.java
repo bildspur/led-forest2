@@ -69,7 +69,7 @@ public class ConfigurationController extends BaseController {
 
         // audio
         JSONObject audio = root.getJSONObject("audio");
-        sketch.getAudioFX().setEnabled(osc.getBoolean("enabled"));
+        sketch.getAudioFX().setEnabled(audio.getBoolean("enabled"));
 
         notifyConfigListener();
         System.out.println(rods.size() + " rods loaded!");
