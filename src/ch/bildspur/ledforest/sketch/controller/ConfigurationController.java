@@ -117,7 +117,7 @@ public class ConfigurationController extends BaseController {
 
         // audio
         JSONObject audio = new JSONObject();
-        osc.setBoolean("enabled", sketch.getAudioFX().isEnabled());
+        audio.setBoolean("enabled", sketch.getAudioFX().isEnabled());
         root.setJSONObject("audio", audio);
 
         // write file
