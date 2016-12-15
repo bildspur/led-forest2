@@ -71,4 +71,8 @@ public class InfinityAudioPlayer implements AudioListener {
     public synchronized void samples(float[] sampL, float[] sampR) {
         update();
     }
+
+    public boolean isStopping() {
+        return stopping;
+    }
 }

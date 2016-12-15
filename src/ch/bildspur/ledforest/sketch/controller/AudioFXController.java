@@ -5,8 +5,10 @@ import ch.bildspur.ledforest.sketch.RenderSketch;
 import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Hand;
 import ddf.minim.Minim;
+import processing.core.PApplet;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by cansik on 14.12.16.
@@ -49,30 +51,35 @@ public class AudioFXController extends BaseController {
                 // create new player
                 player = new InfinityAudioPlayer(minim);
                 player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 2048);
-                player.setLoop(500, 1500);
+                player.setLoop(2000, 15000);
                 player.play();
                 handPlayers.put(h.id(), player);
             }
             player = handPlayers.get(h.id());
 
             // set pan
-            /*
-            player.getPlayer().setPan(PApplet.map(
+            player.getPlayer().setBalance(PApplet.map(
                     sketch.getLeapMotion().intBoxVector(h.palmPosition()).x,
-                    0, sketch.getLeapMotion().interactionBox.x, -1, 1)
+                    -sketch.getLeapMotion().interactionBox.x / 2f,
+                    sketch.getLeapMotion().interactionBox.x / 2f, -1, 1)
             );
-            */
         }
 
         // loop through map and delete old ones
-        for (int handIndex : handPlayers.keySet()) {
-            if (!frame.hand(handIndex).isValid()) {
-                // delete player
-                InfinityAudioPlayer player = handPlayers.get(handIndex);
-                player.stop();
-                player.getPlayer().pause();
-                player.getPlayer().close();
+        for (int handIndex : new HashSet<>(handPlayers.keySet())) {
+            InfinityAudioPlayer player = handPlayers.get(handIndex);
 
+            // stop player
+            if (!frame.hand(handIndex).isValid()) {
+                player.stop();
+            }
+
+            if (player.isStopping()) {
+                player.getPlayer().setGain(PApplet.max(-80, player.getPlayer().getGain() - 0.3f));
+            }
+
+            // remove player
+            if (!player.getPlayer().isPlaying()) {
                 handPlayers.remove(handIndex);
             }
         }
