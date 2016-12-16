@@ -235,13 +235,15 @@ public class RenderSketch extends PApplet {
                 break;
         }
 
+
+        // draw overlays
+        peasy.getCam().beginHUD();
         // show logo
         if (showLogo) {
-            peasy.getCam().beginHUD();
             image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
             image(nameImage, width - nameImage.width - 20, height - nameImage.height - 10);
-            peasy.getCam().endHUD();
         }
+        peasy.getCam().endHUD();
 
         sceneManager.update();
 

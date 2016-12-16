@@ -23,9 +23,9 @@ public class TutorialScene extends Scene {
     }
 
     public void init() {
-        tutorialImage = sketch.loadImage("images/tutorial.png");
+        tutorialImage = sketch.loadImage("images/welcome.png");
 
-        fade = new Animation(0.5f, 0, 255);
+        fade = new Animation(0.5f, 255, 255);
         fade.start();
     }
 
