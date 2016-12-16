@@ -59,6 +59,7 @@ public class RenderSketch extends PApplet {
     int markedLEDTube = -1;
 
     PImage logo;
+    PImage nameImage;
 
     PostFX fx;
 
@@ -111,6 +112,10 @@ public class RenderSketch extends PApplet {
         // load logo
         logo = loadImage(sketchPath("images/logotext.png"));
         logo.resize(width / 6, 0);
+
+        // load names
+        nameImage = loadImage(sketchPath("images/names.png"));
+        nameImage.resize(width / 7, 0);
 
         // settings
         ellipseMode(CENTER);
@@ -234,6 +239,7 @@ public class RenderSketch extends PApplet {
         if (showLogo) {
             peasy.getCam().beginHUD();
             image(logo, (width / 2) - (logo.width / 2), height - logo.height - 10);
+            image(nameImage, width - nameImage.width - 20, height - nameImage.height - 10);
             peasy.getCam().endHUD();
         }
 

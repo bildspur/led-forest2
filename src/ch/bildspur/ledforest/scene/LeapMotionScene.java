@@ -22,7 +22,7 @@ public class LeapMotionScene extends Scene {
     float fadeSpeedBOut = sketch.secondsToEasing(0.1f);
 
 
-    float interactionRadius = 50;
+    float interactionRadius = 75;
 
     float glowOffset = 0.5f;
     int hue = 0;
@@ -98,6 +98,7 @@ public class LeapMotionScene extends Scene {
                 // set default interaction mode
                 currentInteraction = glowInteraction;
 
+                /*
                 if (h != null) {
                     float roll = h.palmNormal().roll();
 
@@ -107,6 +108,7 @@ public class LeapMotionScene extends Scene {
                         currentInteraction = pulseInteraction;
                     }
                 }
+                */
 
                 InteractionData interactionData = new InteractionData(t, led, h, minDistance);
 

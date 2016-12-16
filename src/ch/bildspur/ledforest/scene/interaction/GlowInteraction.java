@@ -49,6 +49,6 @@ public class GlowInteraction implements TubeInteraction {
 
     public static float getHueByHand(Hand h) {
         float roll = Math.abs(h.palmNormal().roll());
-        return PApplet.map(roll, 0, PI, 0, 360);
+        return PApplet.map(roll, -PI, PI, 0, 360);
     }
 }
