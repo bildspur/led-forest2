@@ -49,6 +49,9 @@ public class AudioFXController extends BaseController {
 
         // loop through hands and check play state
         for (Hand h : frame.hands()) {
+            if (!h.isValid())
+                return;
+
             InfinityAudioPlayer player;
             if (!handPlayers.containsKey(h.id())) {
                 // create new player
@@ -82,11 +85,14 @@ public class AudioFXController extends BaseController {
             }
 
             // remove player
-            if (!player.getPlayer().isPlaying()) {
+            if (!player.getPlayer().isPlaying() || player.getPlayer().getGain() <= -80) {
+                player.getPlayer().pause();
                 player.getPlayer().close();
                 handPlayers.remove(handIndex);
             }
         }
+
+        sketch.getDebug().addMessage("Hands: " + handPlayers.size());
     }
 
     public boolean isEnabled() {
