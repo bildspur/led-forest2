@@ -1,18 +1,14 @@
 package ch.bildspur.ledforest.audio;
 
-import ddf.minim.AudioListener;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 
 /**
  * Created by cansik on 14.12.16.
  */
-public class InfinityAudioPlayer implements AudioListener {
+public class InfinityAudioPlayer {
     private Minim minim;
     private AudioPlayer player;
-
-    private int loopStart;
-    private int loopEnd;
 
     private boolean stopping = false;
 
@@ -26,50 +22,32 @@ public class InfinityAudioPlayer implements AudioListener {
 
     public void loadFile(String fileName, int bufferSize) {
         player = minim.loadFile(fileName, bufferSize);
-        player.addListener(this);
-        setLoop(0, player.length());
     }
 
     public void setLoop(int start, int end) {
-        loopStart = start;
-        loopEnd = end;
+        player.setLoopPoints(start, end);
     }
 
     public void play() {
-        player.play(0);
+        player.loop();
+        player.skip(0);
     }
 
     public void stop() {
         stopping = true;
+        player.play();
     }
 
     public void fastStop() {
         player.pause();
     }
 
-    void update() {
-        if (!player.isPlaying())
-            return;
-
-        if (!stopping && player.position() >= loopEnd)
-            player.play(loopStart);
-
-
-        if (stopping && player.position() < loopStart) {
-            player.skip(loopEnd);
-        }
+    public void close() {
+        player.close();
     }
 
     public AudioPlayer getPlayer() {
         return this.player;
-    }
-
-    public synchronized void samples(float[] samp) {
-        update();
-    }
-
-    public synchronized void samples(float[] sampL, float[] sampR) {
-        update();
     }
 
     public boolean isStopping() {
