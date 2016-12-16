@@ -13,7 +13,7 @@ public class SceneManager extends Scene {
     ArrayList<Scene> colorScenes;
     ArrayList<Scene> patternScenes;
 
-    int transitionTime = 1;
+    int transitionTime = 0;
 
     int currentColorScene = 0;
     int currentPatternScene = 0;

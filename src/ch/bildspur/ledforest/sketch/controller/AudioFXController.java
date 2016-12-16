@@ -44,9 +44,6 @@ public class AudioFXController extends BaseController {
     public void updateHandSounds() {
         Frame frame = sketch.getLeapMotion().getFrame();
 
-        if (frame == null)
-            return;
-
         // loop through hands and check play state
         for (Hand h : frame.hands()) {
             InfinityAudioPlayer player;
