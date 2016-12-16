@@ -13,7 +13,7 @@ public class SceneManager extends Scene {
     ArrayList<Scene> colorScenes;
     ArrayList<Scene> patternScenes;
 
-    int transitionTime = 2;
+    int transitionTime = 1;
 
     int currentColorScene = 0;
     int currentPatternScene = 0;
@@ -21,7 +21,7 @@ public class SceneManager extends Scene {
     int colorCycle = sketch.secondsToFrames(5 * 60);
     int patternCycle = sketch.secondsToFrames(3 * 60);
 
-    int leapMotionIdleTime = sketch.secondsToFrames(5);
+    int leapMotionIdleTime = sketch.secondsToFrames(3);
     int leapMotionIdleTimer = leapMotionIdleTime;
     int leapMotionTransitionTime = sketch.secondsToFrames(transitionTime);
 
