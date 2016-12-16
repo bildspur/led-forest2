@@ -60,6 +60,7 @@ public class RenderSketch extends PApplet {
 
     PImage logo;
     PImage nameImage;
+    PImage welcomeImage;
 
     PostFX fx;
 
@@ -116,6 +117,9 @@ public class RenderSketch extends PApplet {
         // load names
         nameImage = loadImage(sketchPath("images/names.png"));
         nameImage.resize(width / 7, 0);
+
+        // load welcome screen
+        welcomeImage = loadImage(sketchPath("images/welcome.png"));
 
         // settings
         ellipseMode(CENTER);
@@ -561,6 +565,10 @@ public class RenderSketch extends PApplet {
 
     public boolean isCursorShown() {
         return cursorShown;
+    }
+
+    public PImage getWelcomeImage() {
+        return welcomeImage;
     }
 }
 

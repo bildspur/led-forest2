@@ -5,7 +5,6 @@ import ch.bildspur.ledforest.scene.SceneManager;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.ui.Animation;
 import processing.core.PApplet;
-import processing.core.PImage;
 
 import static ch.bildspur.ledforest.util.ImageUtil.centerImageAdjusted;
 
@@ -19,14 +18,10 @@ public class NormalMode extends SceneMode {
     }
 
     private Animation fade;
-    private PImage welcomeImage;
     private boolean showWelcomeScreen = true;
 
     public void init() {
         PApplet.println("switching to normal mode");
-
-        // load welcome screen
-        welcomeImage = sketch.loadImage(sketch.sketchPath("images/welcome.png"));
 
         fade = new Animation(0.5f, 0, 255);
         fade.start();
@@ -61,7 +56,7 @@ public class NormalMode extends SceneMode {
         if (showWelcomeScreen) {
             sketch.getPeasy().getCam().beginHUD();
             sketch.tint(255, fade.getValue());
-            centerImageAdjusted(sketch.g, welcomeImage);
+            centerImageAdjusted(sketch.g, sketch.getWelcomeImage());
             sketch.noTint();
             sketch.getPeasy().getCam().endHUD();
         }

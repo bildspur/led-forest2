@@ -116,6 +116,10 @@ public class LeapMotionController extends BaseController {
         p.endDraw();
     }
 
+    public boolean isLeapConnected() {
+        return leapMotion.controller().isConnected();
+    }
+
     public boolean isLeapMotionHandAvailable() {
         return (frame != null && frame.hands().count() > 0);
     }

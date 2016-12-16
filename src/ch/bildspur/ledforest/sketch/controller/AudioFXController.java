@@ -37,11 +37,14 @@ public class AudioFXController extends BaseController {
         minim = new Minim(sketch);
 
         trumpetPlayer = new InfinityAudioPlayer(minim);
-        trumpetPlayer.loadFile(sketch.sketchPath(dataFolder + trumpetAudio), 2048);
+        trumpetPlayer.loadFile(sketch.sketchPath(dataFolder + trumpetAudio), 4096);
         trumpetPlayer.getPlayer().loop();
     }
 
     public void updateHandSounds() {
+        if (!sketch.getLeapMotion().isLeapConnected())
+            return;
+
         Frame frame = sketch.getLeapMotion().getFrame();
 
         // loop through hands and check play state
@@ -50,7 +53,7 @@ public class AudioFXController extends BaseController {
             if (!handPlayers.containsKey(h.id())) {
                 // create new player
                 player = new InfinityAudioPlayer(minim);
-                player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 2048);
+                player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 4096);
                 player.setLoop(2000, 15000);
                 player.play();
                 handPlayers.put(h.id(), player);
@@ -80,6 +83,7 @@ public class AudioFXController extends BaseController {
 
             // remove player
             if (!player.getPlayer().isPlaying()) {
+                player.getPlayer().close();
                 handPlayers.remove(handIndex);
             }
         }
