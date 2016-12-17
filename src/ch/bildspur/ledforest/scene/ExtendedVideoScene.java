@@ -57,8 +57,10 @@ public class ExtendedVideoScene extends Scene {
     }
 
     public void dispose() {
-        if (activeVideo != null)
+        if (activeVideo != null) {
             activeVideo.stop();
+            activeVideo.dispose();
+        }
     }
 
     public void update() {
