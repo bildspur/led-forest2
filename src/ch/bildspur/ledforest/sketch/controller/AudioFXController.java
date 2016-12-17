@@ -14,6 +14,8 @@ import java.util.HashSet;
  * Created by cansik on 14.12.16.
  */
 public class AudioFXController extends BaseController {
+    private final int PLAYER_BUFFER_SIZE = 4;
+
     private final String dataFolder = "data/audio/";
 
     private final String trumpetAudio = "trumpet.wav";
@@ -26,7 +28,11 @@ public class AudioFXController extends BaseController {
 
     private HashMap<Integer, InfinityAudioPlayer> handPlayers = new HashMap<>();
 
-    InfinityAudioPlayer trumpetPlayer;
+    private InfinityAudioPlayer[] playerBuffer = new InfinityAudioPlayer[PLAYER_BUFFER_SIZE];
+
+    private int playerBufferIndex = -1;
+
+    private InfinityAudioPlayer trumpetPlayer;
 
     public void init(RenderSketch sketch) {
         super.init(sketch);
@@ -36,9 +42,19 @@ public class AudioFXController extends BaseController {
 
         minim = new Minim(sketch);
 
+        initBuffer();
+
         trumpetPlayer = new InfinityAudioPlayer(minim);
         trumpetPlayer.loadFile(sketch.sketchPath(dataFolder + trumpetAudio), 4096);
         trumpetPlayer.getPlayer().loop();
+    }
+
+    public void initBuffer() {
+        for (int i = 0; i < playerBuffer.length; i++) {
+            InfinityAudioPlayer player = new InfinityAudioPlayer(minim);
+            player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 4096);
+            player.setLoop(2000, 15000);
+        }
     }
 
     public void updateHandSounds() {
@@ -55,9 +71,8 @@ public class AudioFXController extends BaseController {
             InfinityAudioPlayer player;
             if (!handPlayers.containsKey(h.id())) {
                 // create new player
-                player = new InfinityAudioPlayer(minim);
-                player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 4096);
-                player.setLoop(2000, 15000);
+                player = playerBuffer[++playerBufferIndex % PLAYER_BUFFER_SIZE];
+                player.getPlayer().setGain(0f);
                 player.play();
                 handPlayers.put(h.id(), player);
             }
@@ -87,7 +102,6 @@ public class AudioFXController extends BaseController {
             // remove player
             if (!player.getPlayer().isPlaying() || player.getPlayer().getGain() <= -80) {
                 player.getPlayer().pause();
-                player.getPlayer().close();
                 handPlayers.remove(handIndex);
             }
         }
@@ -101,5 +115,16 @@ public class AudioFXController extends BaseController {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void stop() {
+        // clear buffer
+        for (int i = 0; i < playerBuffer.length; i++) {
+            playerBuffer[i].getPlayer().pause();
+            playerBuffer[i].getPlayer().close();
+        }
+
+        trumpetPlayer.getPlayer().pause();
+        trumpetPlayer.getPlayer().close();
     }
 }

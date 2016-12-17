@@ -29,6 +29,7 @@ public class InfinityAudioPlayer {
     }
 
     public void play() {
+        stopping = false;
         player.loop();
         player.skip(0);
     }

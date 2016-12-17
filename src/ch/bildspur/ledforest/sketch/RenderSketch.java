@@ -286,6 +286,7 @@ public class RenderSketch extends PApplet {
     private void prepareExitHandler() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("shutting down...");
+            audioFX.stop();
             osc.stop();
         }
         ));
