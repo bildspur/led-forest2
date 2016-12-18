@@ -9,7 +9,7 @@ import processing.core.PApplet;
 public class Main {
     public static void main(String... args) {
         while (true) {
-            int frameCount = -1;
+            long frameCount = -1;
             RenderSketch sketch = new RenderSketch();
 
             sketch.setFullscreenEnabled(isFullscreen(args));
@@ -31,7 +31,7 @@ public class Main {
                 sketch.getAudioFX().stop();
                 sketch.dispose();
             } catch (Exception ex) {
-                PApplet.println("Shutdown no nicely!");
+                PApplet.println("Shutdown not nicely!");
             }
         }
     }
