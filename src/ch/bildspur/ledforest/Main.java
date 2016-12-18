@@ -1,5 +1,6 @@
 package ch.bildspur.ledforest;
 
+import ch.bildspur.ifttt.IFTTTClient;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import processing.core.PApplet;
 
@@ -28,7 +29,15 @@ public class Main {
 
             // restart
             try {
+                // send info
+                String error = "";
+                for (String s : sketch.getInterceptor().getAll())
+                    error += s + "<br>------------<br>";
+                IFTTTClient.sendStatus("Restart", "Framerate: " + sketch.frameRate, error);
                 sketch.getAudioFX().stop();
+                sketch.getSurface().stopThread();
+                sketch.getSurface().setVisible(false);
+                sketch.noLoop();
                 sketch.dispose();
             } catch (Exception ex) {
                 PApplet.println("Shutdown not nicely!");

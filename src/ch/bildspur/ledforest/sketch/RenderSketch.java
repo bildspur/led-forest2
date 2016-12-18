@@ -1,5 +1,6 @@
 package ch.bildspur.ledforest.sketch;
 
+import ch.bildspur.ifttt.IFTTTClient;
 import ch.bildspur.ledforest.scene.*;
 import ch.bildspur.ledforest.sketch.controller.*;
 import ch.bildspur.ledforest.ui.PostFX;
@@ -173,6 +174,9 @@ public class RenderSketch extends PApplet {
             if (!cursorShown)
                 noCursor();
 
+            // send info
+            IFTTTClient.sendStatus("Started", "Framerate: " + frameRate, "None");
+
             configLoaded = true;
         });
         config.loadAsync(CONFIG_NAME);
@@ -286,6 +290,8 @@ public class RenderSketch extends PApplet {
     private void prepareExitHandler() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("shutting down...");
+            IFTTTClient.sendStatus("Shutdown", "Framerate: " + frameRate, "None");
+            
             audioFX.stop();
             osc.stop();
         }
