@@ -63,6 +63,8 @@ public class RenderSketch extends PApplet {
     PImage nameImage;
     PImage welcomeImage;
 
+    Movie handAnimation;
+
     PostFX fx;
 
     ExtendedVideoScene videoScene = new ExtendedVideoScene(this);
@@ -121,6 +123,9 @@ public class RenderSketch extends PApplet {
 
         // load welcome screen
         welcomeImage = loadImage(sketchPath("images/welcome.png"));
+
+        handAnimation = new Movie(this, sketchPath("images/hand_animation.mov"));
+        handAnimation.loop();
 
         // settings
         ellipseMode(CENTER);
@@ -582,6 +587,10 @@ public class RenderSketch extends PApplet {
 
     public PImage getWelcomeImage() {
         return welcomeImage;
+    }
+
+    public Movie getHandAnimation() {
+        return handAnimation;
     }
 }
 

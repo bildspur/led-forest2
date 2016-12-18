@@ -5,6 +5,7 @@ import ch.bildspur.ledforest.scene.SceneManager;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.ui.Animation;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 import static ch.bildspur.ledforest.util.ImageUtil.centerImageAdjusted;
 
@@ -23,7 +24,7 @@ public class NormalMode extends SceneMode {
     public void init() {
         PApplet.println("switching to normal mode");
 
-        fade = new Animation(0.5f, 0, 255);
+        fade = new Animation(0.2f, 0, 255);
         fade.start();
 
         sceneManager.getActiveColorScene().init();
@@ -57,6 +58,10 @@ public class NormalMode extends SceneMode {
             sketch.getPeasy().getCam().beginHUD();
             sketch.tint(255, fade.getValue());
             centerImageAdjusted(sketch.g, sketch.getWelcomeImage());
+            sketch.blendMode(PConstants.SCREEN);
+            sketch.tint(255, fade.getValue());
+            centerImageAdjusted(sketch.g, sketch.getHandAnimation());
+            sketch.blendMode(PConstants.BLEND);
             sketch.noTint();
             sketch.getPeasy().getCam().endHUD();
         }

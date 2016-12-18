@@ -2,6 +2,7 @@ package ch.bildspur.ledforest.scene;
 
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.ui.Animation;
+import processing.core.PConstants;
 
 import static ch.bildspur.ledforest.util.ImageUtil.centerImageAdjusted;
 
@@ -30,6 +31,9 @@ public class TutorialScene extends Scene {
         sketch.getPeasy().getCam().beginHUD();
         sketch.tint(255, fade.getValue());
         centerImageAdjusted(sketch.g, sketch.getWelcomeImage());
+        sketch.blendMode(PConstants.SCREEN);
+        centerImageAdjusted(sketch.g, sketch.getHandAnimation());
+        sketch.blendMode(PConstants.BLEND);
         sketch.noTint();
         sketch.getPeasy().getCam().endHUD();
     }
