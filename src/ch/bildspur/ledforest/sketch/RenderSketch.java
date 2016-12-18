@@ -343,6 +343,11 @@ public class RenderSketch extends PApplet {
                 showInfo = !showInfo;
                 break;
 
+            case 'e':
+                String k = null;
+                k.toLowerCase();
+                break;
+
             case 'm':
                 mappingMode = !mappingMode;
                 sceneManager.setRunning(!sceneManager.isRunning());

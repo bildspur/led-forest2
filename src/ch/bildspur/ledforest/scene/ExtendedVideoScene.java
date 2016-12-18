@@ -58,6 +58,7 @@ public class ExtendedVideoScene extends Scene {
 
     public void dispose() {
         if (activeVideo != null) {
+            activeVideo.pause();
             activeVideo.stop();
             activeVideo.dispose();
         }
@@ -128,6 +129,9 @@ public class ExtendedVideoScene extends Scene {
     }
 
     int getAverage(PImage img, int x, int y, int w, int h) {
+        if (img == null)
+            return sketch.g.color(0, 0, 20);
+
         // hsb mode
         int hue = 0;
         int sat = 0;

@@ -8,12 +8,28 @@ import processing.core.PApplet;
  */
 public class Main {
     public static void main(String... args) {
-        RenderSketch sketch = new RenderSketch();
+        while (true) {
+            int frameCount = -1;
+            RenderSketch sketch = new RenderSketch();
 
-        sketch.setFullscreenEnabled(isFullscreen(args));
-        sketch.setFullscreenDisplay(getFullScreenDisplay(args));
+            sketch.setFullscreenEnabled(isFullscreen(args));
+            sketch.setFullscreenDisplay(getFullScreenDisplay(args));
 
-        PApplet.runSketch(new String[]{"ch.bildspur.ledforest.sketch.RenderSketch "}, sketch);
+            PApplet.runSketch(new String[]{"ch.bildspur.ledforest.sketch.RenderSketch "}, sketch);
+
+            while (frameCount < sketch.frameCount) {
+                frameCount = sketch.frameCount;
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // restart
+            sketch.getAudioFX().stop();
+            sketch.dispose();
+        }
     }
 
     private static boolean isFullscreen(String... args) {
