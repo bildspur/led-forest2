@@ -291,7 +291,7 @@ public class RenderSketch extends PApplet {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("shutting down...");
             IFTTTClient.sendStatus("Shutdown", "Framerate: " + frameRate, "None");
-            
+
             audioFX.stop();
             osc.stop();
         }
@@ -302,6 +302,7 @@ public class RenderSketch extends PApplet {
         PrintStream origOut = System.out;
         interceptor = new StreamInterceptor(origOut);
         System.setOut(interceptor);
+        System.setErr(interceptor);
     }
 
     public void onFrame(final Controller controller) {

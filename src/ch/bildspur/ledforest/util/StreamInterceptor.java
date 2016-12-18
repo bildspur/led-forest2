@@ -11,7 +11,7 @@ public class StreamInterceptor extends PrintStream {
     int pos = -1;
 
     public StreamInterceptor(OutputStream out) {
-        this(out, 10);
+        this(out, 30);
     }
 
     public StreamInterceptor(OutputStream out, int bufferSize) {
