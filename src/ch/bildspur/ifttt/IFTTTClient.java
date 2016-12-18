@@ -8,7 +8,7 @@ import processing.core.PApplet;
  */
 public class IFTTTClient {
     private static Webb webb = Webb.create();
-    private static String IFTTT_URL = "https://maker.ifttt.com/trigger/ledforest2/with/key/u4UidDDEGpwpLIruemMyf";
+    private static String IFTTT_URL = "https://maker.ifttt.com/trigger/ledforest/with/key/u4UidDDEGpwpLIruemMyf";
 
     public static void sendStatus(String event, String status, String error) {
         try {
