@@ -54,6 +54,7 @@ public class AudioFXController extends BaseController {
             InfinityAudioPlayer player = new InfinityAudioPlayer(minim);
             player.loadFile(sketch.sketchPath(dataFolder + rassleAudio), 4096);
             player.setLoop(2000, 15000);
+            playerBuffer[i] = player;
         }
     }
 
@@ -71,7 +72,8 @@ public class AudioFXController extends BaseController {
             InfinityAudioPlayer player;
             if (!handPlayers.containsKey(h.id())) {
                 // create new player
-                player = playerBuffer[++playerBufferIndex % PLAYER_BUFFER_SIZE];
+                playerBufferIndex = (playerBufferIndex + 1) % PLAYER_BUFFER_SIZE;
+                player = playerBuffer[playerBufferIndex];
                 player.getPlayer().setGain(0f);
                 player.play();
                 handPlayers.put(h.id(), player);
