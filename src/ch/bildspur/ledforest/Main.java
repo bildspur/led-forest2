@@ -27,8 +27,12 @@ public class Main {
             }
 
             // restart
-            sketch.getAudioFX().stop();
-            sketch.dispose();
+            try {
+                sketch.getAudioFX().stop();
+                sketch.dispose();
+            } catch (Exception ex) {
+                PApplet.println("Shutdown no nicely!");
+            }
         }
     }
 
