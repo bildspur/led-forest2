@@ -30,10 +30,8 @@ public class Main {
             // restart
             try {
                 // send info
-                String error = "";
-                for (String s : sketch.getInterceptor().getAll())
-                    error += s + "<br>------------<br>";
-                IFTTTClient.sendStatus("Restart", "Framerate: " + sketch.frameRate, error);
+                String error = sketch.getInterceptor().toString("<br>");
+                IFTTTClient.sendStatus("Restart", sketch.getApplicationState(), error);
                 sketch.getAudioFX().stop();
                 sketch.getSurface().stopThread();
                 sketch.getSurface().setVisible(false);

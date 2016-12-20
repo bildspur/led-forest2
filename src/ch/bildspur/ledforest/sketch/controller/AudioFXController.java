@@ -34,6 +34,8 @@ public class AudioFXController extends BaseController {
 
     private InfinityAudioPlayer trumpetPlayer;
 
+    private long handCount = 0;
+
     public void init(RenderSketch sketch) {
         super.init(sketch);
 
@@ -77,6 +79,7 @@ public class AudioFXController extends BaseController {
                 player.getPlayer().setGain(0f);
                 player.play();
                 handPlayers.put(h.id(), player);
+                handCount++;
             }
             player = handPlayers.get(h.id());
 
@@ -128,5 +131,9 @@ public class AudioFXController extends BaseController {
 
         trumpetPlayer.getPlayer().pause();
         trumpetPlayer.getPlayer().close();
+    }
+
+    public long getHandCount() {
+        return handCount;
     }
 }

@@ -39,4 +39,16 @@ public class StreamInterceptor extends PrintStream {
         super.print(s);
         add(s);
     }
+
+    public String toString() {
+        return toString("\n");
+    }
+
+    public String toString(String delimiter) {
+        StringBuilder b = new StringBuilder();
+        for (String s : getAll())
+            if (s != null)
+                b.append(s).append(delimiter);
+        return b.toString();
+    }
 }

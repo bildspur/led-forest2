@@ -18,6 +18,8 @@ import processing.opengl.PJOGL;
 import processing.video.Movie;
 
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,7 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-    public final static String VERSION = "2.2";
+    public final static String VERSION = "2.3";
     public final static String CONFIG_NAME = "config.json";
 
     public final static int OUTPUT_WIDTH = 640;
@@ -180,7 +182,7 @@ public class RenderSketch extends PApplet {
                 noCursor();
 
             // send info
-            IFTTTClient.sendStatus("Started", "Framerate: " + frameRate, "None");
+            IFTTTClient.sendStatus("Started", getApplicationState(), interceptor.toString("<br>"));
 
             configLoaded = true;
         });
@@ -272,6 +274,10 @@ public class RenderSketch extends PApplet {
         // hud
         if (showInfo && drawMode != 1)
             debug.showInfo();
+
+        // send status update
+        if (frameCount % secondsToFrames(3600) == 0)
+            IFTTTClient.sendStatus("Update", getApplicationState(), interceptor.toString("<br>"));
     }
 
     void updateLEDs() {
@@ -295,7 +301,7 @@ public class RenderSketch extends PApplet {
     private void prepareExitHandler() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("shutting down...");
-            IFTTTClient.sendStatus("Shutdown", "Framerate: " + frameRate, "None");
+            IFTTTClient.sendStatus("Shutdown", getApplicationState(), interceptor.toString("<br>"));
 
             audioFX.stop();
             osc.stop();
@@ -406,6 +412,36 @@ public class RenderSketch extends PApplet {
             default:
                 println("Key: " + key);
         }
+    }
+
+    public String getApplicationState() {
+        Runtime r = Runtime.getRuntime();
+        String hostname = "Unknown";
+
+        try {
+            InetAddress addr;
+            addr = InetAddress.getLocalHost();
+            hostname = addr.getHostName();
+        } catch (UnknownHostException ex) {
+            System.out.println("Hostname can not be resolved");
+        }
+
+        StringBuilder b = new StringBuilder();
+        b.append(" -- Application Info").append("<br>");
+        b.append("Frame Rate: ").append(frameRate).append("<br>");
+        b.append("Frame Count: ").append(frameCount).append("<br>");
+        b.append("Hand Count: ").append(getAudioFX().getHandCount()).append("<br>");
+
+        b.append("<br><br>");
+
+        b.append(" -- System Info").append("<br>");
+        b.append("Hostname: ").append(hostname).append("<br>");
+        b.append("Max Memory: ").append(r.maxMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
+        b.append("Total Memory: ").append(r.totalMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
+        b.append("Free Memory: ").append(r.freeMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
+        b.append("Used Memory: ").append((r.totalMemory() - r.freeMemory()) / (double) (1024 * 1024)).append(" MB").append("<br>");
+
+        return b.toString();
     }
 
     public void markTube(int tubeId, int c) {
