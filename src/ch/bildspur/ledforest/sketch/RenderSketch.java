@@ -441,6 +441,13 @@ public class RenderSketch extends PApplet {
         b.append("Free Memory: ").append(r.freeMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
         b.append("Used Memory: ").append((r.totalMemory() - r.freeMemory()) / (double) (1024 * 1024)).append(" MB").append("<br>");
 
+        b.append("<br><br>");
+
+        b.append(" -- Meteo Info").append("<br>");
+        b.append("Temperature: ").append(getDeviceInfo().getTemperature()).append(" °C").append("<br>");
+        b.append("Humidity: ").append(getDeviceInfo().getHumidity()).append(" %RH").append("<br>");
+        b.append("Pressure: ").append(getDeviceInfo().getPressure()).append(" hPa").append("<br>");
+
         return b.toString();
     }
 
