@@ -20,6 +20,8 @@ import processing.video.Movie;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-    public final static String VERSION = "2.3";
+    public final static String VERSION = "2.4";
     public final static String CONFIG_NAME = "config.json";
 
     public final static int OUTPUT_WIDTH = 640;
@@ -127,7 +129,6 @@ public class RenderSketch extends PApplet {
         welcomeImage = loadImage(sketchPath("images/welcome.png"));
 
         handAnimation = new Movie(this, sketchPath("images/hand_animation.mov"));
-        handAnimation.loop();
 
         // settings
         ellipseMode(CENTER);
@@ -191,6 +192,13 @@ public class RenderSketch extends PApplet {
 
     public void draw() {
         background(0);
+
+        // fix movie loading problem
+        if (frameCount < 2)
+            return;
+
+        if (frameCount == 3)
+            handAnimation.loop();
 
         // show loading screen while waiting
         if (!configLoaded) {
@@ -276,7 +284,7 @@ public class RenderSketch extends PApplet {
             debug.showInfo();
 
         // send status update
-        if (frameCount % secondsToFrames(3600) == 0)
+        if (frameCount % secondsToFrames(1000) == 0)
             IFTTTClient.sendStatus("Update", getApplicationState(), interceptor.toString("<br>"));
     }
 
@@ -414,6 +422,10 @@ public class RenderSketch extends PApplet {
         }
     }
 
+    public String getCurrentLocalDateTimeStamp() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
+    }
+
     public String getApplicationState() {
         Runtime r = Runtime.getRuntime();
         String hostname = "Unknown";
@@ -428,6 +440,7 @@ public class RenderSketch extends PApplet {
 
         StringBuilder b = new StringBuilder();
         b.append(" -- Application Info").append("<br>");
+        b.append("DateTime: ").append(getCurrentLocalDateTimeStamp()).append("<br>");
         b.append("Frame Rate: ").append(frameRate).append("<br>");
         b.append("Frame Count: ").append(frameCount).append("<br>");
         b.append("Hand Count: ").append(getAudioFX().getHandCount()).append("<br>");

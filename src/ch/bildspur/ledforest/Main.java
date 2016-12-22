@@ -4,14 +4,20 @@ import ch.bildspur.ifttt.IFTTTClient;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import processing.core.PApplet;
 
+import java.io.IOException;
+
 /**
  * Created by cansik on 16/08/16.
  */
 public class Main {
     public static void main(String... args) {
-        while (true) {
+        int restartCounter = 0;
+
+        RenderSketch sketch = null;
+
+        while (restartCounter < 5) {
             long frameCount = -1;
-            RenderSketch sketch = new RenderSketch();
+            sketch = new RenderSketch();
 
             sketch.setFullscreenEnabled(isFullscreen(args));
             sketch.setFullscreenDisplay(getFullScreenDisplay(args));
@@ -32,7 +38,13 @@ public class Main {
                 // send info
                 String error = sketch.getInterceptor().toString("<br>");
                 IFTTTClient.sendStatus("Restart", sketch.getApplicationState(), error);
-                sketch.getAudioFX().stop();
+
+                if (sketch.getOsc().isEnabled())
+                    sketch.getOsc().stop();
+
+                if (sketch.getAudioFX().isEnabled())
+                    sketch.getAudioFX().stop();
+
                 sketch.getSurface().stopThread();
                 sketch.getSurface().setVisible(false);
                 sketch.noLoop();
@@ -40,6 +52,24 @@ public class Main {
             } catch (Exception ex) {
                 PApplet.println("Shutdown not nicely!");
             }
+
+            restartCounter++;
+        }
+
+        // last thing if nothing else works
+        IFTTTClient.sendStatus("Reboot", "", "");
+        reboot();
+    }
+
+    private static void reboot() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            PApplet.println("rebooting!");
+            String[] cmd = {"osascript", "-e", "tell app \"System Events\" to restart"};
+            runtime.exec(cmd);
+            Runtime.getRuntime().halt(100);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
