@@ -12,6 +12,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +103,7 @@ public class ConfigurationController extends BaseController {
         ifttt.setBoolean("enabled", IFTTTClient.isEnabled());
         root.setJSONObject("ifttt", ifttt);
 
+        (sketch.getVisualizer().getRods()).sort(Comparator.comparing(Rod::getName));
         for (Rod r : sketch.getVisualizer().getRods())
             clips.append(getRodJSON(r));
         root.setJSONArray("rods", clips);

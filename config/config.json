@@ -27,63 +27,6 @@
     },
     {
       "tube": {
-        "address": 0,
-        "universe": 3,
-        "ledCount": 24
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0.5235990285873413
-      },
-      "name": "D1",
-      "position": {
-        "x": 150,
-        "y": 50,
-        "z": 105
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "name": "B1",
-      "position": {
-        "x": -50,
-        "y": 50,
-        "z": 105
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 2,
-        "ledCount": 24
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "name": "C1",
-      "position": {
-        "x": 50,
-        "y": 50,
-        "z": 105
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
         "address": 72,
         "universe": 0,
         "ledCount": 24
@@ -136,6 +79,25 @@
         "x": -150,
         "y": 50,
         "z": -105
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 0,
+        "universe": 1,
+        "ledCount": 24
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "name": "B1",
+      "position": {
+        "x": -50,
+        "y": 50,
+        "z": 105
       },
       "inverted": false
     },
@@ -198,6 +160,25 @@
     },
     {
       "tube": {
+        "address": 0,
+        "universe": 2,
+        "ledCount": 24
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "name": "C1",
+      "position": {
+        "x": 50,
+        "y": 50,
+        "z": 105
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
         "address": 72,
         "universe": 2,
         "ledCount": 24
@@ -250,6 +231,25 @@
         "x": 50,
         "y": 50,
         "z": -105
+      },
+      "inverted": false
+    },
+    {
+      "tube": {
+        "address": 0,
+        "universe": 3,
+        "ledCount": 24
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0.5235990285873413
+      },
+      "name": "D1",
+      "position": {
+        "x": 150,
+        "y": 50,
+        "z": 105
       },
       "inverted": false
     },
