@@ -123,6 +123,9 @@ public class AudioFXController extends BaseController {
     }
 
     public void stop() {
+        if (!isEnabled())
+            return;
+
         // clear buffer
         for (int i = 0; i < playerBuffer.length; i++) {
             playerBuffer[i].getPlayer().pause();
