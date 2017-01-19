@@ -356,6 +356,9 @@
       "z": 1
     }
   },
+  "ifttt": {
+    "enabled": false
+  },
   "audio": {
     "enabled": true
   },

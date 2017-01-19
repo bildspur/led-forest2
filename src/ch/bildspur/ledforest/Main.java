@@ -36,7 +36,7 @@ public class Main {
             // restart
             try {
                 // send info
-                String error = sketch.getInterceptor().toString("<br>");
+                String error = sketch.getInterceptor().toString("\n");
                 IFTTTClient.sendStatus("Restart", sketch.getApplicationState(), error);
 
                 if (sketch.getOsc().isEnabled())

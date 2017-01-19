@@ -31,7 +31,8 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-    public final static String VERSION = "2.4";
+    public final static String VERSION = "2.5";
+    public final static String APP_NAME = "LED Forest " + VERSION;
     public final static String CONFIG_NAME = "config.json";
 
     public final static int OUTPUT_WIDTH = 640;
@@ -95,8 +96,8 @@ public class RenderSketch extends PApplet {
     }
 
     public void setup() {
-        println("LED Forest 2 - " + VERSION);
-        surface.setTitle("LED Forest 2 - " + VERSION);
+        println(APP_NAME);
+        surface.setTitle(APP_NAME);
 
         setupInterceptor();
         prepareExitHandler();
@@ -183,7 +184,7 @@ public class RenderSketch extends PApplet {
                 noCursor();
 
             // send info
-            IFTTTClient.sendStatus("Started", getApplicationState(), interceptor.toString("<br>"));
+            IFTTTClient.sendStatus("Started", getApplicationState(), interceptor.toString("\n"));
 
             configLoaded = true;
         });
@@ -285,7 +286,7 @@ public class RenderSketch extends PApplet {
 
         // send status update
         if (frameCount % secondsToFrames(1000) == 0)
-            IFTTTClient.sendStatus("Update", getApplicationState(), interceptor.toString("<br>"));
+            IFTTTClient.sendStatus("Update", getApplicationState(), interceptor.toString("\n"));
     }
 
     void updateLEDs() {
@@ -309,7 +310,7 @@ public class RenderSketch extends PApplet {
     private void prepareExitHandler() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("shutting down...");
-            IFTTTClient.sendStatus("Shutdown", getApplicationState(), interceptor.toString("<br>"));
+            IFTTTClient.sendStatus("Shutdown", getApplicationState(), interceptor.toString("\n"));
 
             audioFX.stop();
             osc.stop();
@@ -429,6 +430,7 @@ public class RenderSketch extends PApplet {
     public String getApplicationState() {
         Runtime r = Runtime.getRuntime();
         String hostname = "Unknown";
+        String newLine = "\n";
 
         try {
             InetAddress addr;
@@ -439,27 +441,30 @@ public class RenderSketch extends PApplet {
         }
 
         StringBuilder b = new StringBuilder();
-        b.append(" -- Application Info").append("<br>");
-        b.append("DateTime: ").append(getCurrentLocalDateTimeStamp()).append("<br>");
-        b.append("Frame Rate: ").append(frameRate).append("<br>");
-        b.append("Frame Count: ").append(frameCount).append("<br>");
-        b.append("Hand Count: ").append(getAudioFX().getHandCount()).append("<br>");
+        b.append("*Application Info*").append(newLine);
+        b.append("DateTime: `").append(getCurrentLocalDateTimeStamp()).append("`").append(newLine);
+        b.append("Frame Rate: `").append(frameRate).append("`").append(newLine);
+        b.append("Frame Count: `").append(frameCount).append("`").append(newLine);
+        b.append("Hand Count: `").append(getAudioFX().getHandCount()).append("`").append(newLine);
 
-        b.append("<br><br>");
+        b.append(newLine).append(newLine);
 
-        b.append(" -- System Info").append("<br>");
-        b.append("Hostname: ").append(hostname).append("<br>");
-        b.append("Max Memory: ").append(r.maxMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
-        b.append("Total Memory: ").append(r.totalMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
-        b.append("Free Memory: ").append(r.freeMemory() / (double) (1024 * 1024)).append(" MB").append("<br>");
-        b.append("Used Memory: ").append((r.totalMemory() - r.freeMemory()) / (double) (1024 * 1024)).append(" MB").append("<br>");
+        b.append("*System Info*").append(newLine);
+        b.append("Hostname: `").append(hostname).append("`").append(newLine);
+        b.append("Max Memory: `").append(r.maxMemory() / (double) (1024 * 1024)).append(" MB").append("`").append(newLine);
+        b.append("Total Memory: `").append(r.totalMemory() / (double) (1024 * 1024)).append(" MB").append("`").append(newLine);
+        b.append("Free Memory: `").append(r.freeMemory() / (double) (1024 * 1024)).append(" MB").append("`").append(newLine);
+        b.append("Used Memory: `").append((r.totalMemory() - r.freeMemory()) / (double) (1024 * 1024)).append(" MB").append("`").append(newLine);
 
-        b.append("<br><br>");
+        b.append(newLine).append(newLine);
 
-        b.append(" -- Meteo Info").append("<br>");
-        b.append("Temperature: ").append(getDeviceInfo().getTemperature()).append(" °C").append("<br>");
-        b.append("Humidity: ").append(getDeviceInfo().getHumidity()).append(" %RH").append("<br>");
-        b.append("Pressure: ").append(getDeviceInfo().getPressure()).append(" hPa").append("<br>");
+        b.append("*Meteo Info*").append(newLine);
+        b.append("Temperature: `").append(getDeviceInfo().getTemperature()).append(" °C").append("`").append(newLine);
+        b.append("Humidity: `").append(getDeviceInfo().getHumidity()).append(" %RH").append("`").append(newLine);
+        b.append("Pressure: `").append(getDeviceInfo().getPressure()).append(" hPa").append("`").append(newLine);
+
+        b.append(newLine).append(newLine);
+        b.append("*Logs*").append(newLine);
 
         return b.toString();
     }

@@ -1,6 +1,7 @@
 package ch.bildspur.ledforest.sketch.controller;
 
 import artnet4j.ArtNetNode;
+import ch.bildspur.ifttt.IFTTTClient;
 import ch.bildspur.ledforest.sketch.RenderSketch;
 import ch.bildspur.ledforest.sketch.event.ConfigurationListener;
 import ch.bildspur.ledforest.ui.visualisation.Rod;
@@ -41,6 +42,9 @@ public class ConfigurationController extends BaseController {
         JSONObject global = root.getJSONObject("global");
         sketch.getLeapMotion().setInteractionBox(vectorFromJSON(global.getJSONObject("interactionBox")));
         sketch.getVisualizer().setBarrelDistortion(vectorFromJSON(global.getJSONObject("barrelDistortion")));
+
+        //ifttt
+        IFTTTClient.setEnabled(root.getJSONObject("ifttt").getBoolean("enabled"));
 
         // rods
         JSONArray rods = root.getJSONArray("rods");
@@ -92,6 +96,11 @@ public class ConfigurationController extends BaseController {
         global.setJSONObject("interactionBox", jsonFromVector(sketch.getLeapMotion().getInteractionBox()));
         global.setJSONObject("barrelDistortion", jsonFromVector(sketch.getVisualizer().getBarrelDistortion()));
         root.setJSONObject("global", global);
+
+        // ifttt
+        JSONObject ifttt = new JSONObject();
+        ifttt.setBoolean("enabled", IFTTTClient.isEnabled());
+        root.setJSONObject("ifttt", ifttt);
 
         for (Rod r : sketch.getVisualizer().getRods())
             clips.append(getRodJSON(r));
