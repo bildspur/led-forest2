@@ -191,13 +191,14 @@ public class ConfigurationController extends BaseController {
     private Rod loadRod(JSONObject json) {
         JSONObject tube = json.getJSONObject("tube");
         JSONObject pos = json.getJSONObject("position");
+        JSONObject rotation = json.getJSONObject("rotation");
 
         Rod r = new Rod(sketch.g,
                 new Tube(tube.getInt("universe"),
                         tube.getInt("ledCount"),
                         tube.getInt("address"),
                         sketch.g),
-                vectorFromJSON(pos));
+                vectorFromJSON(pos), vectorFromJSON(rotation));
 
         r.setName(json.getString("name"));
         r.setInverted(json.getBoolean("inverted"));
@@ -214,9 +215,11 @@ public class ConfigurationController extends BaseController {
         tube.setInt("address", rod.getTube().getStartAddress());
 
         JSONObject pos = jsonFromVector(rod.getRawPosition());
+        JSONObject rotation = jsonFromVector(rod.getRotation());
 
         json.setJSONObject("tube", tube);
         json.setJSONObject("position", pos);
+        json.setJSONObject("rotation", rotation);
 
         json.setString("name", rod.getName());
         json.setBoolean("inverted", rod.isInverted());

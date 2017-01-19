@@ -1,6 +1,9 @@
 {
+  "ifttt": {
+    "enabled": false
+  },
   "editor": {
-    "gridSize": 10,
+    "gridSize": 50,
     "gridOffset": false
   },
   "syphon": {
@@ -11,335 +14,37 @@
       "tube": {
         "address": 0,
         "universe": 0,
-        "ledCount": 16
-      },
-      "name": "1",
-      "position": {
-        "x": -60,
-        "y": 50,
-        "z": 84
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 48,
-        "universe": 0,
         "ledCount": 24
       },
-      "name": "2",
-      "position": {
-        "x": -158.1690673828125,
-        "y": 50,
-        "z": 56.76900100708008
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 120,
-        "universe": 0,
-        "ledCount": 24
-      },
-      "name": "3",
-      "position": {
-        "x": -100,
-        "y": 50,
-        "z": 28
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 192,
-        "universe": 0,
-        "ledCount": 16
-      },
-      "name": "4",
-      "position": {
-        "x": -160,
-        "y": 50,
+      "rotation": {
+        "x": 0,
+        "y": 0,
         "z": 0
       },
+      "name": "1",
+      "position": {
+        "x": 50,
+        "y": 50,
+        "z": -50
+      },
       "inverted": false
     },
     {
       "tube": {
-        "address": 240,
+        "address": 0,
         "universe": 0,
-        "ledCount": 32
-      },
-      "name": "5",
-      "position": {
-        "x": -200,
-        "y": 50,
-        "z": -42
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 72,
-        "universe": 1,
-        "ledCount": 16
-      },
-      "name": "2",
-      "position": {
-        "x": -60,
-        "y": 50,
-        "z": -28
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 1,
         "ledCount": 24
       },
-      "name": "1",
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0.523599
+      },
+      "name": "Rod 24",
       "position": {
-        "x": -40,
+        "x": -50,
         "y": 50,
-        "z": 14.00001049041748
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 120,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "name": "3",
-      "position": {
-        "x": -80,
-        "y": 50,
-        "z": -55.99999237060547
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 264,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "name": "5",
-      "position": {
-        "x": -127.33332824707031,
-        "y": 50,
-        "z": -78.63999938964844
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 192,
-        "universe": 1,
-        "ledCount": 24
-      },
-      "name": "4",
-      "position": {
-        "x": -60,
-        "y": 50,
-        "z": -84
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 2,
-        "ledCount": 32
-      },
-      "name": "1",
-      "position": {
-        "x": 26.14813232421875,
-        "y": 50,
-        "z": 3.6000075340270996
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 96,
-        "universe": 2,
-        "ledCount": 24
-      },
-      "name": "2",
-      "position": {
-        "x": 29.851791381835938,
-        "y": 50,
-        "z": -30.479982376098633
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 168,
-        "universe": 2,
-        "ledCount": 24
-      },
-      "name": "3",
-      "position": {
-        "x": 19.629669189453125,
-        "y": 50,
-        "z": -59.199981689453125
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 240,
-        "universe": 2,
-        "ledCount": 24
-      },
-      "name": "4",
-      "position": {
-        "x": -3.111053466796875,
-        "y": 50,
-        "z": -82.7199935913086
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 3,
-        "ledCount": 24
-      },
-      "name": "1",
-      "position": {
-        "x": 120,
-        "y": 50,
-        "z": -14
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 72,
-        "universe": 3,
-        "ledCount": 24
-      },
-      "name": "2",
-      "position": {
-        "x": 100,
-        "y": 50,
-        "z": -55.99999237060547
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 144,
-        "universe": 3,
-        "ledCount": 24
-      },
-      "name": "3",
-      "position": {
-        "x": 160,
-        "y": 50,
-        "z": -70
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 216,
-        "universe": 3,
-        "ledCount": 24
-      },
-      "name": "4",
-      "position": {
-        "x": 195.25930786132812,
-        "y": 50,
-        "z": -74.51998901367188
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 288,
-        "universe": 3,
-        "ledCount": 32
-      },
-      "name": "5",
-      "position": {
-        "x": 68.5926513671875,
-        "y": 50,
-        "z": -87.92000579833984
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 0,
-        "universe": 4,
-        "ledCount": 24
-      },
-      "name": "1",
-      "position": {
-        "x": 20,
-        "y": 50,
-        "z": 98
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 72,
-        "universe": 4,
-        "ledCount": 24
-      },
-      "name": "2",
-      "position": {
-        "x": -5.8518524169921875,
-        "y": 50,
-        "z": 67.55999755859375
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 144,
-        "universe": 4,
-        "ledCount": 16
-      },
-      "name": "3",
-      "position": {
-        "x": 80,
-        "y": 50,
-        "z": 42
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 192,
-        "universe": 4,
-        "ledCount": 32
-      },
-      "name": "4",
-      "position": {
-        "x": 180,
-        "y": 50,
-        "z": 28
-      },
-      "inverted": false
-    },
-    {
-      "tube": {
-        "address": 288,
-        "universe": 4,
-        "ledCount": 24
-      },
-      "name": "5",
-      "position": {
-        "x": 141.92593383789062,
-        "y": 50,
-        "z": -0.27999570965766907
+        "z": -50
       },
       "inverted": false
     }
@@ -356,23 +61,11 @@
       "z": 1
     }
   },
-  "ifttt": {
-    "enabled": false
-  },
   "audio": {
-    "enabled": true
+    "enabled": false
   },
   "dmx": {
     "nodes": [
-      {
-        "address": "127.0.0.1",
-        "universes": [
-          4,
-          5,
-          6,
-          7
-        ]
-      },
       {
         "address": "127.0.0.1",
         "universes": [
@@ -380,6 +73,15 @@
           1,
           2,
           3
+        ]
+      },
+      {
+        "address": "127.0.0.1",
+        "universes": [
+          4,
+          5,
+          6,
+          7
         ]
       }
     ],

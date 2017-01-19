@@ -66,7 +66,13 @@ public class Rod {
 
             p.pushMatrix();
             PVector pos = getPosition();
+
+            p.rotateX(rotation.x);
+            p.rotateY(rotation.y);
+            p.rotateZ(rotation.z);
+
             p.translate(pos.x, pos.y + (inverted ? 1 : -1) * (i * ledLength), pos.z);
+
             p.noStroke();
             p.fill(tube.leds.get(i).getColor().getColor());
 
@@ -171,5 +177,13 @@ public class Rod {
 
     public void setBarrelDistortion(PVector barrelDistortion) {
         this.barrelDistortion = barrelDistortion;
+    }
+
+    public PVector getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(PVector rotation) {
+        this.rotation = rotation;
     }
 }

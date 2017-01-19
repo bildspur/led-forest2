@@ -417,6 +417,7 @@ public class RenderSketch extends PApplet {
                 else
                     cursor();
                 cursorShown = !cursorShown;
+                break;
 
             default:
                 println("Key: " + key);
