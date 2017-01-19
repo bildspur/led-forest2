@@ -22,6 +22,7 @@ public class Rod {
     PGraphics g;
 
     PVector position;
+    PVector rotation;
     PVector barrelDistortion = new PVector(1f, 1f, 1f);
 
     protected ArrayList<PShape> shapes;
@@ -31,10 +32,16 @@ public class Rod {
     boolean inverted;
 
     public Rod(PGraphics g, Tube tube, PVector position) {
+        this(g, tube, position, new PVector());
+    }
+
+    public Rod(PGraphics g, Tube tube, PVector position, PVector rotation) {
         this.g = g;
 
         this.tube = tube;
         this.position = position;
+        this.rotation = rotation;
+
         inverted = false;
 
         name = "Rod " + tube.getLeds().size();
