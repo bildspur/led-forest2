@@ -1,10 +1,14 @@
 {
-  "ifttt": {"enabled": false},
+  "ifttt": {
+    "enabled": false
+  },
   "editor": {
     "gridSize": 50,
     "gridOffset": true
   },
-  "syphon": {"enabled": false},
+  "syphon": {
+    "enabled": false
+  },
   "rods": [
     {
       "tube": {
@@ -91,7 +95,7 @@
       "rotation": {
         "x": 0,
         "y": 0,
-        "z": 0
+        "z": 0.122173
       },
       "name": "B1",
       "position": {
@@ -167,7 +171,7 @@
       "rotation": {
         "x": 0,
         "y": 0,
-        "z": 0
+        "z": 0.244346
       },
       "name": "C1",
       "position": {
@@ -243,7 +247,7 @@
       "rotation": {
         "x": 0,
         "y": 0,
-        "z": 0.5235990285873413
+        "z": 0.366519
       },
       "name": "D1",
       "position": {
@@ -323,7 +327,9 @@
       "z": 1
     }
   },
-  "audio": {"enabled": false},
+  "audio": {
+    "enabled": false
+  },
   "dmx": {
     "nodes": [
       {

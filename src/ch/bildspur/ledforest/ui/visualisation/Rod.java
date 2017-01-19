@@ -67,11 +67,13 @@ public class Rod {
             p.pushMatrix();
             PVector pos = getPosition();
 
+            p.translate(pos.x, pos.y, pos.z);
+
             p.rotateX(rotation.x);
             p.rotateY(rotation.y);
             p.rotateZ(rotation.z);
 
-            p.translate(pos.x, pos.y + (inverted ? 1 : -1) * (i * ledLength), pos.z);
+            p.translate(0, (inverted ? 1 : -1) * (i * ledLength), 0);
 
             p.noStroke();
             p.fill(tube.leds.get(i).getColor().getColor());
