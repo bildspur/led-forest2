@@ -362,7 +362,7 @@
   "dmx": {
     "nodes": [
       {
-        "address": "192.168.1.200",
+        "address": "127.0.0.1",
         "universes": [
           4,
           5,
@@ -371,7 +371,7 @@
         ]
       },
       {
-        "address": "192.168.1.201",
+        "address": "127.0.0.1",
         "universes": [
           0,
           1,
@@ -385,10 +385,10 @@
       "response": 0,
       "luminosity": 1
     },
-    "enabled": true
+    "enabled": false
   },
   "osc": {
     "zeroConf": true,
-    "enabled": true
+    "enabled": false
   }
 }
