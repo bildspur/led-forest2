@@ -15,7 +15,7 @@ public class Main {
 
         RenderSketch sketch = null;
 
-        while (restartCounter < 5) {
+        while (restartCounter < 20) {
             long frameCount = -1;
             sketch = new RenderSketch();
 
