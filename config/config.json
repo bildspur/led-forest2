@@ -1,6 +1,6 @@
 {
   "ifttt": {
-    "enabled": false
+    "enabled": true
   },
   "editor": {
     "gridSize": 50,
@@ -333,7 +333,7 @@
   "dmx": {
     "nodes": [
       {
-        "address": "127.0.0.1",
+        "address": "192.168.1.200",
         "universes": [
           0,
           1,
@@ -356,10 +356,10 @@
       "response": 0,
       "luminosity": 1
     },
-    "enabled": false
+    "enabled": true
   },
   "osc": {
     "zeroConf": true,
-    "enabled": false
+    "enabled": true
   }
 }

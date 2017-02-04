@@ -15,7 +15,7 @@ public class PeasyController extends BaseController {
 
     public void setupPeasy() {
         sketch.smooth();
-        cam = new PeasyCam(sketch, 0, 0, 0, 320);
+        cam = new PeasyCam(sketch, 0, 0, 0, 380);
         //cam.rotateX(radians(-20));
         cam.setMinimumDistance(50);
         cam.setMaximumDistance(500);
