@@ -1,5 +1,6 @@
 package ch.bildspur.ledforest.scene;
 
+import ch.bildspur.ledforest.scene.modes.FlockingMode;
 import ch.bildspur.ledforest.scene.modes.NormalMode;
 import ch.bildspur.ledforest.scene.modes.SceneMode;
 import ch.bildspur.ledforest.sketch.RenderSketch;
@@ -27,8 +28,8 @@ public class SceneManager extends Scene {
 
     int sceneTimer = 0;
 
-    boolean transitionMode = false;
-    boolean normalMode = true;
+    boolean transitionModeOn = false;
+    boolean normalModeOn = true;
 
     boolean running = true;
 
@@ -37,12 +38,16 @@ public class SceneManager extends Scene {
 
     SceneMode currentMode;
 
+    // default modes
+    FlockingMode flockingMode = new FlockingMode(sketch, this);
+    NormalMode normalMode = new NormalMode(sketch, this);
+
     public SceneManager(RenderSketch sketch) {
         super(sketch);
         colorScenes = new ArrayList<>();
         patternScenes = new ArrayList<>();
 
-        currentMode = new NormalMode(sketch, this);
+        currentMode = normalMode;
     }
 
     public void init() {
@@ -68,14 +73,14 @@ public class SceneManager extends Scene {
     }
 
     public Scene getActiveColorScene() {
-        if (normalMode)
+        if (normalModeOn)
             return colorScenes.get(currentColorScene);
         else
             return leapMotionScene;
     }
 
     public Scene getActivePatternScene() {
-        if (normalMode)
+        if (normalModeOn)
             return patternScenes.get(currentPatternScene);
         else
             return leapMotionScene;
@@ -96,20 +101,20 @@ public class SceneManager extends Scene {
         return patternScenes;
     }
 
-    public boolean isTransitionMode() {
-        return transitionMode;
+    public boolean isTransitionModeOn() {
+        return transitionModeOn;
     }
 
-    public void setTransitionMode(boolean transitionMode) {
-        this.transitionMode = transitionMode;
+    public void setTransitionModeOn(boolean transitionModeOn) {
+        this.transitionModeOn = transitionModeOn;
     }
 
-    public boolean isNormalMode() {
-        return normalMode;
+    public boolean isNormalModeOn() {
+        return normalModeOn;
     }
 
-    public void setNormalMode(boolean normalMode) {
-        this.normalMode = normalMode;
+    public void setNormalModeOn(boolean normalModeOn) {
+        this.normalModeOn = normalModeOn;
     }
 
     public boolean isRunning() {
@@ -178,5 +183,17 @@ public class SceneManager extends Scene {
 
     public int getSceneTimer() {
         return sceneTimer;
+    }
+
+    public FlockingMode getFlockingMode() {
+        return flockingMode;
+    }
+
+    public NormalMode getNormalMode() {
+        return normalMode;
+    }
+
+    public void setCurrentMode(SceneMode currentMode) {
+        this.currentMode = currentMode;
     }
 }

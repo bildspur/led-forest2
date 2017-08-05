@@ -392,7 +392,7 @@ public class RodEditController extends BaseController {
                 .onChange((e) -> {
                     for (Rod r : sketch.getVisualizer().getRods()) {
                         PVector pos = r.getPosition();
-                        r.setPosition(new PVector(pos.x * 2f, pos.y * 1f, pos.z * 1.4f));
+                        r.setPosition(new PVector(pos.x * 1.4f, pos.y * 1f, pos.z * 1.4f));
                     }
                 });
 

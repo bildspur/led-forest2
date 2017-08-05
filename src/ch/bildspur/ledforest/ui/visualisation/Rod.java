@@ -133,6 +133,16 @@ public class Rod {
                 position.z * barrelDistortion.z);
     }
 
+    public PVector getLEDPosition(int index) {
+        float ledLength = getLedLength();
+        float ledYTranslate = ((getShapes().size() - index) * ledLength);
+
+        if (isInverted())
+            ledYTranslate *= -1;
+
+        return new PVector(getPosition().x, getPosition().y - ledYTranslate, getPosition().z);
+    }
+
     public PVector getRawPosition() {
         return position;
     }

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * Created by cansik on 16/08/16.
  */
 public class RenderSketch extends PApplet {
-    public final static String VERSION = "2.5";
+    public final static String VERSION = "2.6";
     public final static String APP_NAME = "LED Forest " + VERSION;
     public final static String CONFIG_NAME = "config.json";
 

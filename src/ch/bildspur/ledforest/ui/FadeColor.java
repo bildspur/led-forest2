@@ -23,6 +23,14 @@ public class FadeColor {
 
     PGraphics g;
 
+    public FadeColor copy() {
+        FadeColor f = new FadeColor(this.g);
+        f.current = current.copy();
+        f.target = target.copy();
+        f.easingVector = easingVector.copy();
+        return f;
+    }
+
     public FadeColor(PGraphics g) {
         this.g = g;
     }
@@ -90,6 +98,10 @@ public class FadeColor {
 
     public PGraphics getGraphics() {
         return g;
+    }
+
+    public PVector getRawColor() {
+        return current;
     }
 
     private PVector colorToVector(int c) {

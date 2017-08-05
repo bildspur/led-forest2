@@ -19,7 +19,7 @@ public class NormalMode extends SceneMode {
     }
 
     private Animation fade;
-    private boolean showWelcomeScreen = true;
+    private boolean showWelcomeScreen = false;
 
     public void init() {
         PApplet.println("switching to normal mode");
@@ -36,7 +36,10 @@ public class NormalMode extends SceneMode {
         fade.update();
 
         if (sketch.getLeapMotion().isLeapMotionHandAvailable()) {
-            sceneManager.changeMode(new TutorialMode(sketch, sceneManager));
+            // directly switch to magnet mode
+            sceneManager.getFlockingMode().init();
+            sceneManager.setCurrentMode(sceneManager.getFlockingMode());
+            //sceneManager.changeMode(sceneManager.getFlockingMode());
         }
 
         Scene cs = sceneManager.getActiveColorScene();
